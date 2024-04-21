@@ -72,6 +72,8 @@ public class Main {
         list.display();
         list.reverseLinkedListRecursively();
         list.display();
+        list.deleteFromIndex(0);
+        list.display();
         list.addLast(10);
         list.display();
         //list.reverseLinkedListRecursively();
@@ -110,6 +112,20 @@ public class Main {
         list.addAtIndexRecursively(150,3);
         list.display();
         list.addAtIndexRecursively(250,5);
+        list.display();
+        list.deleteFromIndex(1);
+        list.display();
+        list.deleteFromIndex(7);
+        list.display();
+        list.deleteFromIndex(7);
+        list.display();
+        list.deleteFromListRecursively(3);
+        list.display();
+        list.deleteFromListRecursively(0);
+        list.display();
+        list.deleteFromListRecursively(4);
+        list.display();
+        list.deleteFromListRecursively(1);
         list.display();
     }
 }

@@ -58,9 +58,60 @@ public class SinglyLinkedListPractice {
             }
 
             if(temp.next!=null){
-                temp = temp.next.next;
+                temp.next = temp.next.next;
             }
         }
+
+        public void deleteFromListRecursively(int idx){
+            int size = size();
+
+            if(idx == 0){
+                deleteFirst();
+                return;
+            }
+
+            if(idx == size-1){
+                deleteLast();
+                return;
+            }
+
+            if(idx < 0){
+                System.out.println("Invalid index (Cannot be less than 0)");
+                return;
+            }
+
+            if(idx > size){
+                System.out.println("Invalid index (Greater than size of list)");
+                return;
+            }
+
+            deleteFromListRecursively(idx-1,this.head);
+        }
+
+        private void deleteFromListRecursively(int idx,Node catcherNode){
+            if(idx==0){
+                if(catcherNode.next!=null){
+                    catcherNode.next = catcherNode.next.next;
+                    return;
+                }
+            }
+            if(idx > 0) {
+                deleteFromListRecursively(idx - 1, catcherNode.next);
+            }
+        }
+
+    private Node addAtIndexRecursively(int data, int idx, Node catcherNode){
+        if(idx == 0){
+            Node newNode = new Node(data);
+            newNode.next = catcherNode;
+            return newNode;
+        }
+
+        Node recursiveAnswerNode = addAtIndexRecursively(data,idx-1,catcherNode.next);
+        catcherNode.next = recursiveAnswerNode;
+
+        return catcherNode;
+    }
 
         private int size(){
 
@@ -142,19 +193,6 @@ public class SinglyLinkedListPractice {
 
             addAtIndexRecursively(data,idx,this.head);
         }
-        private Node addAtIndexRecursively(int data, int idx, Node catcherNode){
-            if(idx == 0){
-                Node newNode = new Node(data);
-                newNode.next = catcherNode;
-                return newNode;
-            }
-
-            Node recursiveAnswerNode = addAtIndexRecursively(data,idx-1,catcherNode.next);
-            catcherNode.next = recursiveAnswerNode;
-
-            return catcherNode;
-        }
-
 
         public void addLastRecursively(int data){ System.out.println("Adding "+data+" at last"); addLastRecursively(data,head); }
         private Node addLastRecursively(int data, Node curr){
