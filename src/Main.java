@@ -1,3 +1,4 @@
+import LinkedList.SinglyLinkedList.Node;
 import LinkedList.SinglyLinkedList.SinglyLinkedListPractice;
 
 public class Main {
@@ -127,5 +128,20 @@ public class Main {
         list.display();
         list.deleteFromListRecursively(1);
         list.display();
+        SinglyLinkedListPractice l1 = new SinglyLinkedListPractice();
+        l1.addFirst(8);
+        l1.addFirst(4);
+        l1.addFirst(3);
+        l1.addFirst(2);
+
+        SinglyLinkedListPractice l2 = new SinglyLinkedListPractice();
+        l2.addFirst(7);
+        l2.addFirst(6);
+        l2.addFirst(5);
+        l2.addFirst(2);
+        l2.addFirst(1);
+
+        Node mergedHead = l1.mergeTwoSortedLists(l1.getHead(),l2.getHead());
+        l1.display(mergedHead);
     }
 }

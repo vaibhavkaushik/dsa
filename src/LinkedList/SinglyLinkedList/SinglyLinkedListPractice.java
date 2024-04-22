@@ -8,6 +8,11 @@ public class SinglyLinkedListPractice {
         public SinglyLinkedListPractice(){
             this.size = 0;
         }
+
+        public Node getHead(){
+            return head;
+        }
+
         public void addLast(int data){
             System.out.println("Adding "+data+" at last");
             Node newNode = new Node(data);
@@ -406,6 +411,39 @@ public class SinglyLinkedListPractice {
             }
 
             return slow;
+        }
+
+        public Node mergeTwoSortedLists(Node firstListHead, Node secondListHead){
+
+            if(firstListHead == null || secondListHead == null){
+                return firstListHead == null ? secondListHead:firstListHead;
+            }
+
+            //Dummy
+            Node ans = new Node(-1);
+            Node newHead = ans;
+
+            while(firstListHead!=null && secondListHead!=null){
+                if(firstListHead.data < secondListHead.data){
+                    ans.next = firstListHead;
+                    ans = ans.next;
+                    firstListHead = firstListHead.next;
+                }else{
+                    ans.next = secondListHead;
+                    ans =  ans.next;
+                    secondListHead = secondListHead.next;
+                }
+            }
+
+            if(firstListHead == null){
+                ans.next = secondListHead;
+            }
+
+            if(secondListHead == null){
+                ans.next = firstListHead;
+            }
+
+            return newHead.next;
         }
 
     private static void seperator(){
