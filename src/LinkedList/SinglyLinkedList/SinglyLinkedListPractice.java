@@ -413,6 +413,43 @@ public class SinglyLinkedListPractice {
             return slow;
         }
 
+    private Node middleOfLinkedList(Node head){
+
+        if(head == null || head.next == null){
+            return head;
+        }
+
+        Node slow = head;
+        Node fast = head;
+
+        while (fast.next != null && fast.next.next!=null){
+            slow = slow.next;
+            fast = fast.next.next;
+        }
+
+        return slow;
+    }
+
+    public void mergeSort(){
+          this.head = mergeSort(this.head);
+    }
+
+        private Node mergeSort(Node head){
+
+            if(head==null || head.next==null){
+                return head;
+            }
+
+            Node middleNode = middleOfLinkedList(head);
+            Node listSecondHalf = middleNode.next;
+            middleNode.next = null;
+            Node leftHalfAns = mergeSort(head);
+            Node rightHalfAns = mergeSort(listSecondHalf);
+
+
+            return mergeTwoSortedLists(leftHalfAns,rightHalfAns);
+        }
+
         public Node mergeTwoSortedLists(Node firstListHead, Node secondListHead){
 
             if(firstListHead == null || secondListHead == null){
