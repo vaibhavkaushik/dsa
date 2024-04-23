@@ -483,6 +483,34 @@ public class SinglyLinkedListPractice {
             return newHead.next;
         }
 
+        //Instead of using the normal method of first counting the nodes, then subtracting from it by k
+        //We will focus on 2 pointer method, first and second pointer
+        //We will move any one pointer k steps ahead and then move both together, this way, once other pointer
+        //reaches null, the first pointer will be k away from end
+        public void removeKthElementFromEnd(int k){
+
+            if(k<=0){
+                System.out.println("Invalid value");
+            }
+
+            Node slow = this.head;
+            Node fast = this.head;
+
+            for(int i=0; i<k; i++){
+                fast = fast.next;
+            }
+            if(fast == null){
+                this.head = this.head.next;
+            }
+
+            while(fast.next!=null){
+                fast=fast.next;
+                slow = slow.next;
+            }
+            slow.next = slow.next.next;
+
+        }
+
     private static void seperator(){
         System.out.println("==================================");
     }

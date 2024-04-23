@@ -152,6 +152,8 @@ public class Main {
         list.addLast(7);
         list.mergeSort();
         list.display();
+        list.removeKthElementFromEnd(3);
+        list.display();
 
 
     }
