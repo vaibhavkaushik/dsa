@@ -525,6 +525,34 @@ public class SinglyLinkedListPractice {
             }
         }
 
+        public void oddEvenListSeparator(){
+            //Either No Node or only One Node, so no need to do anything
+            if(head==null || head.next==null){
+                return;
+            }
+
+            Node even = new Node(-1);
+            Node odd = new Node(-1);
+            Node temp = head;
+            Node oddHead = odd;
+            Node evenHead = even;
+
+            while(temp!=null){
+                if(temp.data % 2 == 0){
+                    even.next = temp;
+                    even = even.next;
+                }else{
+                    odd.next = temp;
+                    odd = odd.next;
+                }
+                temp = temp.next;
+            }
+            even.next = null;
+            odd.next = evenHead.next;
+
+            this.head = oddHead.next;
+        }
+
     private static void seperator(){
         System.out.println("==================================");
     }

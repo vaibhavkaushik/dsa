@@ -155,15 +155,14 @@ public class Main {
 //        list.removeKthElementFromEnd(3);
 //        list.display();
         SinglyLinkedListPractice l1 = new SinglyLinkedListPractice();
-        l1.addLast(1);
-        l1.addLast(1);
-        l1.addLast(1);
-        l1.addLast(1);
-        l1.addLast(1);
-        l1.addLast(4);
-        l1.addLast(6);
+        l1.addLast(10);
+        l1.addLast(2);
         l1.addLast(5);
+        l1.addLast(9);
+        l1.addLast(10);
+        l1.addLast(7);
         l1.removeDuplicatesFromSortedLinkedList();
+        l1.oddEvenListSeparator();
         l1.display();
 
 
