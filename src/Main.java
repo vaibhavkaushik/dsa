@@ -143,17 +143,28 @@ public class Main {
 //
 //        Node mergedHead = l1.mergeTwoSortedLists(l1.getHead(),l2.getHead());
 //        l1.display(mergedHead);
-        list.addLast(2);
-        list.addLast(6);
-        list.addLast(1);
-        list.addLast(10);
-        list.addLast(3);
-        list.addLast(5);
-        list.addLast(7);
-        list.mergeSort();
-        list.display();
-        list.removeKthElementFromEnd(3);
-        list.display();
+//        list.addLast(2);
+//        list.addLast(6);
+//        list.addLast(1);
+//        list.addLast(10);
+//        list.addLast(3);
+//        list.addLast(5);
+//        list.addLast(7);
+//        list.mergeSort();
+//        list.display();
+//        list.removeKthElementFromEnd(3);
+//        list.display();
+        SinglyLinkedListPractice l1 = new SinglyLinkedListPractice();
+        l1.addLast(1);
+        l1.addLast(1);
+        l1.addLast(1);
+        l1.addLast(1);
+        l1.addLast(1);
+        l1.addLast(4);
+        l1.addLast(6);
+        l1.addLast(5);
+        l1.removeDuplicatesFromSortedLinkedList();
+        l1.display();
 
 
     }

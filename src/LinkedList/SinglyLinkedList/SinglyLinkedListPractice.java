@@ -511,6 +511,20 @@ public class SinglyLinkedListPractice {
 
         }
 
+        public void removeDuplicatesFromSortedLinkedList(){
+
+            Node temp = head;
+
+            while(temp!=null){
+                Node isDuplicate = temp.next;
+                while(isDuplicate!=null && (isDuplicate.data == temp.data)){
+                    isDuplicate = isDuplicate.next;
+                }
+                temp.next = isDuplicate;
+                temp = temp.next;
+            }
+        }
+
     private static void seperator(){
         System.out.println("==================================");
     }
