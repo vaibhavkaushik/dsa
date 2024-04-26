@@ -616,6 +616,70 @@ public class SinglyLinkedListPractice {
         }
     }
 
+    public Node addTwoLinkedList(Node firstHead, Node secondHead) {
+        if (firstHead == null || secondHead == null) {
+            return firstHead == null ? secondHead : firstHead;
+        }
+
+        Node tempFirstHead = firstHead;
+        Node tempSecondHead = secondHead;
+        Node tempAns = new Node(-1);
+        Node tempAnsHead = tempAns;
+        int carry = 0;
+
+        while (tempFirstHead != null && tempSecondHead != null) {
+            int num1 = tempFirstHead.data;
+            int num2 = tempSecondHead.data;
+
+            int sum = num1 + num2 + carry;
+            carry = sum / 10;
+            int unit_dig = sum % 10;
+
+            tempAns.next = new Node(unit_dig);
+            tempAns = tempAns.next;
+            tempFirstHead = tempFirstHead.next;
+            tempSecondHead = tempSecondHead.next;
+        }
+        if (carry != 0) {
+            if (tempFirstHead != null) {
+                while (tempFirstHead != null) {
+                    int sum = tempFirstHead.data + carry;
+                    carry = sum / 10;
+                    int unit_dig = sum % 10;
+
+                    tempAns.next = new Node(unit_dig);
+                    tempAns = tempAns.next;
+                    tempFirstHead = tempFirstHead.next;
+                }
+            } else if (tempSecondHead != null) {
+                while (tempSecondHead != null) {
+                    int sum = tempSecondHead.data + carry;
+                    carry = sum / 10;
+                    int unit_dig = sum % 10;
+
+                    tempAns.next = new Node(unit_dig);
+                    tempAns = tempAns.next;
+                    tempSecondHead = tempSecondHead.next;
+                }
+            } else{
+                tempAns.next = new Node(carry);
+            }
+        } else {
+            if(tempFirstHead!=null){
+                tempAns.next = tempFirstHead;
+            }else{
+                tempAns.next = tempSecondHead;
+            }
+        }
+
+        if(carry!=0){
+            tempAns.next = new Node(carry);
+        }
+
+
+        return tempAnsHead.next;
+    }
+
     private static void seperator(){
         System.out.println("==================================");
     }
