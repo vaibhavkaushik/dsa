@@ -1,5 +1,7 @@
 package LinkedList.SinglyLinkedList;
 
+import java.awt.color.ICC_ColorSpace;
+
 public class SinglyLinkedListPractice {
 
         private Node head;
@@ -752,6 +754,33 @@ public class SinglyLinkedListPractice {
             }
 
             return ansHead.next;
+    }
+
+    // Given a linked list : 1->9->2->8->3->7->4->6->5
+    // Unfold of a linked list : 1->2->3->4->5->6->7->8->9
+    // Algo : Connect alternative nodes,
+    public Node unFoldOfALinkedList(Node head){
+
+        if(head == null || head.next == null){
+            return head;
+        }
+
+        Node firstHalf = head;
+        Node tempFirst = firstHalf;
+        Node secondHalf = head.next;
+        Node tempSecond = secondHalf;
+
+        while(firstHalf!=null && firstHalf.next!=null && secondHalf!=null && secondHalf.next!=null){
+            firstHalf.next = firstHalf.next.next;
+            firstHalf = firstHalf.next;
+            secondHalf.next = secondHalf.next.next;
+            secondHalf = secondHalf.next;
+        }
+        tempSecond = reverseLinkedListHelper(tempSecond);
+        if(firstHalf!=null)
+            firstHalf.next = tempSecond;
+
+        return tempFirst;
     }
 
     private static void seperator(){

@@ -171,14 +171,16 @@ public class Main {
 //        l1.addLast(1);
         SinglyLinkedListPractice l2 = new SinglyLinkedListPractice();
         l2.addLast(1);
+        l2.addLast(9);
         l2.addLast(2);
-        l2.addLast(3);
-        l2.addLast(4);
-        l2.addLast(5);
-        l2.addLast(6);
-        l2.addLast(7);
         l2.addLast(8);
-        l2.display(l2.foldOfALinkedList(l2.getHead()));
+        l2.addLast(3);
+        l2.addLast(7);
+        l2.addLast(4);
+        l2.addLast(6);
+
+        l2.display(l2.unFoldOfALinkedList(l2.getHead()));
+        //l2.display(l2.foldOfALinkedList(l2.getHead()));
 
 //        l1.display(l1.addTwoLinkedList(l1.getHead(),l2.getHead()));
 
