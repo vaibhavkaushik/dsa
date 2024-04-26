@@ -711,6 +711,49 @@ public class SinglyLinkedListPractice {
             return null;
     }
 
+    // Given a linked list : 1->2->3->4->5->6->7->8->9
+    // Fold of a linked list : 1->9->2->8->3->7->4->6->5
+    // Algo : Find middle, reverse the other list, start joining pointers
+    public Node foldOfALinkedList(Node head){
+
+            if(head == null || head.next == null){
+                return head;
+            }
+
+            Node middleNode = middleOfLinkedList(head);
+            Node secondHalf = middleNode.next;
+            middleNode.next = null;
+
+            //First Half : 1->2->3->4->5
+            //Second Half : 9->8->7->6
+            Node reversedSecondHalf = reverseLinkedListHelper(secondHalf);
+
+            //Start connecting the pointers
+            Node ans = new Node(-1);
+            Node ansHead = ans;
+            Node temp = head;
+            Node secondTemp = reversedSecondHalf;
+            ans.next = temp;
+            ans = ans.next;
+            int forward_connect = 1;
+            while(temp!=null && secondTemp!=null){
+                if(forward_connect % 2 == 1){
+                    temp = temp.next;
+                    ans.next = secondTemp;
+                    ans = ans.next;
+
+                }else{
+                    secondTemp = secondTemp.next;
+                    ans.next = temp;
+                    ans = ans.next;
+
+                }
+                forward_connect++;
+            }
+
+            return ansHead.next;
+    }
+
     private static void seperator(){
         System.out.println("==================================");
     }
