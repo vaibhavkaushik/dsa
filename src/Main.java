@@ -161,8 +161,12 @@ public class Main {
         l1.addLast(9);
         l1.addLast(10);
         l1.addLast(7);
-        l1.removeDuplicatesFromSortedLinkedList();
-        l1.oddEvenListSeparator();
+        l1.addLast(8);
+        l1.addLast(11);
+        l1.display();
+        l1.kReverseLinkedList(2);
+//        l1.removeDuplicatesFromSortedLinkedList();
+//        l1.oddEvenListSeparator();
         l1.display();
 
 

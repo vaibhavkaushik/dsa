@@ -553,6 +553,69 @@ public class SinglyLinkedListPractice {
             this.head = oddHead.next;
         }
 
+    public int size(Node head) {
+
+        if (head == null) {
+            return 0;
+        }
+
+        Node temp = head;
+        int size = 0;
+        while (temp != null) {
+            size++;
+            temp = temp.next;
+        }
+
+        return size;
+    }
+
+    public void kReverseLinkedList(int k) {
+
+        if (k == 1) {
+            return;
+        }
+
+        Node temp = head;
+        Node prev = null;
+        int found = 0;
+        int listSize = size(head);
+        int visited = 0;
+
+        while (temp != null) {
+            int revLimit = 0;
+            Node kTemp = temp;
+            while (revLimit != (k - 1) && kTemp != null) {
+                kTemp = kTemp.next;
+                revLimit++;
+            }
+            visited = visited+revLimit+1;
+
+            Node leftOverList = null;
+            if (kTemp != null) {
+                leftOverList = kTemp.next;
+                kTemp.next = null;
+            }
+
+            Node reversedList = reverseLinkedListHelper(temp);
+
+            found++;
+            if (found == 1) {
+                head = reversedList;
+            }
+            if (prev != null) {
+                prev.next = reversedList;
+            }
+            prev = temp;
+            temp = leftOverList;
+
+            if((listSize-visited)/k == 0){
+                prev.next = leftOverList;
+                break;
+            }
+
+        }
+    }
+
     private static void seperator(){
         System.out.println("==================================");
     }
