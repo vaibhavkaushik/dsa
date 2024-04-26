@@ -680,6 +680,37 @@ public class SinglyLinkedListPractice {
         return tempAnsHead.next;
     }
 
+    public Node finsIntersectionPointOfLists(Node firstListHead, Node secondListHead){
+            if(firstListHead==null || secondListHead==null){
+                return null;
+            }
+
+            int firstListSize = size(firstListHead);
+            int secondListSize = size(secondListHead);
+
+            Node preTraverseHead = (firstListSize > secondListSize) ? firstListHead : secondListHead;
+            boolean isFirstHeadTraverseReq = (firstListSize > secondListSize);
+            int preTraverse = Math.abs((firstListSize-secondListSize));
+
+            while (preTraverse > 0){
+                preTraverseHead = preTraverseHead.next;
+                preTraverse--;
+            }
+
+            Node firstHeadTemp = isFirstHeadTraverseReq ? preTraverseHead : firstListHead;
+            Node secondHeadTemp = isFirstHeadTraverseReq ? secondListHead : preTraverseHead;
+
+
+            while(firstHeadTemp!=null && secondHeadTemp!=null){
+                if(firstHeadTemp==secondHeadTemp){
+                    return firstHeadTemp;
+                }
+                firstHeadTemp = firstHeadTemp.next;
+                secondHeadTemp = secondHeadTemp.next;
+            }
+            return null;
+    }
+
     private static void seperator(){
         System.out.println("==================================");
     }
