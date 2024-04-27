@@ -880,6 +880,86 @@ public class SinglyLinkedListPractice {
         return null;
     }
 
+    //We need to pre-process the list since it can contain padded 0s, which we don't want
+    public Node preProcessList(Node head){
+        if(head == null){
+            return null;
+        }
+
+        Node temp = head;
+
+        while(temp!=null){
+            if(temp.data != 0){
+                break;
+            }
+            temp = temp.next;
+        }
+
+        return temp;
+    }
+
+    //Assumption :
+    //Linked list can contain  initial 0s, one list can be bigger than other
+    public Node subtractLists(Node firstListHead, Node secondListHead){
+
+            firstListHead = preProcessList(firstListHead);
+            secondListHead = preProcessList(secondListHead);
+
+            Node savedFirstHead = firstListHead;
+            Node savedSecondHead = secondListHead;
+
+        int sizeFirstList = size(firstListHead);
+        int sizeSecondList = size(secondListHead);
+
+        if(sizeFirstList != sizeSecondList) {
+            firstListHead = (sizeFirstList > sizeSecondList) ? savedFirstHead : savedSecondHead;
+            secondListHead = (sizeFirstList > sizeSecondList) ? savedSecondHead : savedFirstHead;
+        }
+        else {
+            firstListHead = (firstListHead.data > secondListHead.data) ? savedFirstHead : savedSecondHead;
+            secondListHead = (firstListHead.data > secondListHead.data) ? savedSecondHead : savedFirstHead;
+        }
+
+            firstListHead = reverseLinkedListHelper(firstListHead);
+            secondListHead = reverseLinkedListHelper(secondListHead);
+
+
+
+            Node tempFirst = firstListHead;
+            Node tempSecond = secondListHead;
+            Node ansNode = new Node(-1);
+            Node ansHead = ansNode;
+            int borrow = 0;
+
+            //Assumption, always make the bigger list as the firstListHead;
+            while(tempFirst!=null || tempSecond!=null){
+
+                int val1 = (tempFirst!=null) ? tempFirst.data : 0;
+                int val2 = (tempSecond!=null) ? tempSecond.data : 0;
+
+                int ans = val1 - val2 + borrow;
+                if(ans < 0){
+                    borrow = -1;
+                    ans+=10;
+                }else{
+                    borrow = 0;
+                }
+
+                ansNode.next = new Node(ans);
+                ansNode = ansNode.next;
+
+                if(tempFirst!=null) tempFirst = tempFirst.next;
+                if(tempSecond!=null) tempSecond = tempSecond.next;
+            }
+
+            ansHead.next = reverseLinkedListHelper(ansHead.next);
+
+            ansHead.next = preProcessList(ansHead.next);
+
+        return ansHead.next;
+
+    }
+
 
 
     private static void seperator(){
