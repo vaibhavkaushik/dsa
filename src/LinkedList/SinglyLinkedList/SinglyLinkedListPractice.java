@@ -1014,6 +1014,7 @@ public class SinglyLinkedListPractice {
             return finalAns;
     }
 
+    //I followed the logic of creating a new linked list to solve this
     public Node deleteAllDuplicatesCompletely(Node head) {
         if(head == null || head.next == null){
             return head;
@@ -1039,6 +1040,66 @@ public class SinglyLinkedListPractice {
         }
 
         return ansHead.next;
+    }
+
+    public Node segregate0sAnd1s(Node head){
+            if(head == null || head.next == null){
+                return head;
+            }
+
+            Node zeroes = new Node(-1);
+            Node zeroesHead = zeroes;
+            Node ones = new Node(-1);
+            Node onesHead = ones;
+            Node temp = head;
+
+            while(temp!=null){
+                if(temp.data == 0){
+                    zeroes.next = temp;
+                    zeroes = zeroes.next;
+                }
+                else{
+                    ones.next = temp;
+                    ones = ones.next;
+                }
+                temp = temp.next;
+            }
+            ones.next = null;
+            zeroes.next = onesHead.next;
+            return zeroesHead.next;
+    }
+
+    public Node segregate0sAnd1sAnd2s(Node head){
+        if(head == null || head.next == null){
+            return head;
+        }
+
+        Node zeroes = new Node(-1);
+        Node zeroesHead = zeroes;
+        Node ones = new Node(-1);
+        Node onesHead = ones;
+        Node twos = new Node(-1);
+        Node twosHead = twos;
+        Node temp = head;
+
+        while(temp!=null){
+            if(temp.data == 0){
+                zeroes.next = temp;
+                zeroes = zeroes.next;
+            }
+            else if(temp.data == 1){
+                ones.next = temp;
+                ones = ones.next;
+            }else {
+                twos.next = temp;
+                twos = twos.next;
+            }
+            temp = temp.next;
+        }
+        ones.next = twosHead.next;
+        zeroes.next = onesHead.next;
+        twos.next = null;
+        return zeroesHead.next;
     }
 
 
