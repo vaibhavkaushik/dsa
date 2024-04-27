@@ -1,6 +1,7 @@
 package LinkedList.SinglyLinkedList;
 
 import java.awt.color.ICC_ColorSpace;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class SinglyLinkedListPractice {
@@ -958,6 +959,61 @@ public class SinglyLinkedListPractice {
 
         return ansHead.next;
 
+    }
+
+    public Node multiplyLinkedLists(Node firstListHead, Node secondListHead){
+
+            if(firstListHead == null || secondListHead == null){
+                return null;
+            }
+
+            //Assume for now that complete list1 > list2
+            Node multiplicand = firstListHead;
+            Node multiplier = secondListHead;
+
+            multiplicand = reverseLinkedListHelper(multiplicand);
+            multiplier = reverseLinkedListHelper(multiplier);
+            ArrayList<Node> ansArrayList = new ArrayList<>();
+            int k = 0;
+            while(multiplier!=null){
+                Node multiplicandItr = multiplicand;
+                int multiplier_val = multiplier.data;
+                int carry = 0;
+                int zeroes = k;
+                Node ansNode = new Node(-1);
+                Node ansNodeHead = ansNode;
+                while (zeroes > 0){
+                    ansNode.next = new Node(0);
+                    ansNode = ansNode.next;
+                    zeroes--;
+                }
+                while(multiplicandItr!=null){
+                    int multiplicand_val = multiplicandItr.data;
+                    int product = multiplier_val*multiplicand_val + carry;
+                    carry = product/10;
+                    ansNode.next = new Node(product%10);
+                    ansNode = ansNode.next;
+                    multiplicandItr = multiplicandItr.next;
+                }
+                if(carry!=0){
+                    ansNode.next = new Node(carry);
+                }
+                ansNodeHead.next = reverseLinkedListHelper(ansNodeHead.next);
+                ansArrayList.add(ansNodeHead.next);
+                multiplier = multiplier.next;
+                k++;
+            }
+
+            Node finalAns = new Node(0);
+            //Too much reversal is being done here, since the add two linked list function is not taking care of it
+            //If we take care of that, then no need to do multiple reverse
+            for(Node head : ansArrayList){
+                finalAns = reverseLinkedListHelper(finalAns);
+                head = reverseLinkedListHelper(head);
+                finalAns = reverseLinkedListHelper(addTwoLinkedList(finalAns,head));
+            }
+
+            return finalAns;
     }
 
 
