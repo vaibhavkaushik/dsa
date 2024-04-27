@@ -216,34 +216,50 @@ public class Main {
 //
 //
 //        l1.display(l1.deleteAllDuplicatesCompletely(l1.getHead()));
-
-        SinglyLinkedListPractice l1 = new SinglyLinkedListPractice();
-        l1.addLast(2);
-        l1.addLast(1);
-        l1.addLast(2);
-        l1.addLast(1);
-        l1.addLast(0);
-        l1.addLast(1);
-        l1.addLast(0);
-        l1.addLast(2);
-        l1.addLast(0);
-        l1.addLast(2);
-        l1.addLast(0);
-
-
-        l1.display(l1.segregate0sAnd1sAnd2s(l1.getHead()));
-
+//
+//        SinglyLinkedListPractice l1 = new SinglyLinkedListPractice();
+//        l1.addLast(2);
+//        l1.addLast(1);
+//        l1.addLast(2);
+//        l1.addLast(1);
+//        l1.addLast(0);
+//        l1.addLast(1);
+//        l1.addLast(0);
+//        l1.addLast(2);
+//        l1.addLast(0);
+//        l1.addLast(2);
+//        l1.addLast(0);
+//
+//
+//        l1.display(l1.segregate0sAnd1sAnd2s(l1.getHead()));
+//
+//
+//        SinglyLinkedListPractice l2 = new SinglyLinkedListPractice();
+//        l2.addLast(2);
+//        l2.addLast(2);
+//        l2.addLast(2);
+//        l2.addLast(2);
+//        l2.addLast(0);
+//        l2.addLast(0);
+//        l2.addLast(0);
+//
+//
+//        l2.display(l2.segregate0sAnd1s(l2.getHead()));
 
         SinglyLinkedListPractice l2 = new SinglyLinkedListPractice();
         l2.addLast(1);
+        l2.addLast(5);
+        l2.addLast(2);
+        l2.addLast(9);
+        l2.addLast(5);
+        l2.addLast(14);
+        l2.addLast(11);
         l2.addLast(1);
-        l2.addLast(0);
+        l2.addLast(10);
+        l2.addLast(10);
         l2.addLast(1);
-        l2.addLast(0);
-        l2.addLast(0);
-        l2.addLast(0);
-
-
-        l2.display(l2.segregate0sAnd1s(l2.getHead()));
+        l2.addLast(3);
+        l2.display(l2.getHead());
+        l2.display(l2.segregateOverPivotIndex(l2.getHead(),3));
     }
 }

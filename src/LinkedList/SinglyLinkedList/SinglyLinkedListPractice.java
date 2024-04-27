@@ -1102,6 +1102,82 @@ public class SinglyLinkedListPractice {
         return zeroesHead.next;
     }
 
+    //Much like to pivot element thing in quick sort.
+    //Maintain position of last index's element, as it would have been in sorted list.(Always true if we are taking last index)
+    //To ensure the above condition, it is necessary that the pivot is at last index.
+    public Node segregateOverLastIndex(Node head){
+            if(head == null || head.next == null){
+                return null;
+            }
+
+            Node temp = head;
+            while(temp.next!=null){
+                temp = temp.next;
+            }
+            Node lastNode =  temp;
+            Node leftOfLastIndex = new Node(-1);
+            Node rightOfLastIndex = new Node(-1);
+            Node leftHead = leftOfLastIndex;
+            Node rightHead = rightOfLastIndex;
+            temp = head;
+            while(temp.next!=null){
+                if(temp.data <= lastNode.data){
+                    leftOfLastIndex.next = temp;
+                    leftOfLastIndex = leftOfLastIndex.next;
+                }else{
+                    rightOfLastIndex.next = temp;
+                    rightOfLastIndex = rightOfLastIndex.next;
+                }
+                temp = temp.next;
+            }
+            leftOfLastIndex.next = lastNode;
+            lastNode.next = rightHead.next;
+            rightOfLastIndex.next = null;
+
+            return leftHead.next;
+    }
+
+    public Node segregateOverPivotIndex(Node head, int idx){
+        if(head == null || head.next == null){
+            return null;
+        }
+
+        Node temp = head;
+        int pivotIdx = idx;
+        while(temp.next!=null && pivotIdx!=0){
+            temp = temp.next;
+            pivotIdx--;
+        }
+        Node pivotNode =  temp;
+        int data = pivotNode.data;
+        System.out.println(pivotNode.data);
+        Node leftOfLastIndex = new Node(-1);
+        Node rightOfLastIndex = new Node(-1);
+        Node leftHead = leftOfLastIndex;
+        Node rightHead = rightOfLastIndex;
+        temp = head;
+        int loopIdx = 0;
+        while(temp!=null){
+            if(loopIdx == idx) {
+                pivotNode = temp;
+            }
+            else if(temp.data < data){
+                leftOfLastIndex.next = temp;
+                leftOfLastIndex = leftOfLastIndex.next;
+            }else{
+                rightOfLastIndex.next = temp;
+                rightOfLastIndex = rightOfLastIndex.next;
+            }
+            temp = temp.next;
+            loopIdx++;
+        }
+        leftOfLastIndex.next = pivotNode;
+        pivotNode.next = rightHead.next;
+        rightOfLastIndex.next = null;
+
+        return leftHead.next;
+    }
+
 
 
     private static void seperator(){
