@@ -1,6 +1,4 @@
 package LinkedList.SinglyLinkedList;
-
-import java.awt.color.ICC_ColorSpace;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -1014,6 +1012,33 @@ public class SinglyLinkedListPractice {
             }
 
             return finalAns;
+    }
+
+    public Node deleteAllDuplicatesCompletely(Node head) {
+        if(head == null || head.next == null){
+            return head;
+        }
+
+        Node ans = new Node(-1);
+        Node ansHead = ans;
+        Node temp = head;
+        Node prev = null;
+
+        while(temp!=null){
+            if(temp.next!=null && temp.data != temp.next.data){
+                if(prev == null || prev.data != temp.data){
+                    ans.next = new Node(temp.data);
+                    ans = ans.next;
+                }
+            }
+            if(temp.next == null && prev.data!=temp.data){
+                ans.next = new Node(temp.data);
+            }
+            prev = temp;
+            temp = temp.next;
+        }
+
+        return ansHead.next;
     }
 
 

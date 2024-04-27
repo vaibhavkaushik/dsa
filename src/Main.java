@@ -195,17 +195,26 @@ public class Main {
 //        l2.addLast(9);
 //
 //        l1.display(l1.subtractLists(l1.getHead(),l2.getHead()));
-
+//
+//        SinglyLinkedListPractice l1 = new SinglyLinkedListPractice();
+//        l1.addLast(4);
+//        l1.addLast(3);
+//        l1.addLast(2);
+//        l1.addLast(6);
+//
+//        SinglyLinkedListPractice l2 = new SinglyLinkedListPractice();
+//        l2.addLast(0);
+//
         SinglyLinkedListPractice l1 = new SinglyLinkedListPractice();
-        l1.addLast(4);
-        l1.addLast(3);
-        l1.addLast(2);
-        l1.addLast(6);
+        l1.addLast(1);
+        l1.addLast(1);
+        l1.addLast(1);
+        l1.addLast(1);
+        l1.addLast(1);
+        l1.addLast(1);
+        l1.addLast(1);
 
-        SinglyLinkedListPractice l2 = new SinglyLinkedListPractice();
-        l2.addLast(0);
 
-        l1.display(l1.multiplyLinkedLists(l1.getHead(),l2.getHead()));
-
+        l1.display(l1.deleteAllDuplicatesCompletely(l1.getHead()));
     }
 }
