@@ -19,5 +19,7 @@ public class DoublyLLMain {
         dll.display();
         dll.insertAtIndex(2,100);
         dll.display();
+        dll.removeAtIndex(2);
+        dll.display();
     }
 }

@@ -132,4 +132,37 @@ public class DoublyLinkedList {
         temp.prev = newNode;
 
     }
+
+    public void removeAtIndex(int idx){
+
+        int size = size();
+
+        if(idx < 0){
+            System.out.println("Invalid index");
+            return;
+        }
+
+        if(idx == 0){
+            removeFirst();
+        }
+
+        if(idx == size){
+            removeLast();
+        }
+
+        DoublyNode temp = head;
+
+        while(idx!=0){
+            temp = temp.next;
+            idx--;
+        }
+
+        DoublyNode previousNode = temp.prev;
+        DoublyNode afterNode = temp.next;
+        previousNode.next = afterNode;
+        afterNode.prev = previousNode;
+
+        temp.next = temp.prev = null;
+
+    }
 }
