@@ -70,4 +70,66 @@ public class DoublyLinkedList {
         leftOverList.next = null;
         tail = leftOverList;
     }
+
+    public int size(){
+        if(head == null){
+            return 0;
+        }
+
+        DoublyNode temp = head;
+        int list_size = 0;
+        while(temp!=null){
+            list_size++;
+            temp = temp.next;
+        }
+
+        return list_size;
+    }
+
+    public void display(){
+        System.out.print("Display : ");
+        if(head == null){
+            System.out.print("NULL");
+        }
+        DoublyNode curr = head;
+        while(curr!=null){
+            System.out.print(curr.data+"<->");
+            curr = curr.next;
+        }
+        System.out.print("NULL");
+        System.out.println();
+    }
+
+    public void insertAtIndex(int idx, int data){
+
+        int size = size();
+
+        if(idx < 0){
+            System.out.println("Invalid index");
+            return;
+        }
+
+        if(idx == 0){
+            addFirst(data);
+        }
+
+        if(idx == size){
+            addLast(data);
+        }
+
+        DoublyNode temp = head;
+
+        while(idx!=0){
+            temp = temp.next;
+            idx--;
+        }
+
+        DoublyNode newNode = new DoublyNode(data);
+        DoublyNode previousNode = temp.prev;
+        newNode.prev = previousNode;
+        newNode.next = temp;
+        previousNode.next = newNode;
+        temp.prev = newNode;
+
+    }
 }

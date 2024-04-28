@@ -12,7 +12,12 @@ public class DoublyLLMain {
         dll.addLast(8);
         dll.addLast(2);
         dll.addLast(9);
+        dll.display();
         dll.removeFirst();
+        dll.display();
         dll.removeLast();
+        dll.display();
+        dll.insertAtIndex(2,100);
+        dll.display();
     }
 }
