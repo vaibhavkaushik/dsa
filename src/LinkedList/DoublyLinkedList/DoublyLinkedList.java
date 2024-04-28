@@ -44,4 +44,30 @@ public class DoublyLinkedList {
         newNode.prev = tail;
         this.tail = newNode;
     }
+
+    public void removeFirst(){
+        if(head == null){
+            this.tail = null;
+            return;
+        }
+
+        DoublyNode leftOverList = head.next;
+        head.next = null;
+        head.prev = null;
+        leftOverList.prev = null;
+        head = leftOverList;
+    }
+
+    public void removeLast(){
+        if(head == null){
+            this.tail = null;
+            return;
+        }
+
+        DoublyNode leftOverList = tail.prev;
+        tail.next = null;
+        tail.prev = null;
+        leftOverList.next = null;
+        tail = leftOverList;
+    }
 }
