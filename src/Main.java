@@ -245,21 +245,34 @@ public class Main {
 //
 //
 //        l2.display(l2.segregate0sAnd1s(l2.getHead()));
+//
+//        SinglyLinkedListPractice l2 = new SinglyLinkedListPractice();
+//        l2.addLast(1);
+//        l2.addLast(5);
+//        l2.addLast(2);
+//        l2.addLast(9);
+//        l2.addLast(5);
+//        l2.addLast(14);
+//        l2.addLast(11);
+//        l2.addLast(1);
+//        l2.addLast(10);
+//        l2.addLast(10);
+//        l2.addLast(1);
+//        l2.addLast(3);
+//        l2.display(l2.getHead());
+//        l2.display(l2.segregateOverPivotIndex(l2.getHead(),3));
 
         SinglyLinkedListPractice l2 = new SinglyLinkedListPractice();
-        l2.addLast(1);
-        l2.addLast(5);
-        l2.addLast(2);
         l2.addLast(9);
-        l2.addLast(5);
-        l2.addLast(14);
-        l2.addLast(11);
-        l2.addLast(1);
-        l2.addLast(10);
-        l2.addLast(10);
+        l2.addLast(-3);
+        l2.addLast(-5);
+        l2.addLast(2);
+        l2.addLast(6);
+        l2.addLast(8);
+        l2.addLast(-6);
         l2.addLast(1);
         l2.addLast(3);
         l2.display(l2.getHead());
-        l2.display(l2.segregateOverPivotIndex(l2.getHead(),3));
+        l2.display(l2.quicksort(l2.getHead()));
     }
 }

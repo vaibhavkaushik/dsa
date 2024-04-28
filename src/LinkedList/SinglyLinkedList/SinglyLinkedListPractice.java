@@ -1178,6 +1178,88 @@ public class SinglyLinkedListPractice {
         return leftHead.next;
     }
 
+    //This function is useful for quick sort
+    //It will give us 3 things, pivot Node, left side of pivot node and right side of pivot node
+    public Node[] segregateIntoLeftSidePivotRightSide(Node head, int idx){
+        if(head == null || head.next == null){
+            return null;
+        }
+
+        Node temp = head;
+        int pivotIdx = idx;
+        while(temp.next!=null && pivotIdx!=0){
+            temp = temp.next;
+            pivotIdx--;
+        }
+        Node pivotNode =  temp;
+        int data = pivotNode.data;
+        Node leftOfLastIndex = new Node(-1);
+        Node rightOfLastIndex = new Node(-1);
+        Node leftHead = leftOfLastIndex;
+        Node rightHead = rightOfLastIndex;
+        temp = head;
+        int loopIdx = 0;
+        while(temp!=null){
+            if(loopIdx == idx) {
+                pivotNode = temp;
+            }
+            else if(temp.data < data){
+                leftOfLastIndex.next = temp;
+                leftOfLastIndex = leftOfLastIndex.next;
+            }else{
+                rightOfLastIndex.next = temp;
+                rightOfLastIndex = rightOfLastIndex.next;
+            }
+            temp = temp.next;
+            loopIdx++;
+        }
+        leftOfLastIndex.next = null;
+        pivotNode.next = null;
+        rightOfLastIndex.next = null;
+
+        return new Node[]{leftHead.next,pivotNode,rightHead.next};
+    }
+
+    public Node quicksort(Node head){
+            return quicksortHelper(head)[0];
+    }
+
+    private Node[] mergeSortedListForQuickSort(Node[] leftList, Node pivotNode, Node[] rightList){
+            Node head = null, tail = null;
+            if(leftList[0] != null && rightList[0] != null){
+                leftList[1].next = pivotNode;
+                pivotNode.next = rightList[0];
+                head = leftList[0];
+                tail = rightList[1];
+            }else if(leftList[0] !=null){
+                leftList[1].next = pivotNode;
+                head = leftList[0];
+                tail = pivotNode;
+            }else if(rightList != null){
+                pivotNode.next = rightList[0];
+                head = pivotNode;
+                tail = rightList[1] ;
+            } else{
+                head = tail = pivotNode;
+            }
+            return new Node[]{head,tail};
+    }
+
+    private Node[] quicksortHelper(Node head){
+            if(head == null || head.next == null){
+                return new Node[]{head,head};
+            }
+
+            int size = size(head);
+            int idx = size/2;
+
+            Node[] segregatedList = segregateIntoLeftSidePivotRightSide(head,idx);
+            Node[] sortedLeft = quicksortHelper(segregatedList[0]);
+            Node[] sortedRight = quicksortHelper(segregatedList[2]);
+
+            return mergeSortedListForQuickSort(sortedLeft,segregatedList[1],sortedRight);
+    }
+
 
 
     private static void seperator(){
