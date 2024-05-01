@@ -282,15 +282,48 @@ public class RecursionBasics {
         return finalAns;
     }
 
-    public static ArrayList<Integer> allIndexOccurrences(int[] arr,int idx,int val,ArrayList<Integer> allOccurrences){
+    public static void allIndexOccurrences(int[] arr,int idx,int val,ArrayList<Integer> allOccurrences){
         if(arr.length == idx){
-            return allOccurrences;
+            return;
         }
 
         if(arr[idx]==val){
             allOccurrences.add(idx);
         }
-        return allIndexOccurrences(arr,idx+1,val,allOccurrences);
+
+        allIndexOccurrences(arr,idx+1,val,allOccurrences);
+    }
+
+    public static ArrayList<Integer> allIndexOccurrences(int[] arr,int idx,int val){
+        if(arr.length == idx){
+            return new ArrayList<>();
+        }
+
+        ArrayList<Integer> ansComingFromTopLevel =allIndexOccurrences(arr,idx+1,val);
+        if(arr[idx]==val){
+            ansComingFromTopLevel.add(idx);
+        }
+
+        return ansComingFromTopLevel;
+    }
+
+    public static ArrayList<Integer> allIndexOccurrencesEasy(int[] arr,int idx,int val){
+
+        ArrayList<Integer> ansForThisLevelOfCall = new ArrayList<>();
+
+        if(arr.length == idx){
+            return ansForThisLevelOfCall;
+        }
+
+        if(arr[idx]==val){
+            ansForThisLevelOfCall.add(idx);
+        }
+
+        ArrayList<Integer> ansComingFromBottomLevelCalls = allIndexOccurrences(arr,idx+1,val);
+
+        ansForThisLevelOfCall.addAll(ansComingFromBottomLevelCalls);
+
+        return ansForThisLevelOfCall;
     }
 
     public static boolean checkInArrayUsingRecursion(int[] arr, int idx, int val){
@@ -310,6 +343,52 @@ public class RecursionBasics {
         return finalAns;
     }
 
+    //binary search in rotated array
+    //5 6 7 8 9 1 2 3
+    //Find the mid first
+    //check which half is sorted [start<=mid]--> left half sorted
+    //then check if the value to search lies in left range. i.e start<=key<=mid, in that case end = mid-1;
+    //if not, this means the value lies in the right un-sorted area, in that case start = mid+1;
+    //If right half is sorted
+    //then check if the value to search lies in right range. i.e mid<=key<=end, in that case start = mid+1;
+    //if not, this means the value lies in the left un-sorted area, in that case end = mid-1;
+
+    public static int generalisedBinarySearch(int[] arr,int val,int start,int end){
+
+        int mid = start + (end-start)/2;
+
+        if(start > end){
+            return -1;
+        }
+
+        if(arr[mid]==val){
+            return mid;
+        }
+
+        //Check if array is left sorted
+        if(arr[start]<=arr[mid]){
+            //check if lies in left sorted range
+            if(arr[start]<=val && val<=arr[mid]){
+                end = mid-1;
+            }else{
+                //check if lies in right un-sorted range
+                start = mid+1;
+            }
+        }
+        //If not left sorted, then this array is right sorted
+        else
+        {
+            //check if lies in right sorted range
+            if(arr[mid]<=val && val<=arr[end]){
+                start = mid+1;
+            }else{
+                //check if lies in left un-sorted range
+                end = mid-1;
+            }
+        }
+        return generalisedBinarySearch(arr,val,start,end);
+    }
+
     //f(n--) wont work, f(--n) works
 
     public static void main(String[] args) {
@@ -320,7 +399,7 @@ public class RecursionBasics {
         printFromXtoNUsingPostRecursion(3,10);
         System.out.println("------");
         System.out.println(NthFibonacciNumber(8));
-        int[] arr = new int[]{5,6,7,12,6,8,6,9};
+        int[] arr = new int[]{5,6,7,12,16,18,60,90};
         System.out.println(binarySearchUsingRecursion(arr,0, arr.length-1, 4));
         System.out.println(factorial(5));
         System.out.println(sumOntoNthNumber(4));
@@ -335,7 +414,13 @@ public class RecursionBasics {
         System.out.println(stepsToZero(45)); // 23 22 11 10 5 4 2 1 0
         System.out.println(findIfArraySorted(arr,0));
         System.out.println(checkInArrayUsingRecursion(arr,0,17));
-        System.out.println(allIndexOccurrences(arr,0,6,new ArrayList<Integer>()));
+        ArrayList<Integer> ans = new ArrayList<>();
+        allIndexOccurrences(arr,0,6,ans);
+        System.out.println(ans);
+        System.out.println(allIndexOccurrences(arr,0,6));
+        System.out.println(generalisedBinarySearch(arr,70,0,arr.length-1));
+        int[] rotatedSortedArray = new int[]{5,6,7,8,9,1,2,3};
+        System.out.println(generalisedBinarySearch(rotatedSortedArray,2,0,arr.length-1));
     }
 
 }
