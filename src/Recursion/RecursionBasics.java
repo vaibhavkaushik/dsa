@@ -1,5 +1,7 @@
 package Recursion;
 
+import java.util.ArrayList;
+
 public class RecursionBasics {
 
     public static void printFromNtoX(int n, int x){
@@ -196,6 +198,7 @@ public class RecursionBasics {
         return findInArrayUsingRecursion(arr,idx+1,val);
     }
 
+
     public static int countZeroes(int num){
 
         if(num==0){
@@ -279,6 +282,34 @@ public class RecursionBasics {
         return finalAns;
     }
 
+    public static ArrayList<Integer> allIndexOccurrences(int[] arr,int idx,int val,ArrayList<Integer> allOccurrences){
+        if(arr.length == idx){
+            return allOccurrences;
+        }
+
+        if(arr[idx]==val){
+            allOccurrences.add(idx);
+        }
+        return allIndexOccurrences(arr,idx+1,val,allOccurrences);
+    }
+
+    public static boolean checkInArrayUsingRecursion(int[] arr, int idx, int val){
+
+        if(arr.length == idx){
+            return false;
+        }
+
+        if(arr[idx]==val){
+            return true;
+        }
+
+        boolean foundInitially = arr[idx]==val;
+        boolean foundInRemainingArray = checkInArrayUsingRecursion(arr,idx+1,val);
+        boolean finalAns = foundInitially||foundInRemainingArray;
+
+        return finalAns;
+    }
+
     //f(n--) wont work, f(--n) works
 
     public static void main(String[] args) {
@@ -289,7 +320,7 @@ public class RecursionBasics {
         printFromXtoNUsingPostRecursion(3,10);
         System.out.println("------");
         System.out.println(NthFibonacciNumber(8));
-        int[] arr = new int[]{5,6,7,12};
+        int[] arr = new int[]{5,6,7,12,6,8,6,9};
         System.out.println(binarySearchUsingRecursion(arr,0, arr.length-1, 4));
         System.out.println(factorial(5));
         System.out.println(sumOntoNthNumber(4));
@@ -303,6 +334,8 @@ public class RecursionBasics {
         System.out.println(countZeroesParameterApproach(10204050,0));
         System.out.println(stepsToZero(45)); // 23 22 11 10 5 4 2 1 0
         System.out.println(findIfArraySorted(arr,0));
+        System.out.println(checkInArrayUsingRecursion(arr,0,17));
+        System.out.println(allIndexOccurrences(arr,0,6,new ArrayList<Integer>()));
     }
 
 }
