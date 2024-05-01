@@ -160,6 +160,125 @@ public class RecursionBasics {
         return reversedNumber;
     }
 
+    public static int digitCount(int num){
+        if(num%10 == num){
+            return 1;
+        }
+
+        return  1 + digitCount(num/10);
+    }
+
+    public static boolean isPalindrome(int n){
+
+        if(n%10 == n){
+            return true;
+        }
+
+        int digits = digitCount(n);
+        int firstDigit = (int) (n/Math.pow(10,digits-1));
+        int lastDigit = n%10;
+        int newNum = n - (int) (firstDigit*Math.pow(10,digits-1)) - lastDigit;
+        boolean palindrome = (firstDigit==lastDigit) && isPalindrome(newNum/10);
+
+        return palindrome;
+    }
+
+    public static int findInArrayUsingRecursion(int[] arr, int idx, int val){
+
+        if(arr.length == idx){
+            return -1;
+        }
+
+        if(arr[idx]==val){
+            return idx;
+        }
+
+        return findInArrayUsingRecursion(arr,idx+1,val);
+    }
+
+    public static int countZeroes(int num){
+
+        if(num==0){
+            return 0;
+        }
+
+        int countInThisNum = 0;
+        int digit = num%10;
+
+        if(digit == 0){
+            countInThisNum+=1;
+        }
+
+        int ans = countInThisNum + countZeroes(num/10);
+        return ans;
+
+    }
+
+    public static int countZeroesParameterApproach(int num, int count){
+
+        if(num==0){
+            return count;
+        }
+
+        int digit = num%10;
+
+        if(digit == 0){
+            return countZeroesParameterApproach(num/10,count+1);
+        }
+
+        return countZeroesParameterApproach(num/10,count);
+    }
+
+    //if num is even, divide by 2
+    //if num is odd, subtract 1
+    public static int stepsToZeroParameterApproach(int num, int steps){
+        if(num == 0){
+            return steps;
+        }
+
+        if(num%2==0){
+            return stepsToZeroParameterApproach(num/2,steps+1);
+        }else{
+            return stepsToZeroParameterApproach(num-1,steps+1);
+        }
+
+    }
+
+    public static int stepsToZero(int num){
+        if(num == 0){
+            return 0;
+        }
+
+        int divisonCount = 0;
+        int subtractCount = 0;
+
+        if(num%2==0){
+            divisonCount = 1 + divisonCount + stepsToZero(num/2);
+        }else{
+            subtractCount = 1 + subtractCount + stepsToZero(num-1);
+        }
+
+        int finalAns = divisonCount+subtractCount;
+
+        return finalAns;
+
+    }
+
+    public static boolean findIfArraySorted(int[] arr, int idx){
+        if(arr.length-1 == idx){
+            return true;
+        }
+
+        boolean isSmall = false;
+        if(idx < arr.length - 1){
+            isSmall = arr[idx] <= arr[idx+1];
+        }
+
+        boolean finalAns = isSmall && findIfArraySorted(arr,idx+1);
+
+        return finalAns;
+    }
+
     //f(n--) wont work, f(--n) works
 
     public static void main(String[] args) {
@@ -177,6 +296,13 @@ public class RecursionBasics {
         System.out.println(sumOfDigits(2543));
         System.out.println(productOfDigits(2543));
         System.out.println(reverseANumber(175678));
+        System.out.println(digitCount(2346));
+        System.out.println(isPalindrome(1231));
+        System.out.println(findInArrayUsingRecursion(arr,0,16));
+        System.out.println(countZeroes(10204050));
+        System.out.println(countZeroesParameterApproach(10204050,0));
+        System.out.println(stepsToZero(45)); // 23 22 11 10 5 4 2 1 0
+        System.out.println(findIfArraySorted(arr,0));
     }
 
 }
