@@ -249,6 +249,37 @@ public class RecursionPatternQuestions {
 
     }
 
+    private static void permutationOfStringParameterType(String s,int idx,String ans,ArrayList<String> permutations){
+
+        if(s.isEmpty()){
+            //prevent duplication, unoptimized way
+            if(!permutations.contains(ans))
+                permutations.add(ans);
+            return;
+        }
+
+        for(int i=0;i<s.length();i++){
+            char appendChar = s.charAt(i);
+            permutationOfStringParameterType(s.substring(0,i)+s.substring(i+1),idx+1,ans+appendChar,permutations);
+        }
+    }
+
+    private static void permutationOfDuplicateStringParameterType(String s,int idx,String ans,ArrayList<String> permutations){
+
+        if(s.isEmpty()){
+            permutations.add(ans);
+            return;
+        }
+
+        for(int i=0;i<s.length();i++){
+            while((i+1)<s.length() && s.charAt(i)==s.charAt(i+1)){
+                i++;
+            }
+            char appendChar = s.charAt(i);
+            permutationOfDuplicateStringParameterType(s.substring(0,i)+s.substring(i+1),idx+1,ans+appendChar,permutations);
+        }
+    }
+
 
     public static void main(String[] args) {
         printTrianglePatternUpsideDown(9,0);
@@ -273,6 +304,22 @@ public class RecursionPatternQuestions {
         setsOfDuplicateArray(subsetArrayDuplicates,0,new ArrayList<>(),subsetListDuplicates);
         System.out.println(subsetListDuplicates);
         System.out.println(setsOfArrayOriginalRecursion(subsetArrayDuplicates,0));
+        ArrayList<String> permutations = new ArrayList<>();
+        long startTime = System.nanoTime();
+        permutationOfStringParameterType("aabbc",0,"",permutations);
+        long endTime = System.nanoTime();
+        long executionTime
+                = (endTime - startTime);
+        System.out.println(permutations);
+        System.out.println(executionTime+" ns");
+        ArrayList<String> permutationDuplicates = new ArrayList<>();
+        long startTimeOptimized = System.nanoTime();
+        permutationOfDuplicateStringParameterType("aabbc",0,"",permutationDuplicates);
+        long endTimeOptimized = System.nanoTime();
+        long executionTimeOptimized
+                = (endTimeOptimized - startTimeOptimized);
+        System.out.println(permutationDuplicates);
+        System.out.println(executionTimeOptimized+" ns");
     }
 
 }
