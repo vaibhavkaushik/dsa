@@ -1,11 +1,10 @@
 package Recursion;
 
 import java.util.ArrayList;
-import java.util.List;
 
-public class SubSetPatternQuestions {
+public class SubSequencePatternQuestions {
 
-    //Just like how subsets works, subset pattern is taking or not taking a element and exploring all possibilities
+    //Just like how subsequence works, subsequence pattern is taking or not taking a element and exploring all possibilities
     //with that
     //example print all subsets of abcd
     public static void subsetsOfStringParameterAnswerApproach(String s, String subset, ArrayList<String> ans){
@@ -53,6 +52,37 @@ public class SubSetPatternQuestions {
 
         left.addAll(right);
         return left;
+    }
+
+    private static void setsOfArray(int[] arr, int idx, ArrayList<Integer> localAnsWith, ArrayList<ArrayList<Integer>> ans){
+        if(idx == arr.length){
+            ArrayList<Integer> recursionAns = new ArrayList<>(localAnsWith);
+            ans.add(recursionAns);
+            return;
+        }
+
+        int val = arr[idx];
+        //take this value
+        localAnsWith.add(val);
+        setsOfArray(arr,idx+1,localAnsWith,ans);
+        localAnsWith.remove(localAnsWith.size()-1);
+        setsOfArray(arr,idx+1,localAnsWith,ans);
+    }
+
+    private static ArrayList<ArrayList<Integer>> setsOfArrayOriginalRecursion(int[] arr, int idx){
+        if(idx == arr.length){
+            ArrayList<ArrayList<Integer>> biggerAns = new ArrayList<>();
+            biggerAns.add(new ArrayList<>());
+            return biggerAns;
+        }
+
+        ArrayList<ArrayList<Integer>> recursiveAnswerFromBottomCalls = setsOfArrayOriginalRecursion(arr,idx+1);
+        ArrayList<ArrayList<Integer>> thisLevelAnswer = new ArrayList<>(recursiveAnswerFromBottomCalls);
+        for(ArrayList<Integer> list : recursiveAnswerFromBottomCalls){
+            list.add(arr[idx]);
+            thisLevelAnswer.add(list);
+        }
+        return thisLevelAnswer;
     }
 
     public static void main(String[] args) {
