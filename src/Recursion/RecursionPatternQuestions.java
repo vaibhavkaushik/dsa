@@ -249,7 +249,7 @@ public class RecursionPatternQuestions {
 
     }
 
-    private static void permutationOfStringParameterType(String s,int idx,String ans,ArrayList<String> permutations){
+    private static void permutationOfStringParameterType(String s,String ans,ArrayList<String> permutations){
 
         if(s.isEmpty()){
             //prevent duplication, unoptimized way
@@ -260,11 +260,11 @@ public class RecursionPatternQuestions {
 
         for(int i=0;i<s.length();i++){
             char appendChar = s.charAt(i);
-            permutationOfStringParameterType(s.substring(0,i)+s.substring(i+1),idx+1,ans+appendChar,permutations);
+            permutationOfStringParameterType(s.substring(0,i)+s.substring(i+1),ans+appendChar,permutations);
         }
     }
 
-    private static void permutationOfDuplicateStringParameterType(String s,int idx,String ans,ArrayList<String> permutations){
+    private static void permutationOfDuplicateStringParameterType(String s,String ans,ArrayList<String> permutations){
 
         if(s.isEmpty()){
             permutations.add(ans);
@@ -276,7 +276,20 @@ public class RecursionPatternQuestions {
                 i++;
             }
             char appendChar = s.charAt(i);
-            permutationOfDuplicateStringParameterType(s.substring(0,i)+s.substring(i+1),idx+1,ans+appendChar,permutations);
+            permutationOfDuplicateStringParameterType(s.substring(0,i)+s.substring(i+1),ans+appendChar,permutations);
+        }
+    }
+
+    private static void combinationsOfStringParameterType(String s,int k,String ans,ArrayList<String> combinations){
+
+        if(k==0){
+            combinations.add(ans);
+            return;
+        }
+
+        for(int i=0;i<s.length();i++){
+            char appendChar = s.charAt(i);
+            combinationsOfStringParameterType(s.substring(i+1),k-1,ans+appendChar,combinations);
         }
     }
 
@@ -306,7 +319,7 @@ public class RecursionPatternQuestions {
         System.out.println(setsOfArrayOriginalRecursion(subsetArrayDuplicates,0));
         ArrayList<String> permutations = new ArrayList<>();
         long startTime = System.nanoTime();
-        permutationOfStringParameterType("aabbc",0,"",permutations);
+        permutationOfStringParameterType("aabbc","",permutations);
         long endTime = System.nanoTime();
         long executionTime
                 = (endTime - startTime);
@@ -314,12 +327,22 @@ public class RecursionPatternQuestions {
         System.out.println(executionTime+" ns");
         ArrayList<String> permutationDuplicates = new ArrayList<>();
         long startTimeOptimized = System.nanoTime();
-        permutationOfDuplicateStringParameterType("aabbc",0,"",permutationDuplicates);
+        permutationOfDuplicateStringParameterType("aabbc","",permutationDuplicates);
         long endTimeOptimized = System.nanoTime();
         long executionTimeOptimized
                 = (endTimeOptimized - startTimeOptimized);
         System.out.println(permutationDuplicates);
         System.out.println(executionTimeOptimized+" ns");
+
+        ArrayList<String> combinationDuplicates = new ArrayList<>();
+        long startTimeCombinationOptimized = System.nanoTime();
+        combinationsOfStringParameterType("abcdef",3,"",combinationDuplicates);
+        long endTimeCombinationOptimized = System.nanoTime();
+        long executionTimeCombinationOptimized
+                = (endTimeCombinationOptimized - startTimeCombinationOptimized);
+        System.out.println(combinationDuplicates);
+        System.out.println(executionTimeCombinationOptimized+" ns");
+
     }
 
 }
