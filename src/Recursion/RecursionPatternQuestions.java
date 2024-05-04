@@ -280,16 +280,25 @@ public class RecursionPatternQuestions {
         }
     }
 
+    //Duplicates in case of combinations will come after completely exploring one side of character
+    //While duplicates in case of permutation come at same depth, not at complete depth of exploration
+    //this because the string does not change in case of permutation, it remains same throughout
+    //but in case of combinations, string becomes shorter and shorter
     private static void combinationsOfStringParameterType(String s,int k,String ans,ArrayList<String> combinations){
 
         if(k==0){
-            combinations.add(ans);
+            //if(!combinations.contains(ans))
+                combinations.add(ans);
             return;
         }
 
         for(int i=0;i<s.length();i++){
             char appendChar = s.charAt(i);
             combinationsOfStringParameterType(s.substring(i+1),k-1,ans+appendChar,combinations);
+            //prevents duplication
+            while((i+1)<s.length() && s.charAt(i)==s.charAt(i+1)){
+                i++;
+            }
         }
     }
 
@@ -336,7 +345,9 @@ public class RecursionPatternQuestions {
 
         ArrayList<String> combinationDuplicates = new ArrayList<>();
         long startTimeCombinationOptimized = System.nanoTime();
-        combinationsOfStringParameterType("abcdef",3,"",combinationDuplicates);
+        //[abb, abc, abd, abe, abf, acc, acd, ace, acf, ade, adf, aef, bbc, bbd, bbe, bbf, bcc, bcd, bce, bcf, bde, bdf, bef, ccd, cce, ccf, cde, cdf, cef, def]
+        //[abb, abc, abd, abe, abf, acc, acd, ace, acf, ade, adf, aef, bbc, bbd, bbe, bbf, bcc, bcd, bce, bcf, bde, bdf, bef, ccd, cce, ccf, cde, cdf, cef, def]
+        combinationsOfStringParameterType("abbccdef",3,"",combinationDuplicates);
         long endTimeCombinationOptimized = System.nanoTime();
         long executionTimeCombinationOptimized
                 = (endTimeCombinationOptimized - startTimeCombinationOptimized);
