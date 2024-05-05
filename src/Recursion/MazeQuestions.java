@@ -72,16 +72,38 @@ public class MazeQuestions {
         return finalAnswer;
     }
 
+    private static void travelInAMazeWithObstaclesParameter(int[][] maze, int r, int c, int[][] dir, char[] dir_name, String ans, ArrayList<String> allAns){
+
+        //Once we reach at the end, let's store the answer
+        if(r==maze.length-1 && c== maze[0].length-1){
+            allAns.add(ans);
+            return;
+        }
+
+        for(int i=0;i<dir_name.length;i++) {
+            int row = r + dir[i][0];
+            int col = c + dir[i][1];
+            if (row < maze.length && col < maze[0].length && maze[row][col]!=-1) {
+                travelInAMazeWithObstaclesParameter(maze, row, col, dir, dir_name, ans + dir_name[i], allAns);
+            }
+        }
+    }
+
     public static void main(String[] args) {
         int[][] maze = new int[3][3];
-        int[][] dir = new int[][]{{0,1},{1,0},{1,1}}; //R and D
-        char[] dir_name = new char[]{'R','N','D'};  //Right Neeche Diagonal
+        int[][] dir = new int[][]{{0,1},{1,0},{1,1}}; //R, V and D
+        char[] dir_name = new char[]{'R','V','D'};  //Right Vertical Diagonal
 
         ArrayList<String> allPaths =  new ArrayList<>();
         travelInAMazeParameter(maze,0,0,dir,dir_name,"",allPaths);
         System.out.println(allPaths);
         System.out.println(travelInMazeReturnType(maze,0,0));
         System.out.println(travelInAMazeParameterPathCount(maze,0,0,dir,dir_name));
+        maze[1][0] = -1;
+        maze[2][1] = -1;
+        ArrayList<String> allPathsInBlockedMaze =  new ArrayList<>();
+        travelInAMazeWithObstaclesParameter(maze,0,0,dir,dir_name,"",allPathsInBlockedMaze);
+        System.out.println(allPathsInBlockedMaze);
     }
 
 }
