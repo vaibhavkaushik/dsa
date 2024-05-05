@@ -9,15 +9,15 @@ public class MazeQuestions {
 
     //go from 0,0 to 4,4
     // with directions like U,D,R,L
-    private static void travelInAMazeParameter(int[][] maze, int r, int c, int[][] dir, char[] dir_name, String ans, ArrayList<String> allAns){
+    private static void travelInAMazeParameter(int[][] maze, int r, int c, int[][] dir, char[] dir_name, String ans, ArrayList<String> allAns) {
 
         //Once we reach at the end, let's store the answer
-        if(r==maze.length-1 && c== maze[0].length-1){
+        if (r == maze.length - 1 && c == maze[0].length - 1) {
             allAns.add(ans);
             return;
         }
 
-        for(int i=0;i<dir_name.length;i++) {
+        for (int i = 0; i < dir_name.length; i++) {
             int row = r + dir[i][0];
             int col = c + dir[i][1];
             if (row < maze.length && col < maze[0].length) {
@@ -26,15 +26,15 @@ public class MazeQuestions {
         }
     }
 
-    private static int travelInAMazeParameterPathCount(int[][] maze, int r, int c, int[][] dir, char[] dir_name){
+    private static int travelInAMazeParameterPathCount(int[][] maze, int r, int c, int[][] dir, char[] dir_name) {
 
         //Once we reach at the end, let's store the answer
-        if(r==maze.length-1 && c== maze[0].length-1){
+        if (r == maze.length - 1 && c == maze[0].length - 1) {
             return 1;
         }
 
         int count = 0;
-        for(int i=0;i<dir_name.length;i++) {
+        for (int i = 0; i < dir_name.length; i++) {
             int row = r + dir[i][0];
             int col = c + dir[i][1];
             if (row < maze.length && col < maze[0].length) {
@@ -44,9 +44,10 @@ public class MazeQuestions {
 
         return count;
     }
-    private static ArrayList<String> travelInMazeReturnType(int[][] arr, int r, int c){
 
-        if(r == arr.length-1 && c == arr[0].length-1){
+    private static ArrayList<String> travelInMazeReturnType(int[][] arr, int r, int c) {
+
+        if (r == arr.length - 1 && c == arr[0].length - 1) {
             ArrayList<String> baseCase = new ArrayList<>();
             baseCase.add("");
             return baseCase;
@@ -54,54 +55,54 @@ public class MazeQuestions {
 
         ArrayList<String> finalAnswer = new ArrayList<>();
 
-        if(c+1 < arr[0].length) {
+        if (c + 1 < arr[0].length) {
             ArrayList<String> bottomAnswersForRightPath = travelInMazeReturnType(arr, r, c + 1);
 
-            for(String rightPath : bottomAnswersForRightPath){
-                finalAnswer.add('R'+rightPath);
+            for (String rightPath : bottomAnswersForRightPath) {
+                finalAnswer.add('R' + rightPath);
             }
 
         }
-        if(r+1 < arr.length) {
+        if (r + 1 < arr.length) {
             ArrayList<String> bottomAnswersForDownPath = travelInMazeReturnType(arr, r + 1, c);
 
-            for(String downPath : bottomAnswersForDownPath){
-                finalAnswer.add('D'+downPath);
+            for (String downPath : bottomAnswersForDownPath) {
+                finalAnswer.add('D' + downPath);
             }
         }
 
         return finalAnswer;
     }
 
-    private static void travelInAMazeWithObstaclesParameter(int[][] maze, int r, int c, int[][] dir, char[] dir_name, String ans, ArrayList<String> allAns){
+    private static void travelInAMazeWithObstaclesParameter(int[][] maze, int r, int c, int[][] dir, char[] dir_name, String ans, ArrayList<String> allAns) {
 
         //Once we reach at the end, let's store the answer
-        if(r==maze.length-1 && c== maze[0].length-1){
+        if (r == maze.length - 1 && c == maze[0].length - 1) {
             allAns.add(ans);
             return;
         }
 
-        for(int i=0;i<dir_name.length;i++) {
+        for (int i = 0; i < dir_name.length; i++) {
             int row = r + dir[i][0];
             int col = c + dir[i][1];
-            if (row < maze.length && col < maze[0].length && maze[row][col]!=-1) {
+            if (row < maze.length && col < maze[0].length && maze[row][col] != -1) {
                 travelInAMazeWithObstaclesParameter(maze, row, col, dir, dir_name, ans + dir_name[i], allAns);
             }
         }
     }
 
-    private static void travelInAMazeParameterAllDirections(int[][] maze, int r, int c, int[][] dir, char[] dir_name, String ans, ArrayList<String> allAns){
+    private static void travelInAMazeParameterAllDirections(int[][] maze, int r, int c, int[][] dir, char[] dir_name, String ans, ArrayList<String> allAns) {
 
         //Once we reach at the end, let's store the answer
-        if(r==maze.length-1 && c== maze[0].length-1){
+        if (r == maze.length - 1 && c == maze[0].length - 1) {
             allAns.add(ans);
             return;
         }
 
-        for(int i=0;i<dir_name.length;i++) {
+        for (int i = 0; i < dir_name.length; i++) {
             int row = r + dir[i][0];
             int col = c + dir[i][1];
-            if (row >= 0 && col >= 0 && row < maze.length && col < maze[0].length && maze[row][col]!=-1) {
+            if (row >= 0 && col >= 0 && row < maze.length && col < maze[0].length && maze[row][col] != -1) {
                 maze[r][c] = -1;
                 travelInAMazeParameterAllDirections(maze, row, col, dir, dir_name, ans + dir_name[i], allAns);
                 maze[r][c] = 0;
@@ -109,12 +110,12 @@ public class MazeQuestions {
         }
     }
 
-    private static void travelInAMazeParameterAllDirectionsAndPrintMazePath(int[][] maze, int[][]path, int r, int c, int[][] dir, char[] dir_name, String ans, ArrayList<String> allAns, int level){
+    private static void travelInAMazeParameterAllDirectionsAndPrintMazePath(int[][] maze, int[][] path, int r, int c, int[][] dir, char[] dir_name, String ans, ArrayList<String> allAns, int level) {
 
         //Once we reach at the end, let's store the answer
-        if(r==maze.length-1 && c== maze[0].length-1){
+        if (r == maze.length - 1 && c == maze[0].length - 1) {
             path[r][c] = level;
-            for(int[] onePath : path){
+            for (int[] onePath : path) {
                 System.out.println(Arrays.toString(onePath));
             }
             System.out.println(ans);
@@ -122,13 +123,13 @@ public class MazeQuestions {
             return;
         }
 
-        for(int i=0;i<dir_name.length;i++) {
+        for (int i = 0; i < dir_name.length; i++) {
             int row = r + dir[i][0];
             int col = c + dir[i][1];
-            if (row >= 0 && col >= 0 && row < maze.length && col < maze[0].length && maze[row][col]!=-1) {
+            if (row >= 0 && col >= 0 && row < maze.length && col < maze[0].length && maze[row][col] != -1) {
                 maze[r][c] = -1;
                 path[r][c] = level;
-                travelInAMazeParameterAllDirectionsAndPrintMazePath(maze,path, row, col, dir, dir_name, ans + dir_name[i], allAns,level+1);
+                travelInAMazeParameterAllDirectionsAndPrintMazePath(maze, path, row, col, dir, dir_name, ans + dir_name[i], allAns, level + 1);
                 maze[r][c] = 0;
                 path[r][c] = 0;
             }
@@ -138,39 +139,109 @@ public class MazeQuestions {
     //At each row, we will try to place a queen, check if it is possible to place it
     //If possible pace it and move ahead to place others, if at a row none can be placed
     //go and backtrack
-    private static void N_Queen(int[][] board, int row, int queens_left,char[][] solution_board,
-                                boolean[] col_check,boolean[] up_diagonal_check,boolean[] down_diagonal_check){
+    private static void N_Queen(int[][] board, int row, int queens_left, char[][] solution_board,
+                                boolean[] col_check, boolean[] up_diagonal_check, boolean[] down_diagonal_check) {
 
-        if(queens_left == 0){
-            for(char[] rows : solution_board){
+        if (queens_left == 0) {
+            for (char[] rows : solution_board) {
                 System.out.println(Arrays.toString(rows));
             }
             System.out.println();
         }
 
         for (int col = 0; col < board[0].length; col++) {
-            if(row<board.length && board[row][col]!=-1 && can_place(board,row,col,col_check,
-                    up_diagonal_check,down_diagonal_check)) {
-                board[row][col]=-1;
-                solution_board[row][col]='Q';
-                col_check[col]=true;
-                up_diagonal_check[row+col]=true;
-                down_diagonal_check[row-col+board[0].length-1]=true;
-                N_Queen(board, row + 1, queens_left-1, solution_board,col_check,
-                        up_diagonal_check,down_diagonal_check);
-                board[row][col]=0;
-                solution_board[row][col]='-';
-                col_check[col]=false;
-                up_diagonal_check[row+col]=false;
-                down_diagonal_check[row-col+board[0].length-1]=false;
+            if (row < board.length && board[row][col] != -1 && can_place(board, row, col, col_check,
+                    up_diagonal_check, down_diagonal_check)) {
+                board[row][col] = -1;
+                solution_board[row][col] = 'Q';
+                col_check[col] = true;
+                up_diagonal_check[row + col] = true;
+                down_diagonal_check[row - col + board[0].length - 1] = true;
+                N_Queen(board, row + 1, queens_left - 1, solution_board, col_check,
+                        up_diagonal_check, down_diagonal_check);
+                board[row][col] = 0;
+                solution_board[row][col] = '-';
+                col_check[col] = false;
+                up_diagonal_check[row + col] = false;
+                down_diagonal_check[row - col + board[0].length - 1] = false;
             }
         }
     }
 
     //check notebook for concept
-    private static boolean can_place(int[][] board, int row, int col,boolean[] col_check,
-                                     boolean[] up_diagonal_check,boolean[] down_diagonal_check){
-        return !col_check[col]&&!up_diagonal_check[row+col]&&!down_diagonal_check[row-col+board[0].length-1];
+    private static boolean can_place(int[][] board, int row, int col, boolean[] col_check,
+                                     boolean[] up_diagonal_check, boolean[] down_diagonal_check) {
+        return !col_check[col] && !up_diagonal_check[row + col] && !down_diagonal_check[row - col + board[0].length - 1];
+    }
+
+    //TODO: Knight Tour
+
+    private static void sudokuSolver(int[][] board, int row, int col) {
+
+        if (row == board.length) {
+            for (int[] board_row : board) {
+                System.out.println(Arrays.toString(board_row));
+            }
+            System.out.println();
+            System.out.println();
+            return;
+        }
+
+        int r;
+        int c;
+
+        if (col == board[0].length-1) {
+            r = row+1;
+            c = 0;
+        }else{
+            r = row;
+            c = col+1;
+        }
+        if(board[2][4]==5&&board[2][3]==6)
+        {
+            System.out.println();
+        }
+
+        if(board[row][col]!=0){
+            sudokuSolver(board,r,c);
+        }else{
+            for(int i=1;i<=9;i++){
+                if(can_place_sudoku(board,row,col,i)){
+                    board[row][col] = i;
+                    sudokuSolver(board,r,c);
+                    board[row][col] = 0;
+                }
+            }
+        }
+    }
+
+    private static boolean can_place_sudoku(int[][] board, int row, int col, int val){
+
+        //can place in row
+        for(int i=0; i<board[row].length;i++){
+            if(board[row][i]==val){
+                return false;
+            }
+        }
+
+        //can place in col
+        for(int i=0; i<board.length;i++){
+            if(board[i][col]==val){
+                return false;
+            }
+        }
+
+        int r = (row/3)*3;
+        int c = (col/3)*3;
+        for(int i=r;i<r+3;i++){
+            for(int j=c;j<c+3;j++){
+                if(board[i][j]==val){
+                    return false;
+                }
+            }
+        }
+
+        return true;
     }
 
 
@@ -209,6 +280,18 @@ public class MazeQuestions {
             Arrays.fill(row,'-');
         }
         N_Queen(board,0,5,solution_board,col_check,up_diagonal_check,down_diagonal_check);
+        int[][] sudoku_board = new int[9][9];
+        sudoku_board[0] = new int[]{3, 0, 6, 5, 0, 8, 4, 0, 0};
+        sudoku_board[1] = new int[]{5, 2, 0, 0, 0, 0, 0, 0, 0};
+        sudoku_board[2] = new int[]{0, 8, 7, 0, 0, 0, 0, 3, 1};
+        sudoku_board[3] = new int[]{0, 0, 3, 0, 1, 0, 0, 8, 0};
+        sudoku_board[4] = new int[]{9, 0, 0, 8, 6, 3, 0, 0, 5};
+        sudoku_board[5] = new int[]{0, 5, 0, 0, 9, 0, 6, 0, 0};
+        sudoku_board[6] = new int[]{1, 3, 0, 0, 0, 0, 2, 5, 0};
+        sudoku_board[7] = new int[]{0, 0, 0, 0, 0, 0, 0, 7, 4};
+        sudoku_board[8] = new int[]{0, 0, 5, 2, 0, 6, 3, 0, 0};
+
+        sudokuSolver(sudoku_board,0,0);
     }
 
 }
