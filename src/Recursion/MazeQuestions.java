@@ -135,6 +135,44 @@ public class MazeQuestions {
         }
     }
 
+    //At each row, we will try to place a queen, check if it is possible to place it
+    //If possible pace it and move ahead to place others, if at a row none can be placed
+    //go and backtrack
+    private static void N_Queen(int[][] board, int row, int queens_left,char[][] solution_board,
+                                boolean[] col_check,boolean[] up_diagonal_check,boolean[] down_diagonal_check){
+
+        if(queens_left == 0){
+            for(char[] rows : solution_board){
+                System.out.println(Arrays.toString(rows));
+            }
+            System.out.println();
+        }
+
+        for (int col = 0; col < board[0].length; col++) {
+            if(row<board.length && board[row][col]!=-1 && can_place(board,row,col,col_check,
+                    up_diagonal_check,down_diagonal_check)) {
+                board[row][col]=-1;
+                solution_board[row][col]='Q';
+                col_check[col]=true;
+                up_diagonal_check[row+col]=true;
+                down_diagonal_check[row-col+board[0].length-1]=true;
+                N_Queen(board, row + 1, queens_left-1, solution_board,col_check,
+                        up_diagonal_check,down_diagonal_check);
+                board[row][col]=0;
+                solution_board[row][col]='-';
+                col_check[col]=false;
+                up_diagonal_check[row+col]=false;
+                down_diagonal_check[row-col+board[0].length-1]=false;
+            }
+        }
+    }
+
+    //check notebook for concept
+    private static boolean can_place(int[][] board, int row, int col,boolean[] col_check,
+                                     boolean[] up_diagonal_check,boolean[] down_diagonal_check){
+        return !col_check[col]&&!up_diagonal_check[row+col]&&!down_diagonal_check[row-col+board[0].length-1];
+    }
+
 
     public static void main(String[] args) {
         int[][] maze = new int[4][4];
@@ -162,7 +200,15 @@ public class MazeQuestions {
         int[][] newMaze = new int[3][3];
         ArrayList<String> allPathsInFourDirectionalMazeTravelWithPathPrint =  new ArrayList<>();
         travelInAMazeParameterAllDirectionsAndPrintMazePath(newMaze,path,0,0,dir_four,dir_four_name,"",allPathsInFourDirectionalMazeTravelWithPathPrint,1);
-
+        int[][] board = new int[5][5];
+        char[][] solution_board = new char[5][5];
+        boolean[] col_check = new boolean[5];
+        boolean[] up_diagonal_check = new boolean[9];
+        boolean[] down_diagonal_check = new boolean[9];
+        for(char[] row : solution_board){
+            Arrays.fill(row,'-');
+        }
+        N_Queen(board,0,5,solution_board,col_check,up_diagonal_check,down_diagonal_check);
     }
 
 }
