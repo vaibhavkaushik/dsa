@@ -25,6 +25,24 @@ public class MazeQuestions {
         }
     }
 
+    private static int travelInAMazeParameterPathCount(int[][] maze, int r, int c, int[][] dir, char[] dir_name){
+
+        //Once we reach at the end, let's store the answer
+        if(r==maze.length-1 && c== maze[0].length-1){
+            return 1;
+        }
+
+        int count = 0;
+        for(int i=0;i<dir_name.length;i++) {
+            int row = r + dir[i][0];
+            int col = c + dir[i][1];
+            if (row < maze.length && col < maze[0].length) {
+                count += travelInAMazeParameterPathCount(maze, row, col, dir, dir_name);
+            }
+        }
+
+        return count;
+    }
     private static ArrayList<String> travelInMazeReturnType(int[][] arr, int r, int c){
 
         if(r == arr.length-1 && c == arr[0].length-1){
@@ -63,6 +81,7 @@ public class MazeQuestions {
         travelInAMazeParameter(maze,0,0,dir,dir_name,"",allPaths);
         System.out.println(allPaths);
         System.out.println(travelInMazeReturnType(maze,0,0));
+        System.out.println(travelInAMazeParameterPathCount(maze,0,0,dir,dir_name));
     }
 
 }
