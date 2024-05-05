@@ -3,6 +3,7 @@ package Recursion;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class MazeQuestions {
 
@@ -108,8 +109,35 @@ public class MazeQuestions {
         }
     }
 
+    private static void travelInAMazeParameterAllDirectionsAndPrintMazePath(int[][] maze, int[][]path, int r, int c, int[][] dir, char[] dir_name, String ans, ArrayList<String> allAns, int level){
+
+        //Once we reach at the end, let's store the answer
+        if(r==maze.length-1 && c== maze[0].length-1){
+            path[r][c] = level;
+            for(int[] onePath : path){
+                System.out.println(Arrays.toString(onePath));
+            }
+            System.out.println(ans);
+            allAns.add(ans);
+            return;
+        }
+
+        for(int i=0;i<dir_name.length;i++) {
+            int row = r + dir[i][0];
+            int col = c + dir[i][1];
+            if (row >= 0 && col >= 0 && row < maze.length && col < maze[0].length && maze[row][col]!=-1) {
+                maze[r][c] = -1;
+                path[r][c] = level;
+                travelInAMazeParameterAllDirectionsAndPrintMazePath(maze,path, row, col, dir, dir_name, ans + dir_name[i], allAns,level+1);
+                maze[r][c] = 0;
+                path[r][c] = 0;
+            }
+        }
+    }
+
+
     public static void main(String[] args) {
-        int[][] maze = new int[3][3];
+        int[][] maze = new int[4][4];
         int[][] dir = new int[][]{{0,1},{1,0},{1,1}}; //R, V and D
         char[] dir_name = new char[]{'R','V','D'};  //Right Vertical Diagonal
 
@@ -129,7 +157,11 @@ public class MazeQuestions {
         char[] dir_four_name = new char[]{'L','R','U','D'};
         ArrayList<String> allPathsInFourDirectionalMazeTravel =  new ArrayList<>();
         travelInAMazeParameterAllDirections(maze,0,0,dir_four,dir_four_name,"",allPathsInFourDirectionalMazeTravel);
-        System.out.println(allPathsInFourDirectionalMazeTravel);
+        System.out.println(allPathsInFourDirectionalMazeTravel.size());
+        int[][] path = new int[3][3];
+        int[][] newMaze = new int[3][3];
+        ArrayList<String> allPathsInFourDirectionalMazeTravelWithPathPrint =  new ArrayList<>();
+        travelInAMazeParameterAllDirectionsAndPrintMazePath(newMaze,path,0,0,dir_four,dir_four_name,"",allPathsInFourDirectionalMazeTravelWithPathPrint,1);
 
     }
 
