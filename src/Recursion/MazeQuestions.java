@@ -89,6 +89,25 @@ public class MazeQuestions {
         }
     }
 
+    private static void travelInAMazeParameterAllDirections(int[][] maze, int r, int c, int[][] dir, char[] dir_name, String ans, ArrayList<String> allAns){
+
+        //Once we reach at the end, let's store the answer
+        if(r==maze.length-1 && c== maze[0].length-1){
+            allAns.add(ans);
+            return;
+        }
+
+        for(int i=0;i<dir_name.length;i++) {
+            int row = r + dir[i][0];
+            int col = c + dir[i][1];
+            if (row >= 0 && col >= 0 && row < maze.length && col < maze[0].length && maze[row][col]!=-1) {
+                maze[r][c] = -1;
+                travelInAMazeParameterAllDirections(maze, row, col, dir, dir_name, ans + dir_name[i], allAns);
+                maze[r][c] = 0;
+            }
+        }
+    }
+
     public static void main(String[] args) {
         int[][] maze = new int[3][3];
         int[][] dir = new int[][]{{0,1},{1,0},{1,1}}; //R, V and D
@@ -104,6 +123,14 @@ public class MazeQuestions {
         ArrayList<String> allPathsInBlockedMaze =  new ArrayList<>();
         travelInAMazeWithObstaclesParameter(maze,0,0,dir,dir_name,"",allPathsInBlockedMaze);
         System.out.println(allPathsInBlockedMaze);
+        maze[1][0] = 0;
+        maze[2][1] = 0;
+        int[][] dir_four = new int[][]{{0,-1},{0,1},{-1,0},{1,0}}; //Left, Right, Up, Down
+        char[] dir_four_name = new char[]{'L','R','U','D'};
+        ArrayList<String> allPathsInFourDirectionalMazeTravel =  new ArrayList<>();
+        travelInAMazeParameterAllDirections(maze,0,0,dir_four,dir_four_name,"",allPathsInFourDirectionalMazeTravel);
+        System.out.println(allPathsInFourDirectionalMazeTravel);
+
     }
 
 }
