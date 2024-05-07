@@ -4,6 +4,7 @@ package Recursion;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 public class MazeQuestions {
@@ -284,6 +285,70 @@ public class MazeQuestions {
 
     }
 
+    //Leetcode 22
+    private static void balancedParanthesisGenerator(int leftOpen, int rightOpen, String ans, ArrayList<String> allAns){
+
+        if(leftOpen==0 && rightOpen==0){
+            allAns.add(ans);
+            return;
+        }
+
+        //if equal number of left_open and right_open brackets, then only option we have is to use left_open
+        //left_open
+        if(leftOpen==rightOpen){
+            balancedParanthesisGenerator(leftOpen-1,rightOpen,ans+'(',allAns);
+        }
+        else{
+            //if left open_is less than right_open then we have both the choices of left and right brackets
+            //left_open
+            if(leftOpen > 0) {
+                balancedParanthesisGenerator(leftOpen - 1, rightOpen, ans+'(', allAns);
+            }
+            //right_open
+            if(rightOpen > 0) {
+                balancedParanthesisGenerator(leftOpen, rightOpen - 1, ans + ')', allAns);
+            }
+        }
+    }
+
+   //Leetcode 17
+    public List<String> letterCombinations(String digits) {
+
+            if(digits.isEmpty()){
+                return new ArrayList<String>();
+            }
+
+            HashMap<Character,String> digitToLetterMap = new HashMap<>();
+            digitToLetterMap.put('2',"abc");
+            digitToLetterMap.put('3',"def");
+            digitToLetterMap.put('4',"ghi");
+            digitToLetterMap.put('5',"jkl");
+            digitToLetterMap.put('6',"mno");
+            digitToLetterMap.put('7',"pqrs");
+            digitToLetterMap.put('8',"tuv");
+            digitToLetterMap.put('9',"wxyz");
+            return letterCombinationHelper(digits,0,digitToLetterMap);
+        }
+
+        public ArrayList<String> letterCombinationHelper(String digits,int idx,HashMap<Character,String> digitToLetterMap){
+            if(idx==digits.length()){
+                ArrayList<String> ans = new ArrayList<>();
+                ans.add("");
+                return ans;
+            }
+
+            ArrayList<String> ansFromBottom = letterCombinationHelper(digits,idx+1,digitToLetterMap);
+            ArrayList<String> ansOfThisLevel = new ArrayList<>();
+            Character c = digits.charAt(idx);
+            String mapping = digitToLetterMap.get(c);
+            for(Character key : mapping.toCharArray()){
+                for(String stringAns : ansFromBottom){
+                    ansOfThisLevel.add(key+stringAns);
+                }
+            }
+
+            return ansOfThisLevel;
+        }
 
     public static void main(String[] args) {
         int[][] maze = new int[4][4];
