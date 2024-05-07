@@ -4,6 +4,7 @@ package Recursion;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class MazeQuestions {
 
@@ -244,6 +245,45 @@ public class MazeQuestions {
         return true;
     }
 
+    //Leetcode 39
+    public static void combinationSumHelper(int[] candidates, int target, List<Integer> currentAns,
+                                            List<List<Integer>> totalAnswer){
+
+        if(target == 0){
+            ArrayList<Integer> baseAnswer = new ArrayList<>(currentAns);
+            totalAnswer.add(currentAns);
+            return;
+        }
+
+        for (int candidate : candidates) {
+            if (target - candidate >= 0) {
+                currentAns.add(candidate);
+                combinationSumHelper(candidates, target - candidate, currentAns, totalAnswer);
+                currentAns.remove(currentAns.size() - 1);
+            }
+        }
+
+        return;
+
+    }
+
+    //Leetcode 77
+    public void combineHelper(int n, int k, int idx, List<Integer> ans, List<List<Integer>> totalAns){
+
+        if(k==0){
+            List<Integer> localAns = new ArrayList<>(ans);
+            totalAns.add(localAns);
+            return;
+        }
+
+        for(int i=idx;i<=n;i++){
+            ans.add(i);
+            combineHelper(n,k-1,i+1,ans,totalAns);
+            ans.remove(ans.size()-1);
+        }
+
+    }
+
 
     public static void main(String[] args) {
         int[][] maze = new int[4][4];
@@ -291,6 +331,10 @@ public class MazeQuestions {
         sudoku_board[7] = new int[]{0, 0, 0, 0, 0, 0, 0, 7, 4};
         sudoku_board[8] = new int[]{0, 0, 5, 2, 0, 6, 3, 0, 0};
         sudokuSolver(sudoku_board,0,0);
+        List<List<Integer>> totalAnswer = new ArrayList<>();
+        List<Integer> currentAns = new ArrayList<>();
+        combinationSumHelper(new int[]{2,3,6,7},7,currentAns,totalAnswer);
+        System.out.println(totalAnswer);
     }
 
 }
