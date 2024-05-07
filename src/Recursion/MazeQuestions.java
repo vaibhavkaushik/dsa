@@ -290,7 +290,6 @@ public class MazeQuestions {
         sudoku_board[6] = new int[]{1, 3, 0, 0, 0, 0, 2, 5, 0};
         sudoku_board[7] = new int[]{0, 0, 0, 0, 0, 0, 0, 7, 4};
         sudoku_board[8] = new int[]{0, 0, 5, 2, 0, 6, 3, 0, 0};
-
         sudokuSolver(sudoku_board,0,0);
     }
 
