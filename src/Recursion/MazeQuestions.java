@@ -392,6 +392,26 @@ public class MazeQuestions {
         }
     }
 
+    //Leetcode 46
+    public static void permuteHelper(int[] nums, int idx, List<Integer> ansSoFar, List<List<Integer>> completeAns) {
+        if (idx == nums.length) {
+            List<Integer> ans = new ArrayList<>(ansSoFar);
+            completeAns.add(ans);
+            return;
+        }
+        for (int i=idx;i < nums.length; i++) {
+            int temp = nums[idx];
+            nums[idx] = nums[i];
+            nums[i] = temp;
+            ansSoFar.add(nums[idx]);
+            permuteHelper(nums, idx + 1, ansSoFar, completeAns);
+            temp = nums[idx];
+            nums[idx] = nums[i];
+            nums[i] = temp;
+            ansSoFar.remove(ansSoFar.size()-1);
+        }
+    }
+
 
     public static void main(String[] args) {
         int[][] maze = new int[4][4];
@@ -449,6 +469,10 @@ public class MazeQuestions {
         Arrays.sort(combinationSum2HelperArray);
         combinationSum2Helper(combinationSum2HelperArray,8,0,currentAnsSum2Helper,totalAnswerSum2Helper);
         System.out.println(totalAnswerSum2Helper);
+        List<List<Integer>> totalAnswerpermuteHelper = new ArrayList<>();
+        List<Integer> currentAnspermuteHelper = new ArrayList<>();
+        permuteHelper(new int[]{1,2,3}, 0, currentAnspermuteHelper, totalAnswerpermuteHelper);
+        System.out.println(totalAnswerpermuteHelper);
     }
 
 }
