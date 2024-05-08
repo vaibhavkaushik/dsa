@@ -412,6 +412,41 @@ public class MazeQuestions {
         }
     }
 
+    //Leetcode 47
+    public static void permuteUniqueHelper(int[] nums, int idx, List<Integer> currentAns, List<List<Integer>> totalAnswer){
+        if(idx==nums.length){
+            List<Integer> ans = new ArrayList<>(currentAns);
+            totalAnswer.add(ans);
+            return;
+        }
+
+        for(int i=idx;i<nums.length;i++){
+            if(idx==0){
+                System.out.println("Base Level");
+            }
+            if(i!=idx && shouldSkip(idx,i,nums)) continue;
+            int temp = nums[idx];
+            nums[idx] = nums[i];
+            nums[i] = temp;
+            currentAns.add(nums[idx]);
+            permuteUniqueHelper(nums,idx+1,currentAns,totalAnswer);
+            currentAns.remove(currentAns.size()-1);
+            temp = nums[idx];
+            nums[idx] = nums[i];
+            nums[i] = temp;
+        }
+
+    }
+
+    private static boolean shouldSkip(int idx, int curr, int[] nums){
+        for(int i=idx; i<curr;i++){
+            if(nums[i]==nums[curr]){
+                return true;
+            }
+        }
+        return false;
+    }
+
 
     public static void main(String[] args) {
         int[][] maze = new int[4][4];
@@ -473,6 +508,10 @@ public class MazeQuestions {
         List<Integer> currentAnspermuteHelper = new ArrayList<>();
         permuteHelper(new int[]{1,2,3}, 0, currentAnspermuteHelper, totalAnswerpermuteHelper);
         System.out.println(totalAnswerpermuteHelper);
+        List<List<Integer>> totalAnswerpermuteUniqueHelper = new ArrayList<>();
+        List<Integer> currentAnspermuteUniqueHelper = new ArrayList<>();
+        permuteUniqueHelper(new int[]{1,1,2,2},0,currentAnspermuteUniqueHelper,totalAnswerpermuteUniqueHelper);
+        System.out.println(totalAnswerpermuteUniqueHelper);
     }
 
 }
