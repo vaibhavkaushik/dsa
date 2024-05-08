@@ -447,6 +447,24 @@ public class MazeQuestions {
         return false;
     }
 
+    //Leetcode 78
+    public void subsetsHelper(int[] nums, int idx, List<Integer> answerSoFar, List<List<Integer>> completeAns){
+
+        if(idx==nums.length){
+            List<Integer> ans = new ArrayList<>(answerSoFar);
+            completeAns.add(ans);
+            return;
+        }
+
+        //Take
+        answerSoFar.add(nums[idx]);
+        subsetsHelper(nums,idx+1,answerSoFar,completeAns);
+        answerSoFar.remove(answerSoFar.size()-1);
+        //Don't Take
+        subsetsHelper(nums,idx+1,answerSoFar,completeAns);
+
+    }
+
 
     public static void main(String[] args) {
         int[][] maze = new int[4][4];
