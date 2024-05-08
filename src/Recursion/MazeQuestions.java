@@ -350,6 +350,49 @@ public class MazeQuestions {
             return ansOfThisLevel;
         }
 
+        //leetcode 40
+    public static void combinationSum2Helper(int[] candidates,int target, int idx,List<Integer> ansSoFar, List<List<Integer>> completeAns){
+
+        if(target == 0){
+            List<Integer> ans = new ArrayList<>(ansSoFar);
+            completeAns.add(ans);
+            return;
+        }
+
+        //Try all numbers
+        for(int i=idx;i<candidates.length;i++){
+            if(target-candidates[i] >= 0){
+                ansSoFar.add(candidates[i]);
+                combinationSum2Helper(candidates,target-candidates[i],i+1,ansSoFar,completeAns);
+                ansSoFar.remove(ansSoFar.size()-1);
+            }
+            while(i>=0 && i<candidates.length-1 && candidates[i]==candidates[i+1]){
+                i++;
+            }
+        }
+    }
+
+    //leetcode 216
+    public void combinationSum3Helper(int k, int n, int idx, List<Integer> answerSoFar, List<List<Integer>> completeAnswer){
+
+        if(k==0){
+            if(n==0){
+                List<Integer> ans = new ArrayList<>(answerSoFar);
+                completeAnswer.add(ans);
+            }
+            return;
+        }
+
+        for(int i=idx;i<=9;i++){
+            if(n-i>=0){
+                answerSoFar.add(i);
+                combinationSum3Helper(k-1,n-i,i+1,answerSoFar,completeAnswer);
+                answerSoFar.remove(answerSoFar.size()-1);
+            }
+        }
+    }
+
+
     public static void main(String[] args) {
         int[][] maze = new int[4][4];
         int[][] dir = new int[][]{{0,1},{1,0},{1,1}}; //R, V and D
@@ -400,6 +443,12 @@ public class MazeQuestions {
         List<Integer> currentAns = new ArrayList<>();
         combinationSumHelper(new int[]{2,3,6,7},7,currentAns,totalAnswer);
         System.out.println(totalAnswer);
+        List<List<Integer>> totalAnswerSum2Helper = new ArrayList<>();
+        List<Integer> currentAnsSum2Helper = new ArrayList<>();
+        int[] combinationSum2HelperArray = new int[]{10,1,2,7,6,1,5};
+        Arrays.sort(combinationSum2HelperArray);
+        combinationSum2Helper(combinationSum2HelperArray,8,0,currentAnsSum2Helper,totalAnswerSum2Helper);
+        System.out.println(totalAnswerSum2Helper);
     }
 
 }
