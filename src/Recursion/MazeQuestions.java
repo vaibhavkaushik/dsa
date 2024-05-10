@@ -13,6 +13,12 @@ public class MazeQuestions {
         ListNode next;
     }
 
+    public static class TreeNode{
+        int val;
+        TreeNode left;
+        TreeNode right;
+    }
+
     //go from 0,0 to 4,4
     // with directions like U,D,R,L
     private static void travelInAMazeParameter(int[][] maze, int r, int c, int[][] dir, char[] dir_name, String ans, ArrayList<String> allAns) {
@@ -560,6 +566,29 @@ public class MazeQuestions {
         first.next = swapPairsHelper(remainingList);
 
         return second;
+    }
+
+    //Leetcode  206
+    private ListNode reverseListHelper(ListNode curr, ListNode newHead) {
+        if (curr == null)
+            return newHead;
+
+        ListNode leftOverList = curr.next;
+        curr.next = newHead;
+        return reverseListHelper(leftOverList, curr);
+    }
+
+    //Leetcode 700
+    public TreeNode searchBST(TreeNode root, int val) {
+        if(root == null || root.val == val){
+            return root;
+        }
+
+        TreeNode left = searchBST(root.left,val);
+        TreeNode right = searchBST(root.right,val);
+
+        return left == null ? right : left;
+
     }
 
 
