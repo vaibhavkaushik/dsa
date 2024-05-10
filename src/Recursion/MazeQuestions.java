@@ -495,6 +495,53 @@ public class MazeQuestions {
         return true;
     }
 
+    //Leetcode 79
+    public boolean existsHelper(char[][] board, boolean[][] visited, int r, int c, String word, int idx){
+
+        if(idx == word.length()-1 && word.charAt(idx)==board[r][c]){
+            return true;
+        }
+
+        boolean up = false;
+        boolean right= false;
+        boolean down= false;
+        boolean left= false;
+        visited[r][c] = true;
+        if(word.charAt(idx)==board[r][c]){
+            //Up
+            if(r-1 >= 0 && !visited[r-1][c]){
+                up = existsHelper(board,visited,r-1,c,word,idx+1);
+            }
+            //Right
+            if(c+1 < board[0].length  && !visited[r][c+1]){
+                right = existsHelper(board,visited,r,c+1,word,idx+1);
+            }
+            //Down
+            if(r+1 < board.length  && !visited[r+1][c]){
+                down = existsHelper(board,visited,r+1,c,word,idx+1);
+            }
+            //Left
+            if(c-1 >= 0  && !visited[r][c-1]){
+                left = existsHelper(board,visited,r,c-1,word,idx+1);
+            }
+        }
+        visited[r][c]=false;
+
+        return up||right||down||left;
+    }
+
+    //Leetcode 344
+    public void reverseStringHelper(char[] s, int start, int end){
+        if(end < start){
+            return;
+        }
+
+        char temp = s[end];
+        s[end] = s[start];
+        s[start] = temp;
+        reverseStringHelper(s,start+1,end-1);
+    }
+
 
     public static void main(String[] args) {
         int[][] maze = new int[4][4];
