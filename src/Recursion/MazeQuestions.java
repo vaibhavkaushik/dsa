@@ -641,6 +641,23 @@ public class MazeQuestions {
         return currentMaxDepth;
     }
 
+    //Leetcode 50
+    public double myPowHelper(double x, int n){
+
+        if(n==0){
+            return 1;
+        }
+
+        double bottomLevelAnswer = myPowHelper(x,n/2);
+        double thisLevelAnswer = bottomLevelAnswer*bottomLevelAnswer;
+        if(n%2!=0){
+            thisLevelAnswer = x*thisLevelAnswer;
+        }
+
+        return thisLevelAnswer;
+
+    }
+
     public static void main(String[] args) {
         int[][] maze = new int[4][4];
         int[][] dir = new int[][]{{0,1},{1,0},{1,1}}; //R, V and D
