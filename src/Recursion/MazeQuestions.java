@@ -627,6 +627,20 @@ public class MazeQuestions {
         return oneStep+twoStep;
     }
 
+    //Leetcode 104
+    public int maxDepth(TreeNode root) {
+        if(root==null){
+            return 0;
+        }
+
+        int leftDepth = maxDepth(root.left);
+        int rightDepth = maxDepth(root.right);
+
+        int currentMaxDepth = Math.max(leftDepth,rightDepth)+1;
+
+        return currentMaxDepth;
+    }
+
     public static void main(String[] args) {
         int[][] maze = new int[4][4];
         int[][] dir = new int[][]{{0,1},{1,0},{1,1}}; //R, V and D
