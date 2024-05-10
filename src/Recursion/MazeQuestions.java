@@ -465,6 +465,36 @@ public class MazeQuestions {
 
     }
 
+    //leetcode 131
+    public static void partitionHelper(String s, List<String> step, List<List<String>> result) {
+        // Base case
+        if (s == null || s.isEmpty()) {
+            result.add(new ArrayList<>(step));
+            return;
+        }
+        for (int i = 1; i <= s.length(); i++) {
+            String temp = s.substring(0, i);
+            if (!isPalindrome(temp))
+                continue; // only do backtracking when current string is palindrome
+
+            step.add(temp); // choose
+            partitionHelper(s.substring(i, s.length()), step, result); // explore
+            step.remove(step.size() - 1); // unchoose
+        }
+        return;
+    }
+
+    public static boolean isPalindrome(String s) {
+        int left = 0, right = s.length() - 1;
+        while (left <= right) {
+            if (s.charAt(left) != s.charAt(right))
+                return false;
+            left++;
+            right--;
+        }
+        return true;
+    }
+
 
     public static void main(String[] args) {
         int[][] maze = new int[4][4];
@@ -530,6 +560,10 @@ public class MazeQuestions {
         List<Integer> currentAnspermuteUniqueHelper = new ArrayList<>();
         permuteUniqueHelper(new int[]{1,1,2,2},0,currentAnspermuteUniqueHelper,totalAnswerpermuteUniqueHelper);
         System.out.println(totalAnswerpermuteUniqueHelper);
+        List<List<String>> totalAnswerPartitionHelper = new ArrayList<>();
+        List<String> currentAnsPartitionHelper = new ArrayList<>();
+        partitionHelper("aabccd",currentAnsPartitionHelper,totalAnswerPartitionHelper);
+        System.out.println(totalAnswerPartitionHelper);
     }
 
 }
