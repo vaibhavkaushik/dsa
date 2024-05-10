@@ -591,6 +591,25 @@ public class MazeQuestions {
 
     }
 
+    //Leetcode 119 : Pascal's Triangle II
+    public List<Integer> getRow(int rowIndex) {
+        if(rowIndex == 0){
+            List<Integer> ans = new ArrayList<>();
+            ans.add(1);
+            return ans;
+        }
+
+        List<Integer> ansFromBelowCalls = getRow(rowIndex-1);
+        List<Integer> currentCallAnswer = new ArrayList<>();
+        currentCallAnswer.add(1);
+        for(int i=0;i<ansFromBelowCalls.size()-1;i++){
+            currentCallAnswer.add(ansFromBelowCalls.get(i)+ansFromBelowCalls.get(i+1));
+        }
+        currentCallAnswer.add(1);
+
+        return currentCallAnswer;
+    }
+
 
     public static void main(String[] args) {
         int[][] maze = new int[4][4];
