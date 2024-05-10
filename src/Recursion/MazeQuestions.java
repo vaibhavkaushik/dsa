@@ -9,6 +9,10 @@ import java.util.List;
 
 public class MazeQuestions {
 
+    public static class ListNode{
+        ListNode next;
+    }
+
     //go from 0,0 to 4,4
     // with directions like U,D,R,L
     private static void travelInAMazeParameter(int[][] maze, int r, int c, int[][] dir, char[] dir_name, String ans, ArrayList<String> allAns) {
@@ -540,6 +544,22 @@ public class MazeQuestions {
         s[end] = s[start];
         s[start] = temp;
         reverseStringHelper(s,start+1,end-1);
+    }
+
+    //Leetcode 24
+    public ListNode swapPairsHelper(ListNode curr){
+        if(curr==null || curr.next==null){
+            return curr;
+        }
+
+        //Swap
+        ListNode remainingList = curr.next.next;
+        ListNode first = curr;
+        ListNode second = curr.next;
+        second.next = first;
+        first.next = swapPairsHelper(remainingList);
+
+        return second;
     }
 
 
