@@ -658,6 +658,33 @@ public class MazeQuestions {
 
     }
 
+    //Leetcode 779
+    public int kthGrammar(int N, int K) {
+        if(N==1) return 0;
+        if(K%2==0){
+            if (kthGrammar(N-1,K/2)==0) return 1;
+            else return 0;
+        }
+        else{
+            if(kthGrammar(N-1,(K+1)/2)==0) return 0;
+            else return 1;
+        }
+    }
+
+    //Leetcode 799
+    public int kthGrammarMine(int n, int k) {
+        if(n==1 && k==1){
+            return 0;
+        }
+
+        if(k > (int)Math.pow(2,n-2)){
+            int newK = k - (int)Math.pow(2,n-2);
+            return kthGrammarMine(n-1,newK)^1;
+        }else{
+            return kthGrammarMine(n-1,k);
+        }
+    }
+
     public static void main(String[] args) {
         int[][] maze = new int[4][4];
         int[][] dir = new int[][]{{0,1},{1,0},{1,1}}; //R, V and D
