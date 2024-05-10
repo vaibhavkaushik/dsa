@@ -610,6 +610,22 @@ public class MazeQuestions {
         return currentCallAnswer;
     }
 
+    //Leetcode 70 (Requires DP)
+    public int climbStairs(int n) {
+        if(n==0){
+            return 1;
+        }
+
+        int oneStep=0;
+        int twoStep=0;
+
+        if(n-1 >=0)
+            oneStep = climbStairs(n-1);
+        if(n-2 >=0)
+            twoStep = climbStairs(n-2);
+
+        return oneStep+twoStep;
+    }
 
     public static void main(String[] args) {
         int[][] maze = new int[4][4];
