@@ -17,6 +17,10 @@ public class MazeQuestions {
         int val;
         TreeNode left;
         TreeNode right;
+
+        TreeNode (int val){
+            this.val = val;
+        }
     }
 
     //go from 0,0 to 4,4
