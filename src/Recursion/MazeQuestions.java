@@ -849,6 +849,41 @@ public class MazeQuestions {
         return maxIdx;
     }
 
+    //Leetcode 74
+    public boolean searchMatrix(int[][] matrix, int target) {
+        int m = matrix.length;
+        int n = matrix[0].length;
+
+        int start=0;
+        int end=m*n-1;
+
+        return searchMatrixHelper(matrix,target,start,end);
+    }
+
+    public boolean searchMatrixHelper(int[][] matrix, int target, int start, int end){
+
+        if(end<start){
+            return false;
+        }
+
+        int mid = start + (end-start)/2;
+
+        int r = mid / matrix[0].length;
+        int c = mid % matrix[0].length;
+
+        //Check
+        if(matrix[r][c] == target){
+            return true;
+        }
+
+        if(target < matrix[r][c]){
+            return searchMatrixHelper(matrix,target,start,mid-1);
+        }
+
+        return searchMatrixHelper(matrix,target,mid+1,end);
+
+    }
+
     public static void main(String[] args) {
         int[][] maze = new int[4][4];
         int[][] dir = new int[][]{{0,1},{1,0},{1,1}}; //R, V and D
