@@ -884,6 +884,34 @@ public class MazeQuestions {
 
     }
 
+    //Leetcode 240
+    public boolean searchMatrixII(int[][] matrix, int target) {
+        int rows = matrix.length;
+        int cols = matrix[0].length;
+
+        return searchMatrixHelperII(matrix,target,0,cols-1);
+
+    }
+
+    public boolean searchMatrixHelperII(int[][] matrix, int target, int r, int c) {
+
+        if (c < 0 || r >= matrix.length) {
+            return false;
+        }
+
+        // Check
+        if (matrix[r][c] == target) {
+            return true;
+        }
+
+        if (target < matrix[r][c]) {
+            return searchMatrixHelperII(matrix, target, r, c - 1);
+        }
+
+        return searchMatrixHelperII(matrix, target, r + 1, c);
+
+    }
+
     public static void main(String[] args) {
         int[][] maze = new int[4][4];
         int[][] dir = new int[][]{{0,1},{1,0},{1,1}}; //R, V and D
