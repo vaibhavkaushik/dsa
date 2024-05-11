@@ -773,6 +773,53 @@ public class MazeQuestions {
         return Math.min(leftDepth, rightDepth) + 1;    // Adding 1 is the current node which is the parent of the two subtrees...
     }
 
+    //Leetcode 2265
+    public int averageOfSubtree(TreeNode root) {
+
+        if(root==null){
+            return 0;
+        }
+
+        if(root.left == null && root.right == null){
+            return 1;
+        }
+
+        int leftAverageEqual = averageOfSubtree(root.left);
+        int rightAverageEqual = averageOfSubtree(root.right);
+
+        int thisNodeSum = sumOfTreeNodes(root);
+        int thisNodeCount = countOfTreeNodes(root);
+        int thisNodeAverage = thisNodeSum/thisNodeCount;
+
+        // System.out.println(root.val+" "+thisNodeSum+" "+thisNodeCount+" "+thisNodeAverage);
+
+        int thisNodeAverageCount = (thisNodeAverage == root.val) ? (leftAverageEqual+rightAverageEqual)+1 : leftAverageEqual+rightAverageEqual;
+
+        return thisNodeAverageCount;
+    }
+
+    public int sumOfTreeNodes(TreeNode root){
+        if(root == null){
+            return 0;
+        }
+
+        int leftSum = sumOfTreeNodes(root.left);
+        int rightSum = sumOfTreeNodes(root.right);
+
+        return leftSum + root.val + rightSum;
+    }
+
+    public int countOfTreeNodes(TreeNode root){
+        if(root == null){
+            return 0;
+        }
+
+        int leftCount = countOfTreeNodes(root.left);
+        int rightCount = countOfTreeNodes(root.right);
+
+        return leftCount + rightCount + 1;
+    }
+
     public static void main(String[] args) {
         int[][] maze = new int[4][4];
         int[][] dir = new int[][]{{0,1},{1,0},{1,1}}; //R, V and D
