@@ -820,6 +820,35 @@ public class MazeQuestions {
         return leftCount + rightCount + 1;
     }
 
+    //Leetcode 654
+    public TreeNode constructionHelper(int[] nums, int start, int end){
+        if(end<start){
+            return null;
+        }
+
+        int maxIdx = findMaxIdx(nums,start,end);
+        //System.out.println(maxIdx);
+        TreeNode currentRoot = new TreeNode(nums[maxIdx]);
+        currentRoot.left = constructionHelper(nums,start,maxIdx-1);
+        currentRoot.right = constructionHelper(nums,maxIdx+1,end);
+
+        return currentRoot;
+    }
+
+    public int findMaxIdx(int[] arr, int start, int end){
+        int max = -1;
+        int maxIdx = -1;
+        for(int i=start;i<=end;i++){
+            if(arr[i] > max){
+                //System.out.println(arr[i]);
+                maxIdx = i;
+                max = arr[i];
+            }
+        }
+
+        return maxIdx;
+    }
+
     public static void main(String[] args) {
         int[][] maze = new int[4][4];
         int[][] dir = new int[][]{{0,1},{1,0},{1,1}}; //R, V and D
