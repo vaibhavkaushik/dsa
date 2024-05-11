@@ -939,6 +939,40 @@ public class MazeQuestions {
         return left && right;
     }
 
+    //Leetcode 102
+    public List<List<Integer>> levelOrder(TreeNode root) {
+        if(root == null){
+            return new ArrayList<>();
+        }
+
+        List<List<Integer>> completeAns = new ArrayList<>();
+        levelOrderHelper(root,completeAns,0);
+
+        return completeAns;
+
+    }
+
+    public void levelOrderHelper(TreeNode root,List<List<Integer>> allLevelAns, int level){
+
+        if(root==null){
+            return;
+        }
+
+        //Check for levels
+        //This means we have not explored this level yet
+        if(allLevelAns.size() <= level){
+            List<Integer> newTraversal = new ArrayList<>();
+            newTraversal.add(root.val);
+            allLevelAns.add(newTraversal);
+
+        }else{
+            //Level already explored, just add the node
+            allLevelAns.get(level).add(root.val);
+        }
+        levelOrderHelper(root.left,allLevelAns,level+1);
+        levelOrderHelper(root.right,allLevelAns,level+1);
+    }
+
     public static void main(String[] args) {
         int[][] maze = new int[4][4];
         int[][] dir = new int[][]{{0,1},{1,0},{1,1}}; //R, V and D
