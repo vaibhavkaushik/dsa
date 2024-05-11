@@ -912,6 +912,33 @@ public class MazeQuestions {
 
     }
 
+    //Leetcode 100
+    public boolean isSameTree(TreeNode p, TreeNode q) {
+
+        if (p == null && q == null) {
+            return true;
+        }
+
+        if (p == null || q == null) {
+            return false;
+        }
+
+        boolean left = false;
+        boolean right = false;
+
+        if (p.val == q.val) {
+
+            left = isSameTree(p.left, q.left);
+            right = isSameTree(p.right, q.right);
+
+        } else {
+
+            return false;
+
+        }
+        return left && right;
+    }
+
     public static void main(String[] args) {
         int[][] maze = new int[4][4];
         int[][] dir = new int[][]{{0,1},{1,0},{1,1}}; //R, V and D
