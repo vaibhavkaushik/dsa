@@ -685,6 +685,72 @@ public class MazeQuestions {
         }
     }
 
+    //TODO: Leetcode 95
+
+
+    //Leetcode 98
+    public boolean isValidBSTHelper(TreeNode root){
+
+        if(root==null){
+            return true;
+        }
+
+        if(root.left == null && root.right==null){
+            return true;
+        }
+
+        boolean isLeftValid = isValidBSTHelper(root.left);
+        boolean isRightValid = isValidBSTHelper(root.right);
+
+        long leftMax = treeMaxValHelper(root.left);
+        long rightMin = treeMinValHelper(root.right);
+        //System.out.println("["+root.val+","+leftMax+","+rightMin+"]");
+
+        if(leftMax >= root.val || rightMin <= root.val){
+            return false;
+        }
+
+        return isLeftValid && isRightValid;
+    }
+
+    public long treeMaxValHelper(TreeNode root){
+
+        if(root==null){
+            return Long.MIN_VALUE;
+        }
+
+        if(root.left == null && root.right == null){
+            return root.val;
+        }
+
+        long leftMax = treeMaxValHelper(root.left);
+        long rightMax = treeMaxValHelper(root.right);
+
+        long rootVal = root.val;
+
+        long completeMaxValOfThisTree = Math.max(rootVal,Math.max(leftMax,rightMax));
+        return completeMaxValOfThisTree;
+    }
+
+    public long treeMinValHelper(TreeNode root){
+
+        if(root==null){
+            return Long.MAX_VALUE;
+        }
+
+        if(root.left == null && root.right == null){
+            return root.val;
+        }
+
+        long leftMax = treeMinValHelper(root.left);
+        long rightMax = treeMinValHelper(root.right);
+
+        long rootVal = root.val;
+
+        long completeMinValOfThisTree = Math.min(rootVal,Math.min(leftMax,rightMax));
+        return completeMinValOfThisTree;
+    }
+
     public static void main(String[] args) {
         int[][] maze = new int[4][4];
         int[][] dir = new int[][]{{0,1},{1,0},{1,1}}; //R, V and D
