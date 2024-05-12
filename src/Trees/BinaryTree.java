@@ -495,4 +495,56 @@ public class BinaryTree {
         }
         return true;
     }
+
+    //Leetcode 101 (Recursive)
+    public boolean isSymmetricRecursive(TreeNode root) {
+        if (root == null) {
+            return true;
+        }
+        return isMirror(root.left, root.right);
+    }
+
+
+    private boolean isMirror(TreeNode node1, TreeNode node2) {
+        if (node1 == null && node2 == null) {
+            return true;
+        }
+        if (node1 == null || node2 == null) {
+            return false;
+        }
+        return node1.val == node2.val && isMirror(node1.left, node2.right) && isMirror(node1.right, node2.left);
+    }
+
+    //Leetcode 543
+    public int diameterOfBinaryTree(TreeNode root) {
+        int max[] = new int[1];
+        maxDepth(root,max);
+        return max[0];
+    }
+
+    //Leetcode 226
+    private int maxDepth(TreeNode root, int max[]) {
+        if (root == null) return 0;
+
+        int left = maxDepth(root.left,max);
+        int right = maxDepth(root.right,max);
+
+        max[0] = Math.max(max[0], left + right);
+
+        return Math.max(left, right) + 1;
+    }
+
+    public TreeNode invertTree(TreeNode root) {
+        if(root == null){
+            return null;
+        }
+
+        TreeNode leftNode = invertTree(root.left);
+        TreeNode rightNode = invertTree(root.right);
+
+        root.right = leftNode;
+        root.left = rightNode;
+
+        return root;
+    }
 }
