@@ -2,10 +2,7 @@ package Trees;
 
 import Recursion.MazeQuestions;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
+import java.util.*;
 
 public class BinaryTree {
     Node root;
@@ -295,7 +292,8 @@ public class BinaryTree {
     //Leetcode 116
     public TreeNode connect(TreeNode root) {
         if (root == null) return root;
-
+        Deque<TreeNode> dq = new LinkedList<>();
+        dq.offerLast()
         Queue<TreeNode> q = new LinkedList<>();
         q.add(root);
 
@@ -317,5 +315,56 @@ public class BinaryTree {
             }
         }
         return root;
+    }
+
+    //Leetcode 103
+    public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
+        if(root==null){
+            return new ArrayList<>();
+        }
+        List<List<Integer>> completeAns = new ArrayList<>();
+        Deque<TreeNode> dq = new LinkedList<>();
+        dq.offerFirst(root);
+        int level = 0;
+        while (!dq.isEmpty()) {
+            int dqSize = dq.size();
+            List<Integer> thisLevelNodes = new ArrayList<>();
+
+            for (int i = 0; i < dqSize; i++) {
+                if(level%2==0){
+                    // Insert right to left case
+                    TreeNode curr = dq.pollFirst();
+
+                    if (curr != null) {
+                        thisLevelNodes.add(curr.val);
+                        if (curr.left != null) {
+                            dq.offerLast(curr.left);
+                        }
+                        if (curr.right != null) {
+                            dq.offerLast(curr.right);
+                        }
+                    }
+                }
+                else
+                // Insert left to right case
+                {
+                    TreeNode curr = dq.pollLast();
+
+                    if (curr != null) {
+                        thisLevelNodes.add(curr.val);
+                        if (curr.right != null) {
+                            dq.offerFirst(curr.right);
+                        }
+                        if (curr.left != null) {
+                            dq.offerFirst(curr.left);
+                        }
+                    }
+                }
+            }
+            completeAns.add(thisLevelNodes);
+            level += 1;
+        }
+
+        return completeAns;
     }
 }
