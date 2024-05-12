@@ -2,6 +2,11 @@ package Trees;
 
 import Recursion.MazeQuestions;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Queue;
+
 public class BinaryTree {
     Node root;
 
@@ -72,15 +77,15 @@ public class BinaryTree {
     }
 
     //Leetcode 701 (Height Balanced)
-    public TreeNode insertIntoBST(TreeNode root, int val) {
+    public TreeNode insertIntoBSTBalanced(TreeNode root, int val) {
         if(root == null){
             return new TreeNode(val);
         }
 
         if(val < root.val){
-            root.left = insertIntoBST(root.left,val);
+            root.left = insertIntoBSTBalanced(root.left,val);
         }else{
-            root.right = insertIntoBST(root.right,val);
+            root.right = insertIntoBSTBalanced(root.right,val);
         }
 
         return convertToHeightBalancedTree(root);
@@ -162,5 +167,70 @@ public class BinaryTree {
         int rightHeight = heightOfTree(root.right);
 
         return 1 + Math.max(leftHeight,rightHeight);
+    }
+
+    //Leetcode 102
+    public List<List<Integer>> levelOrder(TreeNode root) {
+        if(root == null){
+            return new ArrayList<>();
+        }
+
+        List<List<Integer>> completeAns = new ArrayList<>();
+        levelOrderHelper(root,completeAns,0);
+
+        return completeAns;
+
+    }
+
+    public void levelOrderHelper(TreeNode root,List<List<Integer>> allLevelAns, int level){
+
+        if(root==null){
+            return;
+        }
+
+        //Check for levels
+        //This means we have not explored this level yet
+        if(allLevelAns.size() <= level){
+            List<Integer> newTraversal = new ArrayList<>();
+            newTraversal.add(root.val);
+            allLevelAns.add(newTraversal);
+
+        }else{
+            //Level already explored, just add the node
+            allLevelAns.get(level).add(root.val);
+        }
+        levelOrderHelper(root.left,allLevelAns,level+1);
+        levelOrderHelper(root.right,allLevelAns,level+1);
+
+        Queue<Integer> queue = new LinkedList<>();
+        queue.poll();
+
+    }
+
+    //Leetcode 102
+    public List<List<Integer>> levelOrderIterative(TreeNode root) {
+        if(root == null){
+            return new ArrayList<>();
+        }
+
+        List<List<Integer>> completeAns = new ArrayList<>();
+        Queue<TreeNode> queue = new LinkedList<>();
+
+        queue.offer(root);
+        while(!queue.isEmpty()){
+            ArrayList<Integer> currentLevel = new ArrayList<>();
+            int nodesOnLevel = queue.size();
+            for(int i=0;i<nodesOnLevel;i++){
+                TreeNode node = queue.poll();
+                currentLevel.add(node.val);
+
+                if(node.left!=null)
+                    queue.offer(node.left);
+                if(node.right!=null)
+                    queue.offer(node.right);
+            }
+            completeAns.add(currentLevel);
+        }
+        return completeAns;
     }
 }
