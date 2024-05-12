@@ -547,4 +547,37 @@ public class BinaryTree {
 
         return root;
     }
+
+    public boolean isValidBST(TreeNode root) {
+        if(root == null){
+            return true;
+        }
+        return isValidBSTHelper(root,null,null);
+    }
+
+    //Leetcode 98
+    public boolean isValidBSTHelper(TreeNode root, Integer min, Integer max){
+
+        if(root==null){
+            return true;
+        }
+
+        //Concept here
+        //min and max define boundary in which the nodes can lie
+        //If any node goes below min boundary, or goes above max boundary
+        //then we will not have a BST
+
+        if(min!=null && root.val <=min){
+            return false;
+        }
+
+        if(max!=null && root.val >=max){
+            return false;
+        }
+
+        boolean isLeftValid = isValidBSTHelper(root.left,min,root.val);
+        boolean isRightValid = isValidBSTHelper(root.right,root.val,max);
+
+        return isLeftValid && isRightValid;
+    }
 }
