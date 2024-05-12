@@ -420,4 +420,79 @@ public class BinaryTree {
         }
         return ans;
     }
+
+    //Leetcode 993
+    public boolean isCousins(TreeNode root, int x, int y) {
+
+        boolean matchFound = false;
+        Queue<TreeNode> q = new LinkedList<>();
+        q.add(root);
+
+        while (!q.isEmpty()) {
+            boolean foundX = false;
+            boolean foundY = false;
+            List<Integer> list = new ArrayList<>();
+            int size = q.size();
+            for (int i = 0; i < size; i++) {
+                TreeNode node = q.poll();
+                if(node.val == x){
+                    foundX = true;
+                }
+                if(node.val == y){
+                    foundY = true;
+                }
+                if (node.left != null && node.right != null) {
+                    if (node.left.val == x && node.right.val == y) {
+                        return false;
+                    }
+                    if (node.left.val == y && node.right.val == x) {
+                        return false;
+                    }
+                }
+                if (node.left != null){
+                    q.add(node.left);
+                }
+                if (node.right != null){
+                    q.add(node.right);
+                }
+            }
+
+            matchFound = foundX && foundY;
+            if(matchFound){
+                return true;
+            }
+        }
+        return false;
+    }
+
+    //Leetcode 101
+    public boolean isSymmetric(TreeNode root) {
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.add(root.left);
+        queue.add(root.right);
+
+        while(!queue.isEmpty()) {
+            TreeNode left = queue.poll();
+            TreeNode right = queue.poll();
+
+            if(left == null && right == null) {
+                continue;
+            }
+
+            if(left == null || right == null) {
+                return false;
+            }
+
+            if (left.val != right.val) {
+                return false;
+            }
+
+            queue.add(left.left);
+            queue.add(right.right);
+            queue.add(left.right);
+            queue.add(right.left);
+
+        }
+        return true;
+    }
 }
