@@ -233,4 +233,35 @@ public class BinaryTree {
         }
         return completeAns;
     }
+
+
+    //Leetcode 637
+    public List<Double> averageOfLevels(TreeNode root) {
+
+        ArrayList<Double> averageOfLevels = new ArrayList<>();
+        Queue<TreeNode> queue = new LinkedList<>();
+        queue.offer(root);
+
+        while(!queue.isEmpty()){
+
+            double levelNodes = queue.size();
+            double sumOfThisLevel = 0;
+            for(int i=0;i<levelNodes;i++){
+                TreeNode currNode = queue.poll();
+                sumOfThisLevel+=currNode.val;
+
+                if(currNode.left!=null){
+                    queue.offer(currNode.left);
+                }
+                if(currNode.right!=null){
+                    queue.offer(currNode.right);
+                }
+            }
+
+            averageOfLevels.add(sumOfThisLevel/levelNodes);
+        }
+
+        return averageOfLevels;
+
+    }
 }
