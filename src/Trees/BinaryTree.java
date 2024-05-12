@@ -393,4 +393,31 @@ public class BinaryTree {
         }
         return result;
     }
+
+    //Leetcode 199
+    public List<Integer> rightSideView(TreeNode root) {
+        if (root == null) {
+            return new ArrayList<>();
+        }
+
+        List<Integer> ans = new ArrayList<>();
+        Queue<TreeNode> queue = new LinkedList<>();
+
+        queue.offer(root);
+        while (!queue.isEmpty()) {
+
+            int nodesOnLevel = queue.size();
+            for (int i = 0; i < nodesOnLevel; i++) {
+                TreeNode node = queue.poll();
+                if(i==nodesOnLevel-1){
+                    ans.add(node.val);
+                }
+                if (node.left != null)
+                    queue.offer(node.left);
+                if (node.right != null)
+                    queue.offer(node.right);
+            }
+        }
+        return ans;
+    }
 }
