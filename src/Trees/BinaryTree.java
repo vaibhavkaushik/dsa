@@ -639,4 +639,45 @@ public class BinaryTree {
         }
         return idx;
     }
+
+    //Leetcode 297
+    // Encodes a tree to a single string.
+    public String serialize(TreeNode root) {
+        return serializeHelper(root).toString();
+    }
+
+    public StringBuilder serializeHelper(TreeNode root){
+        if(root == null){
+            return new StringBuilder("#");
+        }
+
+        StringBuilder leftSerialized = serializeHelper(root.left);
+        StringBuilder rightSerialized = serializeHelper(root.right);
+
+        return new StringBuilder().append(root.val).append(",").append(leftSerialized).append(",").append(rightSerialized);
+    }
+
+    // Decodes your encoded data to tree.
+    public TreeNode deserialize(String data) {
+        String[] nodeValues = data.split(",");
+        //System.out.println(Arrays.toString(nodeValues));
+        return deserialize(nodeValues,new int[]{0});
+    }
+
+    public TreeNode deserialize(String[] nodeValues, int[] idx){
+        if(idx[0] == nodeValues.length){
+            return null;
+        }
+
+        TreeNode root = null;
+        String nodeValue = nodeValues[idx[0]];
+        idx[0]++;
+        if(!nodeValue.equals("#")){
+            root = new TreeNode(Integer.valueOf(nodeValue));
+            root.left = deserialize(nodeValues,idx);
+            root.right = deserialize(nodeValues,idx);
+        }
+
+        return root;
+    }
 }
