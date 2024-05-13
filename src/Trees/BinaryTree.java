@@ -677,7 +677,31 @@ public class BinaryTree {
             root.left = deserialize(nodeValues,idx);
             root.right = deserialize(nodeValues,idx);
         }
-
+        List<Integer> ans = new ArrayList<>();
         return root;
+    }
+
+    //Leetcode 129
+    public int sumNumbers(TreeNode root) {
+        int[] sum = new int[]{0};
+        sumNumbersHelper(root,0,sum);
+        return sum[0];
+    }
+
+    public void sumNumbersHelper(TreeNode root, int currAns, int[] sum){
+
+        if(root == null){
+            return ;
+        }
+
+        if(root.left == null && root.right == null){
+            int leafAns = currAns*10 + root.val;
+            sum[0]+=leafAns;
+            return;
+        }
+
+        int ans = currAns*10 + root.val;
+        sumNumbersHelper(root.left,ans,sum);
+        sumNumbersHelper(root.right,ans,sum);
     }
 }
