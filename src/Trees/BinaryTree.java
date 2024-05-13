@@ -601,4 +601,42 @@ public class BinaryTree {
         level[0]+=1;
         helper(root.right, k, level, ans);
     }
+
+    //Leetcode 105
+    public TreeNode buildTree(int[] preorder, int[] inorder) {
+        int start = 0;
+        int end = preorder.length - 1;
+        int[] idx = new int[]{0};
+        return buildTreeHelper(preorder, inorder, start, end, idx);
+    }
+
+    public TreeNode buildTreeHelper(int[] preorder, int[] inorder, int start, int end, int[] idx) {
+
+        if (end < start) {
+            return null;
+        }
+
+        if(idx[0] == preorder.length){
+            return null;
+        }
+
+        // Root of this tree
+        TreeNode root = new TreeNode(preorder[idx[0]]);
+        int root_idx = findIdxOfRoot(inorder, root.val, start, end);
+        idx[0]++;
+        root.left = buildTreeHelper(preorder, inorder, start, root_idx - 1, idx);
+        root.right = buildTreeHelper(preorder, inorder, root_idx + 1, end, idx);
+        return root;
+    }
+
+    public int findIdxOfRoot(int[] inorder, int root, int start, int end) {
+        int idx = -1;
+        for (int i = start; i <= end; i++) {
+            if (inorder[i] == root) {
+                idx = i;
+                break;
+            }
+        }
+        return idx;
+    }
 }
