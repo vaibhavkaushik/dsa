@@ -704,4 +704,45 @@ public class BinaryTree {
         sumNumbersHelper(root.left,ans,sum);
         sumNumbersHelper(root.right,ans,sum);
     }
+
+    //Leetcode 124
+    public int maxPathSum(TreeNode root) {
+        int[] maxSum = new int[]{Integer.MIN_VALUE};
+        helper(root,maxSum); // return value is not important in this function
+        return maxSum[0];
+    }
+
+    private int helper(TreeNode root, int[] maxSum) {
+        if (root == null) {
+            return 0; // null node contributes nothing to the sum
+        }
+
+        // Postorder traversal
+        int leftSum = helper(root.left,maxSum);
+        int rightSum = helper(root.right,maxSum);
+
+        //Left Node ya Right Node
+        int maxChildSum = Math.max(leftSum, rightSum);
+
+        // We now need to compute three aspects:
+        // Case 1: root is maximum
+        int rootVal = root.val;
+        // Case 2: the path includes node and left childAns
+        int rootAndLeftVal = root.val + leftSum;
+        // Case 3: the path includes node and right childAns
+        int rootAndRightVal = root.val + rightSum;
+        // Case 3: Path including Node, left and right childAns
+        int rootAndLeftAndRightVal = root.val + leftSum + rightSum;
+
+        maxSum[0] = Math.max(maxSum[0],Math.max(rootAndLeftVal,Math.max(rootAndRightVal,Math.max(rootAndLeftAndRightVal,rootVal))));
+
+        // The question here is to find max path sum, and not max subtree sum
+        // hence we return only a viable path sum to the parent node
+        // Depending on the value of the nodes, this can either be the node itself,
+        // or sum of the node and max of its children
+
+        //Dono mein se koi ek child (jissey max result mile) ya fir bss root, kyoonki path toh tbhi bn paayega
+        //Warna subtree reh jaayega
+        return Math.max(root.val, root.val + maxChildSum);
+    }
 }
