@@ -745,4 +745,31 @@ public class BinaryTree {
         //Warna subtree reh jaayega
         return Math.max(root.val, root.val + maxChildSum);
     }
+
+    //Leetcode 257
+    class Solution {
+        public List<String> binaryTreePaths(TreeNode root) {
+
+            List<String> complete = new ArrayList<>();
+            helper(root,complete,"");
+
+            return complete;
+
+        }
+
+        void helper(TreeNode root,  List<String> complete, String ans) {
+
+            if(root==null) return;
+
+            if(root.left==null && root.right==null) {
+                ans+=root.val;
+                complete.add(ans);
+            }
+
+            ans = ans+root.val+"->";
+            helper(root.left, complete, ans);
+            helper(root.right, complete, ans);
+
+        }
+    }
 }
