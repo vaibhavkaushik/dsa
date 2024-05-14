@@ -203,7 +203,6 @@ public class BinaryTree {
 
         Queue<Integer> queue = new LinkedList<>();
         queue.poll();
-
     }
 
     //Leetcode 102
@@ -292,8 +291,6 @@ public class BinaryTree {
     //Leetcode 116
     public TreeNode connect(TreeNode root) {
         if (root == null) return root;
-        Deque<TreeNode> dq = new LinkedList<>();
-        dq.offerLast()
         Queue<TreeNode> q = new LinkedList<>();
         q.add(root);
 
