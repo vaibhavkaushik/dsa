@@ -80,4 +80,30 @@ If the stack size is greater than zero after pushing or popping, it means that t
 
         return studentQueue.size();
     }
+
+    //Leetcode 1475
+    public int[] finalPrices(int[] prices) {
+        int[] ans = new int[prices.length];
+
+        for(int i=0;i<prices.length;i++){
+            int j = i;
+            Stack<Integer> stack = new Stack();
+            while(j!=prices.length){
+                if(stack.size() > 0){
+                    int top = stack.peek();
+                    if(top >= prices[j]){
+                        ans[i] = top - prices[j];
+                        break;
+                    }else{
+                        ans[i] = top;
+                    }
+                }else{
+                    stack.push(prices[j]);
+                }
+                j++;
+            }
+        }
+        ans[prices.length-1] = prices[prices.length-1];
+        return ans;
+    }
 }
