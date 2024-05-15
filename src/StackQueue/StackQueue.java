@@ -106,4 +106,37 @@ If the stack size is greater than zero after pushing or popping, it means that t
         ans[prices.length-1] = prices[prices.length-1];
         return ans;
     }
+
+    //Leetcode 682
+    public int calPoints(String[] operations) {
+        Stack<Integer> stack = new Stack();
+        for(String s : operations){
+            if(s.equals("C")){
+                stack.pop();
+                continue;
+            }
+            if(s.equals("D")){
+                int top = stack.peek();
+                stack.push(2*top);
+                continue;
+            }
+            if(s.equals("+")){
+                int first = stack.peek();
+                stack.pop();
+                int second = stack.peek();
+                stack.push(first);
+                stack.push(first+second);
+                continue;
+            }
+            stack.push(Integer.valueOf(s));
+        }
+
+        int ans = 0;
+        for(int val : stack){
+            ans+=val;
+        }
+
+        return ans;
+    }
+
 }
