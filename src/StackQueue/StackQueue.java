@@ -64,17 +64,17 @@ If the stack size is greater than zero after pushing or popping, it means that t
         for (int i = len - 1; i >= 0; i--)
             sandwichStack.push(sandwiches[i]);
 
-        int served = 0;
+        int wontBeAbleToServe = 0;
 
-        while (!studentQueue.isEmpty() && served < studentQueue.size()) {
+        while (!studentQueue.isEmpty() && wontBeAbleToServe < studentQueue.size()) {
             if (sandwichStack.peek().equals(studentQueue.peek())) {
                 sandwichStack.pop();
                 studentQueue.poll();
-                served = 0;
+                wontBeAbleToServe = 0;
             } else {
                 studentQueue.add(studentQueue.peek());
                 studentQueue.poll();
-                served++;
+                wontBeAbleToServe++;
             }
         }
 
