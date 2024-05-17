@@ -1,8 +1,18 @@
 package StackQueue;
 
+import LinkedList.SinglyLinkedList.Node;
+
 import java.util.*;
 
 public class StackQueue {
+
+    public class ListNode {
+        int val;
+        ListNode next;
+        public ListNode(int data){
+            this.val = data;
+        }
+    }
 
     public static class TreeNode{
         int val;
@@ -297,6 +307,8 @@ so we make a root!
 make the left subtree(recursively)
 then make right subtree(recursively)
 */
+
+    //Leetcode 1008
         public TreeNode bstFromPreorder(int[] preorder) {
             return helper(preorder, 0, preorder.length - 1);
         }
@@ -313,6 +325,45 @@ then make right subtree(recursively)
             node.left = helper(preorder, start+1, i-1);
             node.right = helper(preorder, i, end);
             return node;
+        }
+
+        //Leetcode 2130
+        public int pairSum(ListNode head) {
+            if(head == null || head.next == null){
+                return -1;
+            }
+
+            //Find mid of linked list
+            ListNode slow = head;
+            ListNode fast = head;
+
+            while(fast.next!=null && fast.next.next!=null){
+                slow = slow.next;
+                fast = fast.next.next;
+            }
+
+            //Current slow pointer is at pointing at the last node of first half linked list
+            ListNode secondHalf = slow.next;
+            slow.next = null;
+            ListNode firstHalf = head;
+
+            Stack<ListNode> stack = new Stack<>();
+            ListNode temp  = secondHalf;
+            while(temp!=null){
+                stack.push(temp);
+                temp = temp.next;
+            }
+
+            int max = -1;
+            temp = firstHalf;
+            while(temp!=null){
+                int val1 = stack.pop().val;
+                int val2 = temp.val;
+                max = Math.max(max,val1+val2);
+                temp = temp.next;
+            }
+
+            return max;
         }
 
 }
