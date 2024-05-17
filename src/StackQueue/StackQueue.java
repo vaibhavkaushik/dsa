@@ -366,4 +366,45 @@ then make right subtree(recursively)
             return max;
         }
 
+
+        //Leetcode 1381
+        class CustomStack {
+            Stack<Integer> stack;
+            Stack<Integer> helperStack;
+            int size;
+            public CustomStack(int maxSize) {
+                this.stack = new Stack<>();
+                this.size = maxSize;
+            }
+
+            public void push(int x) {
+                if(stack.size() < size){
+                    stack.push(x);
+                }
+            }
+
+            public int pop() {
+                if(stack.isEmpty()){
+                    return -1;
+                }
+                return stack.pop();
+            }
+
+            public void increment(int k, int val) {
+                helperStack = new Stack<>();
+                while(!stack.isEmpty()){
+                    helperStack.push(stack.pop());
+                }
+
+                while(!helperStack.isEmpty()){
+                    if(k>0){
+                        stack.push(helperStack.pop()+val);
+                        k--;
+                        continue;
+                    }
+                    stack.push(helperStack.pop());
+                }
+            }
+        }
+
 }
