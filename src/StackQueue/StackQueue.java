@@ -159,4 +159,23 @@ If the stack size is greater than zero after pushing or popping, it means that t
         return findNums;
     }
 
+    //Leetcode 1047
+    public String removeDuplicates(String s) {
+        Stack<Character> stack = new Stack<>();
+        for (char c : s.toCharArray()) {
+            if (!stack.isEmpty() && stack.peek() == c) {
+                stack.pop();
+            } else {
+                stack.push(c);
+            }
+
+        }
+        StringBuilder ans = new StringBuilder();
+        while (!stack.isEmpty()) {
+            ans.insert(0,stack.pop());
+        }
+        return ans.toString();
+
+    }
+
 }
