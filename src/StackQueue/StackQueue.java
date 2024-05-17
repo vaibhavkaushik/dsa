@@ -236,4 +236,41 @@ If the stack size is greater than zero after pushing or popping, it means that t
         }
     }
 
+    //Leetcode 844
+    public boolean backspaceCompare(String s, String t) {
+        Stack<Character> stackS = new Stack();
+        Stack<Character> stackT = new Stack();
+
+        for(Character c : s.toCharArray()){
+            if(stackS.size()>0 && c=='#'){
+                stackS.pop();
+            }else if(c!='#'){
+                stackS.push(c);
+            }
+        }
+
+        for(Character c : t.toCharArray()){
+            if(stackT.size()>0 && c=='#'){
+                stackT.pop();
+            }else if(c!='#'){
+                stackT.push(c);
+            }
+        }
+
+        StringBuilder ansS = new StringBuilder();
+        StringBuilder ansT = new StringBuilder();
+
+        for(Character c : stackS){
+            ansS.append(c);
+        }
+
+        for(Character c : stackT){
+            ansT.append(c);
+        }
+        // System.out.println(ansS);
+        // System.out.println(ansT);
+        return ansS.toString().equals(ansT.toString());
+
+    }
+
 }
