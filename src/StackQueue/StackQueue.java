@@ -436,4 +436,37 @@ then make right subtree(recursively)
         }
     }
 
+    //Leetcode 2375
+    //https://www.youtube.com/watch?v=GOCbsY7Arw4
+    public String smallestNumber(String pattern) {
+
+        boolean[] isUsed = new boolean[10];
+        long[] finalAns = new long[]{Long.MAX_VALUE};
+        smallestNumberHelper(pattern,0,0,finalAns,'-',isUsed,-1);
+        return String.valueOf(finalAns[0]);
+    }
+
+    public long smallestNumberHelper(String pattern, int idx, long currAns, long[] minimumAns, Character lastChar, boolean[] isUsed, long lastNumberUsed){
+        if(idx == pattern.length()+1){
+            // System.out.println(currAns);
+            return currAns;
+        }
+
+        long minAnsFromBottomCall = Long.MAX_VALUE;
+        for(int i=1;i<=9;i++){
+            if(!isUsed[i]){
+                if(lastChar=='I' && i < lastNumberUsed) continue;
+                if(lastChar=='D' && i > lastNumberUsed) continue;
+                long ans = currAns*10 + i;
+                isUsed[i] = true;
+                Character c = idx >= pattern.length() ? '-' : pattern.charAt(idx);
+                minAnsFromBottomCall = smallestNumberHelper(pattern,idx+1,ans,minimumAns,c,isUsed,i);
+                isUsed[i] = false;
+                minimumAns[0] = Math.min(minimumAns[0],minAnsFromBottomCall);
+            }
+        }
+
+        return minAnsFromBottomCall;
+    }
+
 }
