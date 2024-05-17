@@ -4,6 +4,18 @@ import java.util.*;
 
 public class StackQueue {
 
+    public static class TreeNode{
+        int val;
+        TreeNode left;
+        TreeNode right;
+
+        TreeNode next;
+
+        TreeNode (int val){
+            this.val = val;
+        }
+    }
+
     //Leetcode 1614
     public int maxDepth(String s) {
         Stack<String> h = new Stack<>();
@@ -272,5 +284,35 @@ If the stack size is greater than zero after pushing or popping, it means that t
         return ansS.toString().equals(ansT.toString());
 
     }
+
+    /*
+LETS DO THIS:
+
+so we follow steps:
+1>we create the node
+2>we traverse the array for values which are less than the current node!-- these values will become our left subtree.we stop whenever we get a value larger than the current root of the subtree!
+3>we take the rest of the array(values whuch are greater than the value of the current root)-these are the values which will make out right subtree!
+
+so we make a root!
+make the left subtree(recursively)
+then make right subtree(recursively)
+*/
+        public TreeNode bstFromPreorder(int[] preorder) {
+            return helper(preorder, 0, preorder.length - 1);
+        }
+        private TreeNode helper(int[] preorder, int start, int end) {
+            if(start > end) return null;
+
+            TreeNode node = new TreeNode(preorder[start]);
+            int i;
+            for(i=start;i<=end;i++) {
+                if(preorder[i] > node.val)
+                    break;
+            }
+
+            node.left = helper(preorder, start+1, i-1);
+            node.right = helper(preorder, i, end);
+            return node;
+        }
 
 }
