@@ -178,4 +178,21 @@ If the stack size is greater than zero after pushing or popping, it means that t
 
     }
 
+    //Leetcode 2696
+    public int minLength(String s) {
+        Stack<Character> stack = new Stack<>();
+        for(char c : s.toCharArray()){
+            if(!stack.isEmpty() && c=='B' && stack.peek()=='A'){
+                stack.pop();
+                continue;
+            }
+            if(!stack.isEmpty() && c=='D' && stack.peek()=='C'){
+                stack.pop();
+                continue;
+            }
+            stack.push(c);
+        }
+        return stack.size();
+    }
+
 }
