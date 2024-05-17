@@ -412,7 +412,7 @@ then make right subtree(recursively)
         int[] stack;
         int size;
         int index;
-        public CustomStack(int maxSize) {
+        public CustomStackOptimized(int maxSize) {
             stack = new int[maxSize];
             size = maxSize;
             index=0;
