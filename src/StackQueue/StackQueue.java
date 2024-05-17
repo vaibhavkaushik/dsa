@@ -469,4 +469,29 @@ then make right subtree(recursively)
         return minAnsFromBottomCall;
     }
 
+    //Leetcode 921
+    public int minAddToMakeValid(String s) {
+        Stack<Character> stack = new Stack<>();
+        int count = 0;
+        for(Character c : s.toCharArray()){
+            if(c==')'){
+                if(stack.isEmpty()){
+                    count++;
+                    continue;
+                }
+                if(stack.peek()=='('){
+                    stack.pop();
+                    count--;
+                    continue;
+                }
+            }
+            if(c=='('){
+                stack.push(c);
+                count++;
+            }
+        }
+
+        return count;
+    }
+
 }
