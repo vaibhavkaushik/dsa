@@ -195,4 +195,45 @@ If the stack size is greater than zero after pushing or popping, it means that t
         return stack.size();
     }
 
+    //Leetcode 232
+    class MyQueue {
+        Stack<Integer> stack;
+        Stack<Integer> helperStack;
+
+        public MyQueue() {
+            this.stack = new Stack();
+            this.helperStack = new Stack();
+        }
+
+        public void push(int x) {
+            this.stack.push(x);
+        }
+
+        public int pop() {
+            while (stack.size() > 0) {
+                this.helperStack.push(stack.pop());
+            }
+            int front = this.helperStack.pop();
+            while (helperStack.size() > 0) {
+                stack.push(helperStack.pop());
+            }
+            return front;
+        }
+
+        public int peek() {
+            while (stack.size() > 0) {
+                this.helperStack.push(stack.pop());
+            }
+            int front = this.helperStack.peek();
+            while (helperStack.size() > 0) {
+                stack.push(helperStack.pop());
+            }
+            return front;
+        }
+
+        public boolean empty() {
+            return stack.isEmpty();
+        }
+    }
+
 }
