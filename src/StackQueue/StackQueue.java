@@ -808,5 +808,27 @@ then make right subtree(recursively)
             return sb.reverse().toString();
         }
 
+        //Leetcode 1190
+    public String reverseParentheses(String s) {
+        Stack<StringBuilder> stack = new Stack<>();
+        for(Character c : s.toCharArray()){
+            if(c=='('){
+                StringBuilder ans = new StringBuilder();
+                ans.append("");
+                stack.push(ans);
+            }else if(c==')'){
+                StringBuilder reverseIt = stack.pop();
+                StringBuilder reverseStr = reverseIt.reverse();
+                StringBuilder finalAns = stack.isEmpty() ? reverseStr : stack.pop().append(reverseStr);
+                //System.out.println(finalAns);
+                stack.push(finalAns);
+            }else{
+                StringBuilder topOfStack = stack.isEmpty() ? new StringBuilder() : stack.pop();
+                topOfStack.append(c);
+                stack.push(topOfStack);
+            }
+        }
 
+        return stack.pop().toString();
+    }
 }
