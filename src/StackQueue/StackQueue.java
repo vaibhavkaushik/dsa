@@ -621,4 +621,56 @@ then make right subtree(recursively)
         return (openBracket + 1) / 2;
     }
 
+    //Leetcode 2816 (Worst Code)
+    public ListNode doubleIt(ListNode head) {
+
+        Stack<ListNode> stack = new Stack<>();
+        ListNode curr = head;
+
+        while(curr!=null){
+            stack.push(curr);
+            curr = curr.next;
+        }
+
+        ListNode temp = stack.pop();
+        ListNode node = new ListNode();
+        int carry = 0;
+
+        if(stack.isEmpty()){
+            int doubleValue = 2*temp.val;
+            temp.val = doubleValue%10 + carry;
+            carry = doubleValue/10;
+
+            if(carry!=0){
+                ListNode carryAns = new ListNode(carry);
+                carryAns.next = temp;
+                return carryAns;
+            }else{
+                return temp;
+            }
+        }
+        else {
+            while(!stack.isEmpty() || temp!=null){
+                int doubleValue = 2*temp.val;
+                temp.val = doubleValue%10 + carry;
+                carry = doubleValue/10;
+                if(stack.size()>0){
+                    node = stack.pop();
+                    node.next = temp;
+                    temp = node;
+                }else{
+                    temp = null;
+                }
+            }
+        }
+
+        if(carry!=0){
+            ListNode carryAns = new ListNode(carry);
+            carryAns.next = node;
+            return carryAns;
+        }
+
+        return node;
+    }
+
 }
