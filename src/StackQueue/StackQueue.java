@@ -588,4 +588,23 @@ then make right subtree(recursively)
         return (totalUnclosedBrackets) % 2 == 0 ? totalUnclosedBrackets/2 : totalUnclosedBrackets/2 + 1;
     }
 
+    //Leetcode 1963 (87 ms)
+    public int minSwapsStringBuilder(String s) {
+
+        StringBuilder stack = new StringBuilder();
+
+        //The idea in this question is to remove the brackets that are already balanced
+        for(Character c : s.toCharArray()){
+            if(c==']'){
+                if(!stack.isEmpty() && stack.charAt(stack.length()-1)=='['){
+                    stack.setLength(stack.length() - 1);
+                    continue;
+                }
+            }
+            stack.append(c);
+        }
+        int totalUnclosedBrackets = stack.length()/2;
+        return (totalUnclosedBrackets) % 2 == 0 ? totalUnclosedBrackets/2 : totalUnclosedBrackets/2 + 1;
+    }
+
 }
