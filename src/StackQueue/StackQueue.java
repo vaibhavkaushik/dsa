@@ -607,4 +607,18 @@ then make right subtree(recursively)
         return (totalUnclosedBrackets) % 2 == 0 ? totalUnclosedBrackets/2 : totalUnclosedBrackets/2 + 1;
     }
 
+    //Leetcode 1963 (17 ms)
+    public int minSwapsSmart(String s) {
+        int openBracket = 0;
+        for (int i = 0; i < s.length(); ++i) {
+            char c = s.charAt(i);
+            if (openBracket > 0 && c == ']') {
+                --openBracket;
+            }else if (c == '[') {
+                ++openBracket;
+            }
+        }
+        return (openBracket + 1) / 2;
+    }
+
 }
