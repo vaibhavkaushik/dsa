@@ -546,6 +546,7 @@ then make right subtree(recursively)
     }
 
     //Leetcode 2487 (Takes 63ms) Monotonic stack approach
+    //https://leetcode.com/problems/remove-nodes-from-linked-list/solutions/5118366/detailed-explanation-3-approaches-stack-recursion-reversal-o-1-space-efficient/
     public ListNode removeNodesMono(ListNode head) {
         ListNode cur = head;
         Stack<ListNode> stack = new Stack<>();
