@@ -523,4 +523,26 @@ then make right subtree(recursively)
         return sb.toString();
     }
 
+    //Leetcode 2487 (Takes 63ms)
+    public ListNode removeNodes(ListNode head) {
+        Stack<ListNode> stack = new Stack<>();
+        ListNode curr = head;
+        while(curr!=null){
+            stack.push(curr);
+            curr = curr.next;
+        }
+
+        //No one can be bigger than this, so we can start from last
+        ListNode temp = stack.pop();
+        while(!stack.isEmpty()){
+            if(stack.peek().val >= temp.val){
+                stack.peek().next = temp;
+                temp = stack.peek();
+            }
+            stack.pop();
+        }
+
+        return temp;
+    }
+
 }
