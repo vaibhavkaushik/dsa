@@ -675,6 +675,7 @@ then make right subtree(recursively)
         return node;
     }
 
+    //https://leetcode.com/problems/double-a-number-represented-as-a-linked-list/solutions/5122942/beats-100-2ms-detailed-explanation-1-pointer-and-stack-tc-o-n-sc-o-1/
     //Leetcode 2816 (Better code flow)
     public ListNode doubleItBetter(ListNode head) {
         // Initialize a stack to store the values of the linked list
@@ -705,6 +706,43 @@ then make right subtree(recursively)
 
         // Return the tail of the new linked list
         return newTail;
+    }
+
+    //Leetcode 946
+    public boolean validateStackSequences(int[] pushed, int[] popped) {
+        boolean canPush = true;
+        boolean canPop = false;
+        Stack<Integer> stack = new Stack<>();
+        int i=0;
+        int j=0;
+
+        while(i<pushed.length || j<popped.length){
+
+            if(i < pushed.length){
+                stack.push(pushed[i]);
+                i++;
+                canPush = true;
+            }else{
+                canPush = false;
+            }
+
+            while(j < popped.length){
+                if(!stack.isEmpty() && stack.peek()==popped[j]){
+                    stack.pop();
+                    j++;
+                    canPop = true;
+                }else{
+                    canPop = false;
+                    break;
+                }
+            }
+
+            if(!canPop && !canPush){
+                return false;
+            }
+        }
+
+        return i==j && j==popped.length;
     }
 
 }
