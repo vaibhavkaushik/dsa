@@ -1,5 +1,7 @@
 package SearchingSorting;
 
+import java.util.*;
+
 public class SearchingSorting {
 
     //Leetcode 1295
@@ -53,5 +55,16 @@ public class SearchingSorting {
 
         return left;
 
+    }
+
+    //Leetcode 2089
+    public List<Integer> targetIndices(int[] nums, int target) {
+        ArrayList<Integer> lst=new ArrayList<>();
+        Arrays.sort(nums);
+        for(int i=0;i<nums.length;i++){
+            if(nums[i]==target)
+                lst.add(i);
+        }
+        return lst;
     }
 }
