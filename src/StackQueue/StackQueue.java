@@ -1080,4 +1080,123 @@ In our implementation we will implement it in a way that we pre-calculate how mu
         }
     }
 
+    //Leetcode 641
+    class MyCircularDeque {
+
+        private class ListNode {
+            int val;
+            ListNode next;
+            ListNode prev;
+            public ListNode(int val, ListNode next) {
+                this.val = val;
+                this.next = next;
+            }
+            public ListNode(int val) {
+                this.val = val;
+            }
+        }
+
+        int size=0;
+        int K;
+        ListNode head, tail;
+
+        /** Initialize your data structure here. Set the size of the deque to be k. */
+        public MyCircularDeque(int k) {
+            this.K = k;
+            head = tail = null;
+        }
+
+        /** Adds an item at the front of Deque. Return true if the operation is successful. */
+        public boolean insertFront(int value) {
+            if(isFull())
+                return false;
+
+            ListNode node = new ListNode(value);
+            if(head == null)
+                head = tail = node;
+            else {
+                node.next = head;
+                node.prev = tail;
+                head.prev = node;
+                head = node;
+                tail.next = head;
+            }
+            size++;
+            return true;
+        }
+
+        /** Adds an item at the rear of Deque. Return true if the operation is successful. */
+        public boolean insertLast(int value) {
+            if(isFull())
+                return false;
+
+            ListNode node = new ListNode(value);
+            if(head == null)
+                head = tail = node;
+            else {
+                node.next = head;
+                node.prev = tail;
+                head.prev = node;
+                tail.next = node;
+                tail = node;
+            }
+            size++;
+            return true;
+        }
+
+        /** Deletes an item from the front of Deque. Return true if the operation is successful. */
+        public boolean deleteFront() {
+            if(isEmpty())
+                return false;
+
+            if(head == tail)
+                head = tail = null;
+            else {
+                head = head.next;
+                head.prev = tail;
+                tail.next = head;
+            }
+            size--;
+            return true;
+        }
+
+        /** Deletes an item from the rear of Deque. Return true if the operation is successful. */
+        public boolean deleteLast() {
+            if(isEmpty())
+                return false;
+
+            if(head == tail)
+                head = tail = null;
+            else {
+                tail = tail.prev;
+                tail.next = head;
+                head.prev = tail;
+            }
+            size--;
+            return true;
+        }
+
+        /** Get the front item from the deque. */
+        public int getFront() {
+            return isEmpty()? -1 : head.val;
+        }
+
+        /** Get the last item from the deque. */
+        public int getRear() {
+            return isEmpty()? -1 : tail.val;
+        }
+
+        /** Checks whether the circular deque is empty or not. */
+        public boolean isEmpty() {
+            return size==0;
+        }
+
+        /** Checks whether the circular deque is full or not. */
+        public boolean isFull() {
+            return size==K;
+        }
+
+
+    }
+
 }
