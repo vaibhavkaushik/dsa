@@ -1045,4 +1045,39 @@ In our implementation we will implement it in a way that we pre-calculate how mu
         return -1;      // if no character appeared exactly once...
     }
 
+    //Leetcode 341
+    public class NestedIterator implements Iterator<Integer> {
+        Queue<Integer> list;
+        public NestedIterator(List<NestedInteger> nestedList) {
+            list = new LinkedList<>();
+            for(NestedInteger ni : nestedList){
+                flatten(ni);
+            }
+        }
+
+        public void flatten(NestedInteger ni){
+
+            if(ni.isInteger()){
+                list.offer(ni.getInteger());
+            }
+            else {
+                for(NestedInteger nestedList : ni.getList()){
+                    flatten(nestedList);
+                }
+            }
+
+            return;
+        }
+
+        @Override
+        public Integer next() {
+            return list.poll();
+        }
+
+        @Override
+        public boolean hasNext() {
+            return list.size()>0;
+        }
+    }
+
 }
