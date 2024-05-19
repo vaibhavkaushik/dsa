@@ -980,4 +980,25 @@ then make right subtree(recursively)
         }
         return count;
     }
+
+    /*
+The idea of this solution is to think about the problem differently. Let's reformulate it in another way.
+
+The persons who are queued in front of the selected person will at most buy the same ticket as the person in index k. If they should buy more tickets, person k will buy his tickets before that.
+The persons behind person k will buy at most the (number of tickets of person k) - 1.
+In our implementation we will implement it in a way that we pre-calculate how much tickets each person will buy without simulating the whole process.
+
+*/
+
+    //Leetcode 2073
+        public int timeRequiredToBuyOptimized(int[] tickets, int k) {
+            int value = tickets[k];
+            int seconds = 0;
+            for(int i = 0; i<tickets.length; i++) {
+                int max = (i<=k)? value: value-1;
+                seconds+= Math.min(tickets[i], max);
+            }
+            return seconds;
+        }
+
 }
