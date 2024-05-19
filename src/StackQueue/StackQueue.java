@@ -940,4 +940,27 @@ then make right subtree(recursively)
 
         return result;
     }
+
+    //Leetcode 1823 (49 ms)
+    public int findTheWinner(int n, int k) {
+        Queue<Integer> queue = new LinkedList<>();
+
+        for(int i=1;i<=n;i++){
+            queue.offer(i);
+        }
+
+        while(queue.size()!=1){
+            int popTimes = k;
+            while(popTimes!=1){
+                int frontVal = queue.poll();
+                queue.offer(frontVal);
+                popTimes--;
+            }
+            //Remove one friend after k next friends
+            queue.poll();
+        }
+
+        return queue.poll();
+
+    }
 }
