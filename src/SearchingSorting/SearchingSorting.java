@@ -504,4 +504,17 @@ means we're at the right side and the ones greater than current element must hav
         return false;
     }
 
+    //Leetcode 2358
+    public int maximumGroups(int[] grades) {
+        int size = grades.length;
+        int probableSize = (int)Math.sqrt(2*size);
+
+        int requiredValue = probableSize*(probableSize+1);
+        if(2*size < requiredValue){
+            return probableSize-1;
+        }else{
+            return probableSize;
+        }
+    }
+
 }
