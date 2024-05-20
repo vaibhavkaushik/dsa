@@ -319,4 +319,46 @@ Priority queue se k weakest rows nikaal kar unke indices output array mein store
         return left;
     }
 
+
+    /*
+find the number of invalid elements
+elements in arr1 is considered valid if the distance between any elements in arr2 is greater than d
+and if there exists a distance of an element in arr1 and an element in arr2 that's less than or equal to d, it's an invalid element
+the rest of elements in arr1 are considered valid
+to find the invalid elements
+sort arr2 so we can perform binary search
+if the distance between a and current element in arr2 is less than or equal to d, then it's an invalid
+else ( means distance is greater than d)
+check if distance is negative
+means we're at the left side and the ones smaller than current element must have greater distance, so we just want to look at the right side
+check if distance is positive
+means we're at the right side and the ones greater than current element must have greater distance, so we just want to look at the left side
+*/
+    //Leetcode 1385
+        public int findTheDistanceValue(int[] arr1, int[] arr2, int d) {
+            int invalid = 0;
+            Arrays.sort(arr2);
+            for (int a: arr1) {
+                if (isInvalid(arr2, a, d))
+                    invalid++;
+            }
+            return arr1.length-invalid;
+        }
+
+
+        private boolean isInvalid(int[] arr, int num, int d) {
+            int left = 0, right = arr.length-1;
+            while (left <= right) {
+                int mid = left + (right-left)/2;
+                int distance = arr[mid] - num;
+                if (Math.abs(distance) <= d)
+                    return true;
+                else if (distance < 0)
+                    left = mid+1;
+                else
+                    right = mid-1;
+            }
+            return false;
+        }
+
 }
