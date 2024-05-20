@@ -244,4 +244,37 @@ Priority queue se k weakest rows nikaal kar unke indices output array mein store
         }
         return Math.max(pos,neg);
     }
+
+    //Leetcode 1237
+    public List<List<Integer>> findSolution(CustomFunction customfunction, int z) {
+        List<List<Integer>> res = new ArrayList();
+        //scan x values
+        for (int x = 1; x <=1000; x++) {
+            //check treshold values - if min > z or max < z
+            if (customfunction.f(x, 1) > z || customfunction.f(x, 1000) < z)
+                break;
+            //init y values for binary search lookup
+            int l = 1, r = 1000;
+            //binary search loop
+            while (l < r) {
+                //mid point for this iteration
+                int y = (r + l) /2;
+                int z1 = customfunction.f(x, y);
+                //we found the solution  for this x - move to x + 1
+                if (z1 == z) {
+                    List<Integer> sol = new ArrayList();
+                    sol.add(x);
+                    sol.add(y);
+                    res.add(sol);
+                    break;
+                }
+                //change search window for next binary search iteration
+                if (z1 > z )
+                    r = y;
+                else
+                    l = y + 1;
+            }
+        }
+        return res;
+    }
 }
