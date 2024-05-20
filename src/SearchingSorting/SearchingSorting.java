@@ -447,4 +447,61 @@ means we're at the right side and the ones greater than current element must hav
         return res;
     }
 
+    //Leetcode 1539
+    //https://www.youtube.com/watch?v=iWT1cH6LXLc
+    public int findKthPositive(int[] arr, int k) {
+        int n = arr.length;
+        int left = 0, right = n - 1;
+
+        // Binary search to find the position where k-th missing number would be
+        while (left <= right) {
+            int mid = left + (right - left) / 2;
+
+            // Check how many numbers are missing until arr[mid]
+            if (arr[mid] - (mid + 1) < k) {
+                left = mid + 1;
+            } else {
+                right = mid - 1;
+            }
+        }
+
+        // Return the k-th missing number
+        return left + k;
+    }
+
+
+
+    public int getCommon(int[] nums1, int[] nums2) {
+        for(int i=0;i<nums1.length;i++){
+            if(isPresent(nums2,0,nums2.length-1,nums1[i])){
+                return nums1[i];
+            }
+        }
+
+        return -1;
+    }
+
+    //Leetcode 2540
+    public boolean isPresent(int arr[], int start, int end, int target){
+
+        while(start<=end){
+
+            int mid = start + (end-start)/2;
+
+            if(arr[mid]==target){
+                return true;
+            }
+
+            if(target < arr[mid]){
+                end = mid-1;
+            }
+
+            if(target > arr[mid]){
+                start = mid+1;
+            }
+        }
+
+        return false;
+    }
+
 }
