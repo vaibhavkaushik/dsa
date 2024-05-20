@@ -133,40 +133,85 @@ Priority queue se k weakest rows nikaal kar unke indices output array mein store
 
      */
     //Leetcode 1337
-    public int[] kWeakestRows(int[][] mat, int k) {
-        // Priority queue to store the rows with their soldier count and index.
-        // The comparator sorts primarily by the number of soldiers and secondarily by the row index.
-        PriorityQueue<int[]> q = new PriorityQueue<>((a, b) -> a[0] != b[0] ? a[0] - b[0] : a[1] - b[1]);
+        public int[] kWeakestRows(int[][] mat, int k) {
+            // Priority queue to store the rows with their soldier count and index.
+            // The comparator sorts primarily by the number of soldiers and secondarily by the row index.
+            PriorityQueue<int[]> q = new PriorityQueue<>((a, b) -> a[0] != b[0] ? a[0] - b[0] : a[1] - b[1]);
 
-        int pos = 0; // Variable to track the row index.
+            int pos = 0; // Variable to track the row index.
 
-        // Loop through each row in the matrix.
-        for (int[] row : mat) {
-            int lo = 0, hi = row.length;
+            // Loop through each row in the matrix.
+            for (int[] row : mat) {
+                int lo = 0, hi = row.length;
 
-            // Binary search to find the count of soldiers in the row.
-            // Soldiers are represented by 1s, which are followed by 0s.
-            while (lo < hi) {
-                int mid = (lo + hi) / 2;
-                if (row[mid] != 0) {
-                    lo = mid + 1; // If mid element is 1, search in the right half.
-                } else {
-                    hi = mid; // If mid element is 0, search in the left half.
+                // Binary search to find the count of soldiers in the row.
+                // Soldiers are represented by 1s, which are followed by 0s.
+                while (lo < hi) {
+                    int mid = (lo + hi) / 2;
+                    if (row[mid] != 0) {
+                        lo = mid + 1; // If mid element is 1, search in the right half.
+                    } else {
+                        hi = mid; // If mid element is 0, search in the left half.
+                    }
                 }
+                // After the binary search, 'lo' contains the number of soldiers in the row.
+                q.add(new int[]{lo, pos++});
             }
-            // After the binary search, 'lo' contains the number of soldiers in the row.
-            q.add(new int[]{lo, pos++});
+
+            // Array to store the indices of the k weakest rows.
+            int[] output = new int[k];
+
+            // Extract the indices of the k weakest rows from the priority queue.
+            for (int i = 0; i < k; i++) {
+                output[i] = q.remove()[1];
+            }
+
+            // Return the indices of the k weakest rows.
+            return output;
         }
 
-        // Array to store the indices of the k weakest rows.
-        int[] output = new int[k];
+        //Leetcode 2389
+    public int[] answerQueries(int[] nums, int[] queries) {
 
-        // Extract the indices of the k weakest rows from the priority queue.
-        for (int i = 0; i < k; i++) {
-            output[i] = q.remove()[1];
+        //Since only count is required, we can sort the array
+        Arrays.sort(nums);
+
+        int ans[] = new int[queries.length];
+
+        //Make nums array, a prefix sum array
+        for(int i=1;i<nums.length;i++){
+            nums[i] = nums[i] + nums[i-1];
         }
 
-        // Return the indices of the k weakest rows.
-        return output;
+        for(int i=0;i<queries.length;i++){
+            //Binary search on prefix array based on queries to find just exact or just smaller value index
+            int start = 0;
+            int end = nums.length - 1;
+            int target = queries[i];
+
+            while(start<=end){
+
+                int mid = start + (end-start)/2;
+
+                if(nums[mid] == target){
+                    end = mid;
+                    break;
+                }
+
+                if(target < nums[mid]){
+                    end = mid-1;
+                }
+
+                if(target > nums[mid]){
+                    start = mid+1;
+                }
+
+            }
+            //index of end is either the index of exact value or just lesser value
+            ans[i] = end+1;
+        }
+
+        return ans;
+
     }
 }
