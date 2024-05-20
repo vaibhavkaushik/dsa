@@ -254,27 +254,69 @@ Priority queue se k weakest rows nikaal kar unke indices output array mein store
             if (customfunction.f(x, 1) > z || customfunction.f(x, 1000) < z)
                 break;
             //init y values for binary search lookup
-            int l = 1, r = 1000;
+            int yStart = 1, yEnd = 1000;
             //binary search loop
-            while (l < r) {
-                //mid point for this iteration
-                int y = (r + l) /2;
-                int z1 = customfunction.f(x, y);
+            while (yStart < yEnd) {
+                //mid-point for this iteration
+                int yMid = (yStart + yEnd) /2;
+                int ansFromYStartToYMid = customfunction.f(x, yMid);
                 //we found the solution  for this x - move to x + 1
-                if (z1 == z) {
+                if (ansFromYStartToYMid == z) {
                     List<Integer> sol = new ArrayList();
                     sol.add(x);
-                    sol.add(y);
+                    sol.add(yMid);
                     res.add(sol);
                     break;
                 }
                 //change search window for next binary search iteration
-                if (z1 > z )
-                    r = y;
+                if (z < ansFromYStartToYMid)
+                    yEnd = yMid;
                 else
-                    l = y + 1;
+                    yStart = yMid + 1;
             }
         }
         return res;
     }
+
+
+    //https://leetcode.com/problems/capacity-to-ship-packages-within-d-days/solutions/769698/python-clear-explanation-powerful-ultimate-binary-search-template-solved-many-problems/
+    //Leetcode 1011
+    public int shipWithinDays(int[] weights, int days) {
+        // Calculate maxWeight (max value in weights) and totalWeight (sum of all weights)
+        int maxWeight = -1, totalWeight = 0;
+        for (int weight : weights) {
+            maxWeight = Math.max(maxWeight, weight);
+            totalWeight += weight;
+        }
+
+        // Initialize binary search bounds
+        int left = maxWeight, right = totalWeight;
+
+        // Perform binary search
+        while (left < right) {
+            int mid = (left + right) / 2;
+            int daysNeeded = 1, currWeight = 0;
+
+            // Calculate daysNeeded for current mid capacity
+            for (int weight : weights) {
+                if (currWeight + weight > mid) {
+                    // If adding this weight exceeds capacity, increment daysNeeded and reset currWeight
+                    daysNeeded++;
+                    currWeight = 0;
+                }
+                currWeight += weight;
+            }
+
+            // Adjust binary search bounds based on daysNeeded
+            if (daysNeeded > days) {
+                left = mid + 1; // Increase capacity
+            } else {
+                right = mid; // Decrease capacity or keep it same
+            }
+        }
+
+        // left will be the minimum capacity needed
+        return left;
+    }
+
 }
