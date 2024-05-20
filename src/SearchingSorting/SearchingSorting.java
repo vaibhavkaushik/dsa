@@ -115,4 +115,58 @@ public class SearchingSorting {
         // Return the total count of valid pairs.
         return ans;
     }
+
+    //Leetcode 1337
+    /*
+    Priority Queue Initialization:
+
+Priority queue q banate hain jo pehle soldiers ke count (number of 1s) aur fir row ke index ke hisaab se sort karti hai.
+Binary Search for Counting Soldiers:
+
+Har row mein kitne soldiers hain, ye pata karne ke liye binary search ka use karte hain. Har row sorted hai isliye binary search fast hota hai.
+Queue Population:
+
+Har row ke soldiers count aur uska index ek array mein daal kar priority queue mein add karte hain. Isse weakest rows sabse pehle aayengi.
+Extracting Weakest Rows:
+
+Priority queue se k weakest rows nikaal kar unke indices output array mein store karte hain.
+
+     */
+    //Leetcode 1337
+    public int[] kWeakestRows(int[][] mat, int k) {
+        // Priority queue to store the rows with their soldier count and index.
+        // The comparator sorts primarily by the number of soldiers and secondarily by the row index.
+        PriorityQueue<int[]> q = new PriorityQueue<>((a, b) -> a[0] != b[0] ? a[0] - b[0] : a[1] - b[1]);
+
+        int pos = 0; // Variable to track the row index.
+
+        // Loop through each row in the matrix.
+        for (int[] row : mat) {
+            int lo = 0, hi = row.length;
+
+            // Binary search to find the count of soldiers in the row.
+            // Soldiers are represented by 1s, which are followed by 0s.
+            while (lo < hi) {
+                int mid = (lo + hi) / 2;
+                if (row[mid] != 0) {
+                    lo = mid + 1; // If mid element is 1, search in the right half.
+                } else {
+                    hi = mid; // If mid element is 0, search in the left half.
+                }
+            }
+            // After the binary search, 'lo' contains the number of soldiers in the row.
+            q.add(new int[]{lo, pos++});
+        }
+
+        // Array to store the indices of the k weakest rows.
+        int[] output = new int[k];
+
+        // Extract the indices of the k weakest rows from the priority queue.
+        for (int i = 0; i < k; i++) {
+            output[i] = q.remove()[1];
+        }
+
+        // Return the indices of the k weakest rows.
+        return output;
+    }
 }
