@@ -407,4 +407,44 @@ means we're at the right side and the ones greater than current element must hav
         return new int[]{arr[i], arr[j]};
     }
 
+    //Leetcode 786
+    public int[] kthSmallestPrimeFractionBest(int[] arr, int k) {
+        int n = arr.length;
+        double left = 0, right = 1, mid;
+        int[] res = new int[2];
+
+        while (left <= right) {
+            mid = left + (right - left) / 2;
+            int j = 1, total = 0, numerator = 0, denominator = 0;
+            double maxFrac = 0;
+            for (int i = 0; i < n; ++i) {
+                while (j < n && arr[i] >= arr[j] * mid) {
+                    ++j;
+                }
+
+                total += n - j;
+
+                if (j < n && maxFrac < arr[i] * 1.0 / arr[j]) {
+                    maxFrac = arr[i] * 1.0 / arr[j];
+                    numerator = i;
+                    denominator = j;
+                }
+            }
+
+            if (total == k) {
+                res[0] = arr[numerator];
+                res[1] = arr[denominator];
+                break;
+            }
+
+            if (total > k) {
+                right = mid;
+            } else {
+                left = mid;
+            }
+        }
+
+        return res;
+    }
+
 }
