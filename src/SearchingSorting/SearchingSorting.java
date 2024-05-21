@@ -717,6 +717,7 @@ means we're at the right side and the ones greater than current element must hav
     //until target element lies in that range
 
     //Leetcode 852
+    //Leetcode 162
     public int peakIndexInMountainArray(int[] arr) {
         int start = 0;
         int end = arr.length - 1;
