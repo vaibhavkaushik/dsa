@@ -517,4 +517,112 @@ means we're at the right side and the ones greater than current element must hav
         }
     }
 
+    //Leetcode 2024
+    //TLE Approach
+    //But intuition based
+    public class Solution2024 {
+        private int ans = 0;
+        private int n;
+
+        // Helper function to find the maximum length of consecutive 'T' or 'F'
+        private void findMax(String answerKey) {
+            int length = 0;
+            int i = 0;
+
+            while (i < n) {
+                if (answerKey.charAt(i) == 'T') {
+                    length = 1;
+                    i++;
+                    while (i < n && answerKey.charAt(i) == 'T') {
+                        length++;
+                        i++;
+                    }
+                    ans = Math.max(ans, length);
+                } else {
+                    length = 1;
+                    i++;
+                    while (i < n && answerKey.charAt(i) == 'F') {
+                        length++;
+                        i++;
+                    }
+                    ans = Math.max(ans, length);
+                }
+            }
+        }
+
+        // Recursive function to explore flipping options
+        private void solve(int idx, StringBuilder answerKey, int k) {
+            findMax(answerKey.toString());
+
+            if (idx >= n || k <= 0) {
+                return;
+            }
+
+            // Flip the current character
+            answerKey.setCharAt(idx, answerKey.charAt(idx) == 'T' ? 'F' : 'T');
+            solve(idx + 1, answerKey, k - 1);
+
+            // Flip the character back
+            answerKey.setCharAt(idx, answerKey.charAt(idx) == 'T' ? 'F' : 'T');
+            solve(idx + 1, answerKey, k);
+        }
+
+        // Main function to find the maximum length of consecutive 'T' or 'F' after k flips
+        public int maxConsecutiveAnswers(String answerKey, int k) {
+            n = answerKey.length();
+            StringBuilder answerKeyBuilder = new StringBuilder(answerKey);
+
+            solve(0, answerKeyBuilder, k);
+
+            return ans;
+        }
+    }
+
+    //Leetcode 2024
+    public class SolutionTwoSlidingWindow {
+        public int maxConsecutiveAnswers(String answerKey, int k) {
+            int n = answerKey.length();
+            int result = 0;
+
+            // First pass for flipping 'F' -> 'T'
+            int i = 0, j = 0;
+            int countF = 0;
+
+            while (j < n) {
+                if (answerKey.charAt(j) == 'F')
+                    countF++;
+
+                while (countF > k) {
+                    if (answerKey.charAt(i) == 'F')
+                        countF--;
+                    i++;
+                }
+
+                result = Math.max(result, j - i + 1);
+                j++;
+            }
+
+            // Second pass for flipping 'T' -> 'F'
+            i = 0;
+            j = 0;
+            int countT = 0;
+
+            while (j < n) {
+                if (answerKey.charAt(j) == 'T')
+                    countT++;
+
+                while (countT > k) {
+                    if (answerKey.charAt(i) == 'T')
+                        countT--;
+                    i++;
+                }
+
+                result = Math.max(result, j - i + 1);
+                j++;
+            }
+
+            return result;
+        }
+    }
+
 }
