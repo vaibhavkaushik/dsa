@@ -625,4 +625,25 @@ means we're at the right side and the ones greater than current element must hav
         }
     }
 
+    //Leetcode 2024 (One pass sliding window)
+    public int maxConsecutiveAnswers(String answerKey, int k) {
+        int result = k;
+
+        Map<Character, Integer> mp = new HashMap<>();
+
+        int i = 0;
+        for (int j = 0; j < answerKey.length(); j++) {
+            mp.put(answerKey.charAt(j), mp.getOrDefault(answerKey.charAt(j), 0) + 1);
+
+            while (Math.min(mp.getOrDefault('T', 0), mp.getOrDefault('F', 0)) > k) {
+                mp.put(answerKey.charAt(i), mp.get(answerKey.charAt(i)) - 1);
+                i++;
+            }
+
+            result = Math.max(result, j - i + 1);
+        }
+
+        return result;
+    }
+
 }
