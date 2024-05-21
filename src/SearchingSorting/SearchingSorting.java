@@ -646,4 +646,31 @@ means we're at the right side and the ones greater than current element must hav
         return result;
     }
 
+    //Leetcode 744
+    //Dry run is required to understand and solve
+    public char nextGreatestLetter(char[] letters, char target) {
+
+        int start =0;
+        int end = letters.length-1;
+
+        while(start <= end){
+
+            int mid = start + (end-start)/2;
+
+            if(target < letters[mid]){
+                end = mid-1;
+            }
+
+            if(target >= letters[mid]){
+                start = mid+1;
+            }
+
+        }
+        //Finally after search is performed, we will have situation like this
+        // end number start
+        int idx = start == letters.length ? 0 : start;
+        return letters[idx];
+    }
+
+
 }
