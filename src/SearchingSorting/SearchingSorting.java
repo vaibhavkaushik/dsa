@@ -983,4 +983,43 @@ means we're at the right side and the ones greater than current element must hav
         return firstBad;
     }
 
+    //Leetcode 1268
+    public List<List<String>> suggestedProducts(String[] products, String searchWord) {
+        Arrays.sort(products);
+        List<List<String>> res = new ArrayList();
+        for (int i=0; i<searchWord.length();i++) {
+            String prefix= searchWord.substring(0,i+1);
+            int index= binarySearch(products, prefix);
+            List<String> list = new ArrayList();
+            for (int j=index; j<products.length && list.size()<3; j+=1) {
+                // check if prefix
+                if (isPrefix(products[j], prefix)) {
+                    list.add(products[j]);
+                    continue;
+                }
+                break;
+            }
+            res.add(list);
+        }
+        return res;
+    }
+
+    private int binarySearch(String[] products, String prefix) {
+        int left=0, right=products.length-1,mid=0;
+        while(left<=right) {
+            mid = left + (right-left)/2;
+            if (products[mid].compareTo(prefix)>=0) {
+                // higher or same.
+                right =mid-1;
+            } else {
+                left=mid+1;
+            }
+        }
+        return right+1;
+    }
+
+    private boolean isPrefix(String s, String prefix) {
+        return s.startsWith(prefix);
+    }
+
 }
