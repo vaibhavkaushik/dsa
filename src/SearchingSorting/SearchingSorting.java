@@ -1067,5 +1067,30 @@ means we're at the right side and the ones greater than current element must hav
 
         return count >= k; // Return true if at least k candies were selected, otherwise false
     }
+    //Leetcode 378
+    // Function to find the k-th smallest element in a sorted matrix
+    public int kthSmallest(int[][] matrix, int k) {
+        // Create a max heap (priority queue with descending order)
+        PriorityQueue<Integer> pq = new PriorityQueue<>((a, b) -> b - a);
+
+        int n = matrix.length; // Get the size of the matrix
+
+        // Iterate through the matrix
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                // Add the current element to the priority queue
+                pq.add(matrix[i][j]);
+
+                // If the size of the priority queue exceeds k, remove the top element
+                // This keeps the k smallest elements in the priority queue
+                if (pq.size() > k) {
+                    pq.poll();
+                }
+            }
+        }
+
+        // The top element of the priority queue is the k-th smallest element
+        return pq.peek();
+    }
 
 }
