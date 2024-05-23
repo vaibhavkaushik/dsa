@@ -1022,4 +1022,50 @@ means we're at the right side and the ones greater than current element must hav
         return s.startsWith(prefix);
     }
 
+    //Leetcode 2517
+    // Function to find the maximum tastiness of the candy basket
+    public int maximumTastiness(int[] price, int k) {
+        // Sort the array of candy prices
+        Arrays.sort(price);
+
+        // Initialize variables for binary search
+        int left = 0;
+        int right = price[price.length - 1] - price[0];
+        int answer = 0;
+
+        // Perform binary search to find the maximum minimum difference
+        while (left <= right) {
+            int mid = left + (right - left) / 2;
+            // Check if it's possible to select k candies with at least mid difference
+            if (isFeasible(mid, price, k)) {
+                answer = mid; // If possible, update the answer
+                left = mid + 1; // Try for a larger minimum difference
+            } else {
+                right = mid - 1; // Otherwise, try for a smaller minimum difference
+            }
+        }
+
+        return answer; // Return the maximum minimum difference found
+    }
+
+    // Helper function to check if it's possible to select k candies with at least gap difference
+    public boolean isFeasible(int gap, int[] price, int k) {
+        int count = 1; // Start by selecting the first candy
+        int lastSelectedPrice = price[0]; // Price of the last selected candy
+
+        // Iterate through the prices to count how many candies can be selected
+        for (int i = 1; i < price.length; i++) {
+            // If the difference between the current candy price and the last selected candy price is at least gap
+            if (price[i] - lastSelectedPrice >= gap) {
+                count++; // Increment the count of selected candies
+                lastSelectedPrice = price[i]; // Update the last selected candy price
+                if (count >= k) { // If we've selected k candies, return true
+                    return true;
+                }
+            }
+        }
+
+        return count >= k; // Return true if at least k candies were selected, otherwise false
+    }
+
 }
