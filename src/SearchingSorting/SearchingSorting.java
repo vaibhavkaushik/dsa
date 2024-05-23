@@ -1093,4 +1093,34 @@ means we're at the right side and the ones greater than current element must hav
         return pq.peek();
     }
 
+    //Leetcode 378
+    public int kthSmallestOptimised(int[][] matrix, int k) {
+        //Step 1
+        int n = matrix.length;
+        int left = matrix[0][0];
+        int right = matrix[n-1][n-1];
+        while(left <= right)
+        {
+            //Step 2
+            int mid = left + (right - left)/2;
+            int count = 0;
+            int j = n-1;
+
+            //Step 3
+            for(int i = 0; i < n; i++)
+            {
+                while(j >= 0 && matrix[i][j] > mid)
+                {
+                    j--;
+                }
+                count += j + 1;
+            }
+            //Step 4
+            if(count < k) left = mid + 1;
+            else right = mid - 1;
+        }
+        //Step 5
+        return left;
+    }
+
 }
