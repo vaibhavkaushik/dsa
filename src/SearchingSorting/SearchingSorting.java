@@ -962,4 +962,25 @@ means we're at the right side and the ones greater than current element must hav
         return false;
     }
 
+    //Leetcode 278
+    public int firstBadVersion(int n) {
+        int start = 1;
+        int end = n;
+        int firstBad = -1;
+
+        while (start <= end) {
+            int mid = start + (end - start) / 2;
+
+            //This can be my potential bad, but since i need first bad, i will still go left and check
+            if (isBadVersion(mid)) {
+                firstBad = mid;
+                end = mid - 1;
+            } else {
+                start = mid + 1;
+            }
+        }
+
+        return firstBad;
+    }
+
 }
