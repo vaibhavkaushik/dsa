@@ -1269,4 +1269,42 @@ I hope yeh detailed explanation aapko samajh mein aaya hoga. Agar aur koi doubts
         }
     }
 
+    //Leetcode 2187
+    public long minimumTime(int[] time, int totalTrips) {
+        // Sort the array to get the minimum time element easily
+        // Arrays.sort(time);
+
+        // Initialize the minimum and maximum possible time
+        long minTime = 1;
+        long maxTime = (long) Arrays.stream(time).min().getAsInt() * totalTrips;
+
+        // Binary search for the minimum time
+        while (minTime < maxTime) {
+            // Calculate the middle time
+            long midTime = minTime + (maxTime - minTime) / 2;
+
+            // Calculate the trips that can be completed in midTime
+            long tripsThatCanBeCompletedInThisTime = tripsCompleted(time, midTime);
+
+            // If we can complete at least totalTrips in midTime, reduce the maxTime
+            if (tripsThatCanBeCompletedInThisTime >= totalTrips) {
+                maxTime = midTime;
+            } else { // Otherwise, increase the minTime
+                minTime = midTime + 1;
+            }
+        }
+
+        // Return the minimum time found
+        return minTime;
+    }
+
+    // Helper method to calculate how many trips can be completed in the given time
+    public long tripsCompleted(int[] trips, long time) {
+        long ans = 0;
+        for (int trip : trips) {
+            ans += time / trip;
+        }
+        return ans;
+    }
+
 }
