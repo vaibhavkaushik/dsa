@@ -1123,4 +1123,51 @@ means we're at the right side and the ones greater than current element must hav
         return left;
     }
 
+    //Leetcode 1170
+    public int[] numSmallerByFrequency(String[] queries, String[] words) {
+
+        int[] queriesSmallestCounter = new int[queries.length];
+        int[] wordsSmallestCounter = new int[words.length];
+
+        for (int i = 0; i < queriesSmallestCounter.length; i++) {
+            queriesSmallestCounter[i] = getFunc(queries[i]);
+        }
+        for (int i = 0; i < wordsSmallestCounter.length; i++) {
+            wordsSmallestCounter[i] = getFunc(words[i]);
+        }
+
+        Arrays.sort(wordsSmallestCounter);
+
+        int[] ans = new int[queriesSmallestCounter.length];
+        for (int i = 0; i < queriesSmallestCounter.length; i++) {
+            int l = 0, r = wordsSmallestCounter.length - 1;
+            while (l <= r) {
+                int mid = (r + l) / 2;
+                if (queriesSmallestCounter[i] >= wordsSmallestCounter[mid]) {
+                    l = mid + 1;
+                } else {
+                    r = mid - 1;
+                }
+            }
+            ans[i] = wordsSmallestCounter.length - l;
+        }
+        return ans;
+    }
+
+    int getFunc(String s) {
+        char chr = 'z';
+        int count = 0;
+        //iterate over every character, keep current running smallest character. If we found the same one
+        //increment count, if lesser - start counter from 1. If this character is greater - ignore it
+        for (char ch : s.toCharArray()) {
+            if (ch < chr) {
+                count = 1;
+                chr = ch;
+            } else if (chr == ch) {
+                count++;
+            }
+        }
+        return count;
+    }
+
 }
