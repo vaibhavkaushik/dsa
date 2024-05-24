@@ -1329,4 +1329,36 @@ I hope yeh detailed explanation aapko samajh mein aaya hoga. Agar aur koi doubts
         return hours <= h;
     }
 
+    //Leetcode 2300
+    public int[] successfulPairs(int[] spells, int[] potions, long success) {
+        Arrays.sort(potions);
+        int[] ans = new int[spells.length];
+        for(int i=0; i < spells.length; i++){
+            long searchNumber = -1;
+            if(success % spells[i] == 0){
+                searchNumber = success/spells[i];
+            }else {
+                searchNumber = success/spells[i] + 1;
+            }
+
+            int left = 0;
+            int right = potions.length-1;
+            int result = -1;
+            //We are lower bound
+            while(left <= right){
+                int mid = left + (right-left)/2;
+                if(potions[mid] >= searchNumber){
+                    result = mid;
+                    right = mid-1;
+                }else{
+                    left = mid+1;
+                }
+            }
+            if(result >= 0){
+                ans[i] = potions.length - result;
+            }
+        }
+        return ans;
+    }
+
 }
