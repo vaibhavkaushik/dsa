@@ -1170,4 +1170,103 @@ means we're at the right side and the ones greater than current element must hav
         return count;
     }
 
+    /*
+Problem Statement Simplified:
+Imagine Alice aur Bob ke paas candies hain. Har candy ka ek specific size hai. Alice aur Bob chahte hain ki kuch candies swap karein taaki dono ke paas candies ka total size barabar ho jaaye.
+
+Problem ko Simple Example ke Saath Samjho:
+Suppose Alice ke paas candies ka array A = [1, 1] aur Bob ke paas candies ka array B = [2, 2] hai.
+
+Step 1: Calculate the Total Sum of Candies:
+
+Alice ke candies ka total size sumA = 1 + 1 = 2.
+Bob ke candies ka total size sumB = 2 + 2 = 4.
+Step 2: Find the Difference:
+
+Hum chahte hain ki swap ke baad Alice aur Bob ke paas barabar size ki candies ho. Toh yeh tabhi possible hai jab dono ke total sum ka difference adjust ho jaye.
+Difference delta = (sumB - sumA) / 2 = (4 - 2) / 2 = 1.
+Matlab agar Alice Bob ko ek candy de jo 1 unit choti hai Bob ki kisi candy se, to dono ka total sum barabar ho jayega.
+
+Step 3: Swap Logic:
+
+Ab humein dekhna hai ki kya Alice ke paas aisi koi candy hai jise swap karke yeh condition fulfill ho sake. Matlab:
+Alice ka candy x ho.
+Bob ka candy y ho.
+Condition yeh hogi: y = x + delta.
+Is case mein, delta = 1. Matlab Bob ko Alice se aisa candy lena chahiye jo uske candy se 1 unit choti ho.
+Practical Steps:
+Set Creation:
+
+Pehle Bob ke candies ko ek set mein daal do. Yeh fast lookup ke liye helpful hoga.
+Find Suitable Swap Pair:
+
+Ab Alice ke har candy ke liye check karo ki kya Bob ke set mein aisa candy hai jo y = x + delta condition ko fulfill kare.
+Agar aisa candy milta hai, toh wahi swap pair hoga jo solution hoga.
+Example ko Aur Samjho:
+Example 1: A = [1, 2], B = [2, 3]
+Step 1: Calculate Sums:
+
+sumA = 1 + 2 = 3
+sumB = 2 + 3 = 5
+Step 2: Calculate Delta:
+
+delta = (sumB - sumA) / 2 = (5 - 3) / 2 = 1
+Step 3: Find Swap Pair:
+
+Alice ke paas candies [1, 2] hain.
+Bob ke set mein candies [2, 3] hain.
+Alice ka pehla candy 1:
+Bob ke set mein dekhte hain kya 1 + 1 (delta) = 2 hai? Haan, hai.
+Swap pair found: [1, 2].
+Alice ka dusra candy 2:
+Bob ke set mein dekhte hain kya 2 + 1 (delta) = 3 hai? Haan, hai.
+Swap pair found: [2, 3].
+Conclusion:
+Is tarah se, problem ka solution dhoondhne ka idea yeh hai ki hum total sums ka difference calculate karein, phir check karein ki Alice aur Bob ke candies mein aisi koi pair hai jo swap hone ke baad difference ko equalize kar sake.
+
+Deep Understanding:
+Sum Calculation: Sum nikalne se humein total candies ka size pata chalta hai.
+Difference (delta): Yeh difference humein guide karta hai ki kis tarah ka swap humein karna chahiye.
+Set Usage: Set ka use karke, fast lookup ensure hota hai, jo ki humein quickly swap pairs dhoondhne mein help karta hai.
+Finding Swap Pairs: Har candy ke liye potential swap pair check karna, condition ke saath ki swap ke baad difference adjust ho jaaye.
+I hope yeh detailed explanation aapko samajh mein aaya hoga. Agar aur koi doubts ya questions hain, toh zaroor batao!
+*/
+    //Leetcode 888
+    class Solution {
+        private int binarySearch(int[] arr,int target){
+
+            int s = 0, e = arr.length-1;
+
+            while(s <= e)
+            {
+                int mid = s + (e-s)/2;
+                if(arr[mid] == target) return mid;
+                else if(arr[mid] < target) s=mid+1;
+                else e = mid - 1;
+            }
+            return -1;
+        }
+
+        public int[] fairCandySwap(int[] a, int[] b) { //a = Alice , b=Bob
+
+            int suma=0,sumb=0;
+            for(int i = 0; i < a.length; i++)
+                suma += a[i];
+
+            for(int i = 0; i < b.length; i++)
+                sumb +=b [i];
+
+            int diff = (suma - sumb)/2;
+
+            Arrays.sort(a);
+            for(int num : b)
+            {
+                if (binarySearch(a, num + diff) !=-1)
+                    return new int[] { num + diff, num };
+            }
+
+            return null;
+        }
+    }
+
 }
