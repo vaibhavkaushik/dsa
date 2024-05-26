@@ -1361,4 +1361,47 @@ I hope yeh detailed explanation aapko samajh mein aaya hoga. Agar aur koi doubts
         return ans;
     }
 
+    //Leetcode 2439
+    public boolean isValid(List<Integer> nums, int midMax, int n) {
+            List<Long> arr = new ArrayList<>(nums.size());
+            for (int num : nums) {
+                arr.add((long) num);
+            }
+
+            for (int i = 0; i < n - 1; i++) {
+                if (arr.get(i) > midMax) {
+                    return false;
+                }
+
+                long buffer = midMax - arr.get(i);
+                arr.set(i + 1, arr.get(i + 1) - buffer);
+            }
+
+            return arr.get(n - 1) <= midMax;
+        }
+
+        public int minimizeArrayValue(int[] vals) {
+            List<Integer> nums = new ArrayList<>();
+            for (int num : vals) {
+                nums.add(num);
+            }
+            int n = nums.size();
+            int maxL = 0;
+            int maxR = Collections.max(nums);
+            int result = 0;
+
+            while (maxL <= maxR) {
+                int midMax = maxL + (maxR - maxL) / 2;
+
+                if (isValid(nums, midMax, n)) {
+                    result = midMax;
+                    maxR = midMax - 1;
+                } else {
+                    maxL = midMax + 1;
+                }
+            }
+
+            return result;
+        }
+
 }
