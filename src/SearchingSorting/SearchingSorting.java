@@ -1436,4 +1436,54 @@ I hope yeh detailed explanation aapko samajh mein aaya hoga. Agar aur koi doubts
         return answer == Long.MAX_VALUE ? 0 : answer;
     }
 
+    //Leetcode 1870
+    // Method to check if it's possible to travel the given distances at a certain speed within the given time.
+    public boolean isPossible(int[] dist, int speed, double hour) {
+        double totalTime = 0;
+
+        // Iterate through each distance
+        for (int i = 0; i < dist.length; i++) {
+            // Calculate time to travel the current distance at the given speed
+            double time = dist[i] * 1.0 / speed;
+
+            // For all segments except the last one, we need to take the ceiling of the travel time
+            if (i != dist.length - 1) {
+                totalTime += Math.ceil(time);
+            } else {
+                // For the last segment, add the exact travel time
+                totalTime += time;
+            }
+
+            // If the total time exceeds the given hour, return false
+            if (totalTime > hour) {
+                return false;
+            }
+        }
+
+        // Return true if total travel time is within the given hour
+        return totalTime <= hour;
+    }
+
+    // Method to find the minimum speed required to travel the given distances within the given time
+    public int minSpeedOnTime(int[] dist, double hour) {
+        int left = 1; // Start with the minimum possible speed
+        int right = (int) 1e7; // Define an upper bound for the speed
+        int minSpeed = -1;
+
+        // Perform binary search to find the minimum speed
+        while (left <= right) {
+            int mid = left + (right - left) / 2; // Calculate the middle point of the current range
+
+            // Check if it's possible to travel with the current middle speed
+            if (isPossible(dist, mid, hour)) {
+                minSpeed = mid; // Update the minimum speed
+                right = mid - 1; // Try to find a lower speed
+            } else {
+                left = mid + 1; // Increase the speed
+            }
+        }
+
+        return minSpeed; // Return the minimum speed found
+    }
+
 }
