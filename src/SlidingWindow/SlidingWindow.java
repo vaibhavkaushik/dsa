@@ -309,6 +309,35 @@ public class SlidingWindow {
         return result;
     }
 
+    //Leetcode 1652
+    public int[] decrypt(int[] code, int k) {
+
+        int ws = 0;
+        int we = 0;
+        int totalLength = code.length;
+        int[] ans = new int[totalLength];
+
+        while(totalLength!=0){
+
+            int upto = k > 0 ? k : -k;
+            int sum = 0;
+
+            we = k > 0 ? ws : ws + k + code.length - 1;
+
+            while(upto!=0){
+                we++;
+                sum+= code[we % code.length];
+                upto--;
+            }
+
+            ans[ws] = k==0 ? 0 : sum;
+            ws++;
+            totalLength--;
+        }
+
+        return ans;
+    }
+
     public static void main(String[] args) {
         long[] A = { -8, 2, 3, -6, 10 };
         int N = A.length;
