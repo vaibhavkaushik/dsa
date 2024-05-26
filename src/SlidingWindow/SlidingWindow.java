@@ -413,6 +413,29 @@ public class SlidingWindow {
         return true;
     }
 
+    //Leetcode 2269
+    public int divisorSubstrings(int num, int k) {
+        // convert the num to String
+        String numStr = String.valueOf(num);
+        int k_beauty = 0;
+        // we need to have a window of size k which moves by 1
+        int w_start = 0;
+        int w_end = w_start + k - 1;
+        // we need to slide the window till end of the window reaches str length
+        while(w_end < numStr.length()) {
+            // get the substring
+            int subnum = Integer.parseInt(numStr.substring(w_start,w_end+1));
+            // check for k beauty
+            if(subnum != 0 && num%subnum==0) {
+                k_beauty++;
+            }
+            // move the window
+            w_start += 1;
+            w_end = w_start + k - 1;
+        }
+        return k_beauty;
+    }
+
     public static void main(String[] args) {
         long[] A = { -8, 2, 3, -6, 10 };
         int N = A.length;
