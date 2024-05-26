@@ -270,4 +270,50 @@ public class SlidingWindow {
         // Agar minimum length update nahi hui, iska matlab koi subarray nahi mila
         return minLen == Integer.MAX_VALUE ? 0 : minLen;
     }
+
+    //https://geeksforgeeks.org/problems/first-negative-integer-in-every-window-of-size-k3345/1
+    //First negative integer in every window of size k
+    public static List<Long> printFirstNegativeInteger(long[] A, int N, int k) {
+        // Negative integers ko store karne ke liye LinkedList use kar rahe hain
+        LinkedList<Long> dll = new LinkedList<>();
+        List<Long> result = new ArrayList<>();
+
+        int i = 0, j = 0;
+
+        // Sliding window approach use karte hue array traverse kar rahe hain
+        while (j < N) {
+            // Agar current element negative hai to usse list mein add karte hain
+            if (A[j] < 0) {
+                dll.add(A[j]);
+            }
+
+            // Agar window ka size k ke barabar ho jata hai
+            if (j - i + 1 == k) {
+                // List ka first element (front) current window ka first negative element hai
+                long neg = dll.isEmpty() ? 0 : dll.peekFirst();
+                result.add(neg);
+
+                // Window ke start element ko check karte hain agar wo negative hai aur list mein hai to remove karte hain
+                if (A[i] < 0 && !dll.isEmpty()) {
+                    dll.pollFirst();
+                }
+
+                // Window ko slide karte hain
+                i++;
+            }
+
+            // Window ke end pointer ko increment karte hain
+            j++;
+        }
+
+        return result;
+    }
+
+    public static void main(String[] args) {
+        long[] A = { -8, 2, 3, -6, 10 };
+        int N = A.length;
+        int k = 2;
+        List<Long> result = printFirstNegativeInteger(A, N, k);
+        System.out.println(result); // Output: [-8, 0, -6, -6]
+    }
 }
