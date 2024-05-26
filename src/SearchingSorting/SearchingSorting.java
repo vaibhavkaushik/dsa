@@ -1516,4 +1516,40 @@ I hope yeh detailed explanation aapko samajh mein aaya hoga. Agar aur koi doubts
         return left;
     }
 
+    //Leetcode 2616
+    // Function to check if we can form p pairs with maximum difference <= maxDiff
+    private boolean canFormPairs(int[] nums, int p, int maxDiff) {
+        int count = 0;
+        for (int i = 1; i < nums.length; i++) {
+            // If the current pair difference is <= maxDiff, count it as a pair
+            if (nums[i] - nums[i - 1] <= maxDiff) {
+                count++;
+                i++; // Skip the next element since it's already paired
+            }
+            if (count >= p) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    // Main function to minimize the maximum difference of pairs
+    public int minimizeMax(int[] nums, int p) {
+        Arrays.sort(nums); // Step 1: Sort the array
+
+        int left = 0, right = nums[nums.length - 1] - nums[0];
+
+        // Step 2: Binary search on the possible maximum difference
+        while (left < right) {
+            int mid = left + (right - left) / 2;
+            if (canFormPairs(nums, p, mid)) {
+                right = mid; // Try for a smaller maximum difference
+            } else {
+                left = mid + 1; // Increase the maximum difference
+            }
+        }
+
+        return left; // The minimized maximum difference
+    }
+
 }
