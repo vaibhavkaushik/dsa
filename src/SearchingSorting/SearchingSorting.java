@@ -1486,4 +1486,34 @@ I hope yeh detailed explanation aapko samajh mein aaya hoga. Agar aur koi doubts
         return minSpeed; // Return the minimum speed found
     }
 
+    //Leetcode 2141
+    // Function to check if a given time T is possible with the given batteries
+    private boolean isPossible(long T, int n, int[] batteries) {
+        long total = 0;
+        for (int b : batteries) {
+            total += Math.min(b, T);
+        }
+        return total >= T * n;
+    }
+
+    // Main function to find the maximum running time of n computers
+    public long maxRunTime(int n, int[] batteries) {
+        long left = 0, right = 0;
+        for (long b : batteries) {
+            right += b;
+        }
+        right /= n;
+
+        while (left < right) {
+            long mid = right - (right - left) / 2;
+            if (isPossible(mid, n, batteries)) {
+                left = mid;
+            } else {
+                right = mid - 1;
+            }
+        }
+
+        return left;
+    }
+
 }
