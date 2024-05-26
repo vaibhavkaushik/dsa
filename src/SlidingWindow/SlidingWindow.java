@@ -368,6 +368,51 @@ public class SlidingWindow {
         return answer;
     }
 
+    //Leetcode 3090
+    public int maximumLengthSubstring(String s) {
+
+        int[] count = new int[26];
+        char ch = '-';
+
+        for(int i=0; i<s.length(); i++){
+            count[s.charAt(i)-'a']++;
+        }
+
+        count = new int[26];
+
+        int ws = 0;
+        int we = 0;
+        int maxLen = Integer.MIN_VALUE;
+        while(we < s.length()){
+
+            count[s.charAt(we)-'a']++;
+            boolean atMostTwo = allOccurrences(count);
+
+            while(!atMostTwo){
+                count[s.charAt(ws)-'a']--;
+                atMostTwo = allOccurrences(count);
+                ws++;
+            }
+
+            maxLen = Math.max(maxLen,we-ws+1);
+
+            we++;
+        }
+
+        return maxLen;
+    }
+
+
+    boolean allOccurrences(int[] count){
+        int counter = 0;
+        for(int i=0;i<26;i++){
+            if(count[i] > 2){
+                return false;
+            }
+        }
+        return true;
+    }
+
     public static void main(String[] args) {
         long[] A = { -8, 2, 3, -6, 10 };
         int N = A.length;
