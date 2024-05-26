@@ -338,6 +338,36 @@ public class SlidingWindow {
         return ans;
     }
 
+    //Leetcode 1652
+    public int[] decryptGPT(int[] code, int k) {
+        int n = code.length;
+        int[] answer = new int[n];
+
+        if (k == 0) {
+            // Agar k 0 hai to sabhi elements ke liye answer 0 hoga
+            Arrays.fill(answer, 0);
+            return answer;
+        }
+
+        for (int i = 0; i < n; i++) {
+            int sum = 0;
+            if (k > 0) {
+                // k positive hai to aage ke k elements ka sum calculate karte hain
+                for (int j = 1; j <= k; j++) {
+                    sum += code[(i + j) % n];
+                }
+            } else {
+                // k negative hai to pichle ke k elements ka sum calculate karte hain
+                for (int j = 1; j <= -k; j++) {
+                    sum += code[(i - j + n) % n];
+                }
+            }
+            answer[i] = sum;
+        }
+
+        return answer;
+    }
+
     public static void main(String[] args) {
         long[] A = { -8, 2, 3, -6, 10 };
         int N = A.length;
