@@ -237,4 +237,37 @@ public class SlidingWindow {
         return ans;
 
     }
+
+    //Leetcode 209
+    public int minSubArrayLen(int target, int[] nums) {
+        // Window ke start aur end pointers
+        int ws = 0;
+        int we = 0;
+
+        // Current window ka sum aur minimum length jo mil rahi hai
+        int currSum = 0;
+        int minLen = Integer.MAX_VALUE;
+
+        // Window end pointer se array ko traverse karte hain
+        while (we < nums.length) {
+            // Window ke sum mein current element add karte hain
+            currSum += nums[we];
+
+            // Jab tak current sum target se bada ya barabar hai
+            while (currSum >= target) {
+                // Minimum length ko update karte hain
+                minLen = Math.min(minLen, we - ws + 1);
+
+                // Window start pointer ko move karke current sum se element remove karte hain
+                currSum -= nums[ws];
+                ws++;
+            }
+
+            // Window end pointer ko increment karte hain
+            we++;
+        }
+
+        // Agar minimum length update nahi hui, iska matlab koi subarray nahi mila
+        return minLen == Integer.MAX_VALUE ? 0 : minLen;
+    }
 }
