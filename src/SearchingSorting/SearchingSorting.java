@@ -1552,4 +1552,59 @@ I hope yeh detailed explanation aapko samajh mein aaya hoga. Agar aur koi doubts
         return left; // The minimized maximum difference
     }
 
+
+    //Leetcode 2251
+    public int[] fullBloomFlowers(int[][] flowers, int[] queries) {
+        int n = flowers.length;
+        int m = queries.length;
+
+        int[] startTimes = new int[n];
+        int[] endTimes = new int[n];
+
+        // Start and end times ko alag alag arrays mein store karo
+        for (int i = 0; i < n; i++) {
+            startTimes[i] = flowers[i][0];
+            endTimes[i] = flowers[i][1];
+        }
+
+        // Start and end times ko sort karo
+        Arrays.sort(startTimes);
+        Arrays.sort(endTimes);
+
+        // Result array for storing the results of queries
+        int[] result = new int[m];
+
+        // Har query ke liye binary search use karke answer find karo
+        for (int i = 0; i < m; i++) {
+            int query = queries[i];
+
+            // Find the number of flowers that have started blooming by the query time
+            int bloomsStarted = findNotGreater(startTimes, query);
+
+            // Find the number of flowers that have ended blooming by the query time
+            int bloomsEnded = findNotGreater(endTimes, query - 1);
+
+            // Total flowers in bloom at the query time
+            result[i] = bloomsStarted - bloomsEnded;
+        }
+
+        return result;
+    }
+
+    // Utility function to find number of elements <= target using binary search
+    private int findNotGreater(int[] times, int target) {
+        int low = 0, high = times.length;
+
+        while (low < high) {
+            int mid = low + (high - low) / 2;
+            if (times[mid] <= target) {
+                low = mid + 1;
+            } else {
+                high = mid;
+            }
+        }
+
+        return low;
+    }
+
 }
