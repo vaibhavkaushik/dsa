@@ -537,6 +537,45 @@ public class SlidingWindow {
         return minDiff;  // Minimum difference ko return karo
     }
 
+    //Leetcode 594
+    public int findLHS(int[] nums) {
+        // Agar array ka length 0 hai to return 0 kyunki koi harmonious subsequence nahi ban sakta
+        if (nums.length == 0) {
+            return 0;
+        }
+
+        // Array ko sort kar rahe hain taaki hum consecutive elements ko easily compare kar sakein
+        Arrays.sort(nums);
+
+        // Left pointer ko initialize kar rahe hain 0 pe aur right pointer ko 1 pe
+        int left = 0, right = 1;
+        // Maximum length ko store karne ke liye variable
+        int maxLen = 0;
+
+        // Right pointer ko array ke end tak le ja rahe hain
+        while (right < nums.length) {
+            // Current window ka difference calculate kar rahe hain
+            int diff = nums[right] - nums[left];
+
+            // Agar difference 1 hai to harmonious subsequence mil gaya
+            if (diff == 1) {
+                // Maximum length ko update kar rahe hain
+                maxLen = Math.max(maxLen, right - left + 1);
+            }
+
+            // Agar difference 1 ya 1 se kam hai to window ko expand karte hain
+            if (diff <= 1) {
+                right++;
+            } else {
+                // Agar difference 1 se zyada hai to window ko shrink karte hain
+                left++;
+            }
+        }
+
+        // Maximum length return karte hain
+        return maxLen;
+    }
+
 
     public static void main(String[] args) {
         long[] A = { -8, 2, 3, -6, 10 };
