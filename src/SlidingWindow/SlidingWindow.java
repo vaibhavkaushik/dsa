@@ -465,6 +465,41 @@ public class SlidingWindow {
         return count;  // Valid subarrays ka count return kar rahe hain
     }
 
+    //Leetcode 2379
+    public int minimumRecolors(String blocks, int k) {
+
+        int blacksRequired = 0;  // Yeh track karega ki kitne 'W' ko 'B' mein convert karna padega current window mein
+
+        int windowStart = 0;  // Sliding window ka start pointer
+        int windowEnd = 0;  // Sliding window ka end pointer
+        int minOperations = Integer.MAX_VALUE;  // Minimum operations ko track karega
+
+        // Sliding window ko blocks ke end tak move karenge
+        while (windowEnd < blocks.length()) {
+
+            // Agar current character 'W' hai to blacksRequired increment kar do
+            blacksRequired = blocks.charAt(windowEnd) == 'W' ? blacksRequired + 1 : blacksRequired;
+            // System.out.println("blacksRequired : " + blacksRequired + " window size : " + (windowEnd - windowStart + 1));
+
+            // Jab window ka size k ho jaye
+            if (windowEnd - windowStart + 1 == k) {
+                // Minimum operations update karo agar current window mein kam 'W' hain
+                minOperations = Math.min(minOperations, blacksRequired);
+                // System.out.println("minOperations : " + minOperations);
+
+                // Window ko slide karte hain aur start pointer ko aage badhate hain
+                // Agar start pointer ka character 'W' hai to blacksRequired decrement karo
+                blacksRequired = blocks.charAt(windowStart) == 'W' ? blacksRequired - 1 : blacksRequired;
+                windowStart++;  // Start pointer ko aage badhao
+            }
+
+            windowEnd++;  // End pointer ko aage badhao
+        }
+
+        return minOperations;  // Minimum operations ko return karo
+    }
+
+
     public static void main(String[] args) {
         long[] A = { -8, 2, 3, -6, 10 };
         int N = A.length;
