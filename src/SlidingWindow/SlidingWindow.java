@@ -436,6 +436,35 @@ public class SlidingWindow {
         return k_beauty;
     }
 
+    //Leetcode 1343
+    public int numOfSubarrays(int[] arr, int k, int threshold) {
+        int count = 0;  // Valid subarrays ka count rakhega
+        int currentSum = 0;  // Current window ka sum rakhega
+
+        // Initial window sum calculate kar rahe hain
+        for (int i = 0; i < k; i++) {
+            currentSum += arr[i];
+        }
+
+        // Agar initial window ka average threshold se zyada ya equal hai toh count badha do
+        if (currentSum / k >= threshold) {
+            count++;
+        }
+
+        // Window slide karna shuru karo
+        for (int i = k; i < arr.length; i++) {
+            currentSum += arr[i];  // New element ko window mein add kar rahe hain
+            currentSum -= arr[i - k];  // Old element ko window se remove kar rahe hain
+
+            // Check karo agar current window ka average threshold se zyada ya equal hai
+            if (currentSum / k >= threshold) {
+                count++;
+            }
+        }
+
+        return count;  // Valid subarrays ka count return kar rahe hain
+    }
+
     public static void main(String[] args) {
         long[] A = { -8, 2, 3, -6, 10 };
         int N = A.length;
