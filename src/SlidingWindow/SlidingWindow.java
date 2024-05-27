@@ -499,6 +499,38 @@ public class SlidingWindow {
         return minOperations;  // Minimum operations ko return karo
     }
 
+    //Leetcode 1984
+    public int minimumDifference(int[] nums, int k) {
+        Arrays.sort(nums);
+
+        int start = 0;
+        int end = 0;
+
+        int min = Integer.MAX_VALUE;
+        int max = Integer.MIN_VALUE;
+
+        int minDiff = Integer.MAX_VALUE;
+
+        while(end < nums.length){
+
+            min = Math.min(min,nums[end]);
+            max = Math.max(max,nums[end]);
+            //System.out.println("min : "+min+" max : "+max+" window size : "+(end-start+1));
+            if(end-start+1 == k){
+                minDiff = Math.min(minDiff, max-min);
+                start++;
+                if(start < nums.length){
+                    min = nums[start];
+                    max = Math.max(max,nums[start]);
+                }
+            }
+
+            end++;
+        }
+
+        return minDiff;
+    }
+
 
     public static void main(String[] args) {
         long[] A = { -8, 2, 3, -6, 10 };
