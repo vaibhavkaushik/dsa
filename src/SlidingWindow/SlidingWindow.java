@@ -576,6 +576,38 @@ public class SlidingWindow {
         return maxLen;
     }
 
+    //Leetcode 3095
+    public int minimumSubarrayLength(int[] nums, int k) {
+        int n = nums.length;
+        int minLength = Integer.MAX_VALUE; // Minimum length ko track karne ke liye
+        int left = 0; // Window ka start index
+        int currentOR = 0; // Current window ka OR value
+
+        // Right pointer ko 0 se array ke end tak le ja rahe hain
+        for (int right = 0; right < n; right++) {
+            currentOR |= nums[right]; // Right element ko include karke OR operation karte hain
+            //System.out.println("current OR : "+currentOR+" window size : "+(right - left + 1));
+            // Jab tak currentOR k se kam se kam equal nahi hota, window ko shrink karte hain
+            while (left < nums.length && currentOR >= k && (right - left + 1) >=1) {
+                minLength = Math.min(minLength, right - left + 1); // Minimum length update karte hain
+                currentOR &= nums[left]; // Left element ko exclude karke OR operation update karte hain
+                left++; // Left pointer ko aage badhate hain
+
+                // Ensure the OR value is correctly updated for the new window
+                if (left <= right) {
+                    currentOR = 0;
+                    for (int i = left; i <= right; i++) {
+                        currentOR |= nums[i];
+                    }
+                }
+                //System.out.println("current OR : "+currentOR+" window size : "+(right - left + 1));
+            }
+        }
+
+        // Agar minLength update nahi hua to return -1, warna minLength return karte hain
+        return minLength == Integer.MAX_VALUE ? -1 : minLength;
+    }
+
 
     public static void main(String[] args) {
         long[] A = { -8, 2, 3, -6, 10 };
