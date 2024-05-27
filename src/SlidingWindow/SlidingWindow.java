@@ -501,34 +501,40 @@ public class SlidingWindow {
 
     //Leetcode 1984
     public int minimumDifference(int[] nums, int k) {
-        Arrays.sort(nums);
+        Arrays.sort(nums);  // Pehle array ko sort kar lo
 
-        int start = 0;
-        int end = 0;
+        int start = 0;  // Sliding window ka start pointer
+        int end = 0;  // Sliding window ka end pointer
 
-        int min = Integer.MAX_VALUE;
-        int max = Integer.MIN_VALUE;
+        int min = Integer.MAX_VALUE;  // Minimum value ko track karega
+        int max = Integer.MIN_VALUE;  // Maximum value ko track karega
 
-        int minDiff = Integer.MAX_VALUE;
+        int minDiff = Integer.MAX_VALUE;  // Minimum difference ko track karega
 
-        while(end < nums.length){
+        // Sliding window ko nums ke end tak move karenge
+        while (end < nums.length) {
 
-            min = Math.min(min,nums[end]);
-            max = Math.max(max,nums[end]);
-            //System.out.println("min : "+min+" max : "+max+" window size : "+(end-start+1));
-            if(end-start+1 == k){
-                minDiff = Math.min(minDiff, max-min);
-                start++;
-                if(start < nums.length){
+            // Current window mein minimum aur maximum values ko update karo
+            min = Math.min(min, nums[end]);
+            max = Math.max(max, nums[end]);
+
+            // Jab window ka size k ho jaye
+            if (end - start + 1 == k) {
+                // Minimum difference ko update karo
+                minDiff = Math.min(minDiff, max - min);
+                start++;  // Window ko slide karte hain aur start pointer ko aage badhate hain
+
+                // Start pointer ko aage badhane ke baad minimum aur maximum values ko update karo
+                if (start < nums.length) {
                     min = nums[start];
-                    max = Math.max(max,nums[start]);
+                    max = Math.max(max, nums[start]);
                 }
             }
 
-            end++;
+            end++;  // End pointer ko aage badhao
         }
 
-        return minDiff;
+        return minDiff;  // Minimum difference ko return karo
     }
 
 
