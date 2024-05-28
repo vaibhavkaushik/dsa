@@ -662,6 +662,51 @@ public class SlidingWindow {
         return maxLength; // Return the maximum length of the subarray of 1s
     }
 
+    //Leetcode 2799
+    public int countCompleteSubarrays(int[] nums) {
+
+        // Step-1: Identify all distinct elements in the array
+        // Sab distinct elements ko HashSet mein daalo
+        HashSet<Integer> set = new HashSet<>();
+        for (int i : nums) {
+            set.add(i);
+        }
+        int distinct = set.size(); // Distinct elements ki count
+
+        int ans = 0; // Total complete subarrays ka count
+
+        // Sliding window ke elements ko track karne ke liye HashMap
+        HashMap<Integer, Integer> map = new HashMap<>();
+
+        int left = 0; // Sliding window ka left pointer
+        int right = 0; // Sliding window ka right pointer
+
+        // Jab tak right pointer array ke end tak nahi pahuncha
+        while (right < nums.length) {
+            // Right pointer ko move karke window mein element add karo
+            map.put(nums[right], map.getOrDefault(nums[right], 0) + 1);
+
+            // Jab window mein saare distinct elements hain, left pointer ko move karke valid subarrays count karo
+            while (map.size() == distinct) {
+                //System.out.println(map); // Debugging ke liye print statement
+                ans += nums.length - right; // Yeh subarray aur iske baad ke sab subarrays valid hain
+
+                // Left pointer ko move karke window size ko chhota karo
+                map.put(nums[left], map.get(nums[left]) - 1);
+
+                // Agar element ka count zero ho gaya to usko remove kar do
+                if (map.get(nums[left]) == 0) {
+                    map.remove(nums[left]);
+                }
+
+                left++; // Left pointer ko move karo taaki window chhoti ho jaye
+            }
+            right++; // Right pointer ko move karke window ko expand karo
+        }
+
+        return ans; // Total complete subarrays ka count return karo
+    }
+
 
     public static void main(String[] args) {
         long[] A = { -8, 2, 3, -6, 10 };

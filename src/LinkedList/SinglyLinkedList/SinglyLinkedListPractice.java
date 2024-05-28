@@ -15,97 +15,123 @@ public class SinglyLinkedListPractice {
             return head;
         }
 
-        public void addLast(int data){
-            System.out.println("Adding "+data+" at last");
-            Node newNode = new Node(data);
+    public void addLast(int data){
+        // Pehle print karo ki hum data ko list ke end mein add kar rahe hain
+        System.out.println("Adding "+data+" at last");
 
-            //Agar abhi ek bhi node nhi h list mein.
-            //Nayi node ko hi head banao and return
-            if(head == null){
-                head = newNode;
-                return;
-            }
+        // Naya node create karo jisme data ho
+        Node newNode = new Node(data);
 
-            Node temp = head;
-            //This loop helps to get to end of the list
-            while (temp.next!=null){
-                temp = temp.next;
-            }
-            temp.next = newNode;
+        // Agar list abhi khali hai, to nayi node ko head bana do aur function ko return kar do
+        if(head == null){
+            head = newNode;
             return;
         }
 
-        public void deleteFromIndex(int idx){
+        // Temporary node 'temp' ko head se initialize karo
+        Node temp = head;
 
-            int size = size();
-
-            if(idx == 0){
-                deleteFirst();
-                return;
-            }
-
-            if(idx == size-1){
-                deleteLast();
-                return;
-            }
-
-            if(idx < 0){
-                System.out.println("Invalid index (Cannot be less than 0)");
-                return;
-            }
-
-            if(idx > size){
-                System.out.println("Invalid index (Greater than size of list)");
-                return;
-            }
-
-            Node temp = head;
-            for(int i=0;i<idx-1;i++){
-                temp=temp.next;
-            }
-
-            if(temp.next!=null){
-                temp.next = temp.next.next;
-            }
+        // Yeh loop temp ko list ke end tak le jaayega (jahaan temp.next null ho)
+        while (temp.next != null){
+            temp = temp.next;
         }
 
-        public void deleteFromListRecursively(int idx){
-            int size = size();
+        // Last node ke 'next' ko nayi node par point karo, taaki naya node end mein add ho jaye
+        temp.next = newNode;
+        return;
+    }
 
-            if(idx == 0){
-                deleteFirst();
-                return;
-            }
+    public void deleteFromIndex(int idx){
+        // Pehle list ka size determine karo, taaki index validate kar sakein
+        int size = size();
 
-            if(idx == size-1){
-                deleteLast();
-                return;
-            }
-
-            if(idx < 0){
-                System.out.println("Invalid index (Cannot be less than 0)");
-                return;
-            }
-
-            if(idx > size){
-                System.out.println("Invalid index (Greater than size of list)");
-                return;
-            }
-
-            deleteFromListRecursively(idx-1,this.head);
+        // Agar index 0 hai, to pehli node ko delete karo
+        if(idx == 0){
+            deleteFirst();
+            return;
         }
 
-        private void deleteFromListRecursively(int idx,Node catcherNode){
-            if(idx==0){
-                if(catcherNode.next!=null){
-                    catcherNode.next = catcherNode.next.next;
-                    return;
-                }
-            }
-            if(idx > 0) {
-                deleteFromListRecursively(idx - 1, catcherNode.next);
+        // Agar index last node ka hai, to last node ko delete karo
+        if(idx == size-1){
+            deleteLast();
+            return;
+        }
+
+        // Agar index 0 se chhota hai, to invalid index message print karo
+        if(idx < 0){
+            System.out.println("Invalid index (Cannot be less than 0)");
+            return;
+        }
+
+        // Agar index list ke size se bada hai, to invalid index message print karo
+        if(idx > size){
+            System.out.println("Invalid index (Greater than size of list)");
+            return;
+        }
+
+        // Temporary node 'temp' ko head se initialize karo
+        Node temp = head;
+
+        // temp ko delete hone wali node ke pehle wali node tak le jaane ke liye loop
+        // idx-1 tak loop chalao taaki hum temp ko delete hone wali node ke just pehle wali node tak la sakein
+        for(int i = 0; i < idx - 1; i++){
+            temp = temp.next;
+        }
+
+        // Agar temp.next null nahi hai, to temp.next ko temp.next.next par point karo
+        // Matlab jo node delete hone wali thi usko skip kar do aur next node par point karo
+        if(temp.next != null){
+            temp.next = temp.next.next;
+        }
+    }
+
+    public void deleteFromListRecursively(int idx){
+        // Pehle list ka size determine karo, taaki index validate kar sakein
+        int size = size();
+
+        // Agar index 0 hai, to pehli node ko delete karo
+        if(idx == 0){
+            deleteFirst();
+            return;
+        }
+
+        // Agar index last node ka hai, to last node ko delete karo
+        if(idx == size - 1){
+            deleteLast();
+            return;
+        }
+
+        // Agar index 0 se chhota hai, to invalid index message print karo
+        if(idx < 0){
+            System.out.println("Invalid index (Cannot be less than 0)");
+            return;
+        }
+
+        // Agar index list ke size se bada hai, to invalid index message print karo
+        if(idx > size){
+            System.out.println("Invalid index (Greater than size of list)");
+            return;
+        }
+
+        // Recursive call karte hain deleteFromListRecursively method ko with adjusted index aur head node
+        deleteFromListRecursively(idx - 1, this.head);
+    }
+
+    // Private helper method jo recursive logic ko handle karega
+    private void deleteFromListRecursively(int idx, Node catcherNode){
+        // Agar idx 0 hai to iska matlab humne delete hone wali node ke just pehle wali node tak reach kar liya hai
+        if(idx == 0){
+            // Check karte hain agar next node null nahi hai to, agar null nahi hai to current node ke next ko next.next par point karwa dete hain
+            if(catcherNode.next != null){
+                catcherNode.next = catcherNode.next.next;
+                return;
             }
         }
+        // Agar idx 0 se bada hai, to recursion ko continue karte hain aur next node par move karte hain
+        if(idx > 0) {
+            deleteFromListRecursively(idx - 1, catcherNode.next);
+        }
+    }
 
     private Node addAtIndexRecursively(int data, int idx, Node catcherNode){
         if(idx == 0){
