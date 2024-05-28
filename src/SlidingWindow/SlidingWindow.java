@@ -630,6 +630,38 @@ public class SlidingWindow {
         return answer;
     }
 
+    //Leetcode 1493
+    // Function to find the longest subarray of 1s after deleting one element
+    public int longestSubarray(int[] nums) {
+        int left = 0;         // Initialize the left pointer of the sliding window
+        int zeroCount = 0;    // Count the number of zeros in the current window
+        int maxLength = 0;    // Store the maximum length of the subarray of 1s
+
+        // Traverse the array using the right pointer
+        for (int right = 0; right < nums.length; right++) {
+            // If the current element is 0, increment zeroCount
+            if (nums[right] == 0) {
+                zeroCount++;
+            }
+
+            // If zeroCount is more than 1, adjust the left pointer
+            while (zeroCount > 1) {
+                // If the element at the left pointer is 0, decrement zeroCount
+                if (nums[left] == 0) {
+                    zeroCount--;
+                }
+                // Move the left pointer to the right
+                left++;
+            }
+
+            // Update maxLength with the length of the current window
+            // (right - left) gives the length of the window
+            maxLength = Math.max(maxLength, right - left);
+        }
+
+        return maxLength; // Return the maximum length of the subarray of 1s
+    }
+
 
     public static void main(String[] args) {
         long[] A = { -8, 2, 3, -6, 10 };
