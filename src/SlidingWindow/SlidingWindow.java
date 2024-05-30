@@ -707,6 +707,41 @@ public class SlidingWindow {
         return ans; // Total complete subarrays ka count return karo
     }
 
+    //Leetcode 2962
+    // Function to count subarrays where the max element appears at least K times
+    public static long countSubarrays(int[] arr, int K) {
+        int n = arr.length; // Array length
+        long count = 0; // To keep track of valid subarrays
+        int left = 0; // Left pointer for the sliding window
+        int max_element = arr[0]; // Assume karo pehla element max hai
+
+        // Loop through the array to find the max element
+        for (int i = 1; i < arr.length; i++) {
+            if (arr[i] > max_element) {
+                max_element = arr[i]; // Update max element agar current element bada hai
+            }
+        }
+        int max_count = 0; // To track the frequency of max_element
+
+        // Right pointer for the sliding window
+        for (int right = 0; right < n; right++) {
+            if (arr[right] == max_element) {
+                max_count++;
+            }
+
+            // Adjust the left pointer to maintain the condition of the sliding window
+            while (max_count >= K) {
+                count += (n - right); // All subarrays ending at 'right' and starting from 'left' to 'right' are valid
+                if (arr[left] == max_element) {
+                    max_count--; // Decrease the frequency of max_element as we move the left pointer
+                }
+                left++; // Move the left pointer to shrink the window
+            }
+        }
+
+        return count; // Return the total count of valid subarrays
+    }
+
 
     public static void main(String[] args) {
         long[] A = { -8, 2, 3, -6, 10 };
