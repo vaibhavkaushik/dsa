@@ -742,6 +742,34 @@ public class SlidingWindow {
         return count; // Return the total count of valid subarrays
     }
 
+    //Leetcode 1031
+    // Function to calculate the maximum sum of two non-overlapping subarrays
+    public static int maxSumTwoNoOverlap(int[] arr, int L, int M) {
+        int n = arr.length;
+        int[] prefixSum = new int[n + 1];
+
+        // Calculate prefix sums
+        for (int i = 0; i < n; i++) {
+            prefixSum[i + 1] = prefixSum[i] + arr[i];
+        }
+
+        int maxL = 0, maxM = 0;
+        int result = 0;
+
+        // Find maximum sum of L-length subarray and M-length subarray
+        for (int i = L + M; i <= n; i++) {
+            // Calculate maximum sum of L-length subarray ending before the M-length subarray starts
+            maxL = Math.max(maxL, prefixSum[i - M] - prefixSum[i - M - L]);
+            // Calculate maximum sum of M-length subarray ending before the L-length subarray starts
+            maxM = Math.max(maxM, prefixSum[i - L] - prefixSum[i - L - M]);
+
+            // Update result with the maximum sum of the two non-overlapping subarrays
+            result = Math.max(result, Math.max(maxL + (prefixSum[i] - prefixSum[i - M]), maxM + (prefixSum[i] - prefixSum[i - L])));
+        }
+
+        return result;
+    }
+
 
     public static void main(String[] args) {
         long[] A = { -8, 2, 3, -6, 10 };
