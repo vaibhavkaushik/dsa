@@ -770,6 +770,30 @@ public class SlidingWindow {
         return result;
     }
 
+    //Leetcode 1208
+    public static int equalSubstring(String s, String t, int maxCost) {
+        int maxLength = 0;  // Maximum length of substring ko store karne ke liye
+        int currentCost = 0;  // Current total cost ko store karne ke liye
+        int start = 0;  // Window ke start ko initialize karte hain
+
+        // Slide the window using the end pointer
+        for (int end = 0; end < s.length(); end++) {
+            // s[end] ko t[end] se change karne ka cost calculate karte hain
+            currentCost += Math.abs(s.charAt(end) - t.charAt(end));
+
+            // Agar currentCost maxCost se zyada ho jaye, to start pointer ko move karke cost reduce karte hain
+            while (currentCost > maxCost) {
+                currentCost -= Math.abs(s.charAt(start) - t.charAt(start));
+                start++;
+            }
+
+            // Maximum length of the substring ko update karte hain
+            maxLength = Math.max(maxLength, end - start + 1);
+        }
+
+        return maxLength;  // Maximum length of the substring within the budget return karte hain
+    }
+
 
     public static void main(String[] args) {
         long[] A = { -8, 2, 3, -6, 10 };
