@@ -794,6 +794,33 @@ public class SlidingWindow {
         return maxLength;  // Maximum length of the substring within the budget return karte hain
     }
 
+    //Leetcode 1695
+    public static int maximumUniqueSubarray(int[] nums) {
+        int maxSum = 0;  // Maximum sum of unique subarray
+        int currentSum = 0;  // Current sum of the window
+        int start = 0;  // Start pointer for the window
+        Set<Integer> uniqueElements = new HashSet<>();  // Set to track unique elements in the window
+
+        // Slide the window using the end pointer
+        for (int end = 0; end < nums.length; end++) {
+            // While loop to handle duplicates
+            while (uniqueElements.contains(nums[end])) {
+                uniqueElements.remove(nums[start]);
+                currentSum -= nums[start];
+                start++;
+            }
+
+            // Add the new element to the set and update the current sum
+            uniqueElements.add(nums[end]);
+            currentSum += nums[end];
+
+            // Update the maximum sum if the current sum is greater
+            maxSum = Math.max(maxSum, currentSum);
+        }
+
+        return maxSum;  // Return the maximum sum of unique subarray
+    }
+
 
     public static void main(String[] args) {
         long[] A = { -8, 2, 3, -6, 10 };
