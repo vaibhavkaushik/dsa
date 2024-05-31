@@ -790,7 +790,7 @@ public class SlidingWindow {
             // Maximum length of the substring ko update karte hain
             maxLength = Math.max(maxLength, end - start + 1);
         }
-
+        new StringBuilder().replace()
         return maxLength;  // Maximum length of the substring within the budget return karte hain
     }
 
@@ -819,6 +819,36 @@ public class SlidingWindow {
         }
 
         return maxSum;  // Return the maximum sum of unique subarray
+    }
+    ///Leetcode 2000
+    class Solution {
+        public String reversePrefix(String word, char ch) {
+            // Word ke har character ko loop karte hain
+            // Strings immutable hote hain java mein, isliye hum character array ka use karte hain
+            // Swapping operations ke liye
+            char[] answer = word.toCharArray();
+            for (int i = 0; i < word.length(); i++) {
+                // Agar current character target character ke barabar ho
+                if (word.charAt(i) == ch) {
+                    int j = 0; // Pointer `j` ko string ke shuruaat mein initialize karte hain
+                    // Prefix ko reverse karte hain string ka index `i` tak
+                    while (j < i) {
+                        // Characters ko swap karte hain positions `j` aur `i` par
+                        swapChars(answer, j++, i--);
+                    }
+                    return new String(answer);
+                }
+            }
+            // Agar target character na mile, to original word return karte hain
+            return word;
+        }
+
+        // Helper method jo characters ko swap karta hai positions `i` aur `j` par
+        private void swapChars(char[] answer, int index1, int index2) {
+            char temp = answer[index2];
+            answer[index2] = answer[index1];
+            answer[index1] = temp;
+        }
     }
 
 
