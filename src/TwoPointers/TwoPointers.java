@@ -64,4 +64,37 @@ public class TwoPointers {
             // Agar needle nahi mili to -1 return karo
             return -1;
         }
+
+    private static final int MOD = 1_000_000_007;
+    //Leetcode 1498
+    public static int numSubseq(int[] nums, int target) {
+        // Array ko sort karte hain taaki minimum aur maximum elements ko easily access kar sakein
+        Arrays.sort(nums);
+        int n = nums.length;
+        int left = 0, right = n - 1;
+        int count = 0;
+
+        // Precompute karte hain powers of 2 upto n-1 tak, taaki subsequence count efficiently calculate ho sake
+        int[] power = new int[n];
+        power[0] = 1;
+        for (int i = 1; i < n; i++) {
+            power[i] = (power[i - 1] * 2) % MOD;
+        }
+
+        // Two-pointer technique use karte hain
+        while (left <= right) {
+            // Agar min element (nums[left]) aur max element (nums[right]) ka sum target se kam ya barabar hai
+            if (nums[left] + nums[right] <= target) {
+                // Count mein add karte hain, jitne bhi subsequences ban sakte hain between left aur right
+                count = (count + power[right - left]) % MOD;
+                // Left pointer ko aage badhate hain
+                left++;
+            } else {
+                // Agar condition satisfy nahi hoti, toh right pointer ko piche le jate hain
+                right--;
+            }
+        }
+
+        return count;
+    }
 }
