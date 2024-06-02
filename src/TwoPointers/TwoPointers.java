@@ -1,7 +1,6 @@
 package TwoPointers;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public class TwoPointers {
 
@@ -258,5 +257,32 @@ public class TwoPointers {
         System.arraycopy(result, 0, nums, 0, n);
 
         return nums; // Partitioned array return karo
+    }
+
+
+    //Leetcode 763
+    public List<Integer> partitionLabels(String s) {
+        // Last occurrence map banate hain
+        int[] last = new int[26]; // 26 letters ke liye
+        for (int i = 0; i < s.length(); i++) {
+            last[s.charAt(i) - 'a'] = i; // Character ka last index store karte hain
+        }
+
+        List<Integer> result = new ArrayList<>();
+        int start = 0; // Current partition ka start index
+        int end = 0; // Current partition ka end index
+
+        // Har character ko traverse karte hain
+        for (int i = 0; i < s.length(); i++) {
+            end = Math.max(end, last[s.charAt(i) - 'a']); // Current partition ka end update karte hain
+
+            // Agar current index partition end ke barabar hai
+            if (i == end) {
+                result.add(i - start + 1); // Partition size ko result mein add karte hain
+                start = i + 1; // Naye partition ka start update karte hain
+            }
+        }
+
+        return result; // Partition sizes return karte hain
     }
 }
