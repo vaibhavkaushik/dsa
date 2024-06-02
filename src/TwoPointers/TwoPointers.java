@@ -121,4 +121,42 @@ public class TwoPointers {
         // Remaining string ki length return karte hain
         return right - left + 1;
     }
+
+    //Leetcode 2367
+    public int arithmeticTriplets(int[] nums, int diff) {
+        // Maan lo triplet ke beech mein wala number nums hai
+        // Toh humhe dekhna hai ki nums - diff aur nums + diff array mein hain ya nahi
+        int count = 0; // Valid triplets ka count
+
+        // Har number ke liye check karte hain
+        for (int i = 0; i < nums.length; i++) {
+            // Agar nums - diff aur nums + diff array mein hain, toh count badhao
+            if (binarySearch(nums, 0, nums.length - 1, nums[i] - diff) && binarySearch(nums, 0, nums.length - 1, nums[i] + diff)) {
+                count++;
+            }
+        }
+
+        return count; // Total number of valid triplets return karte hain
+    }
+
+    public boolean binarySearch(int[] arr, int start, int end, int find) {
+        // Binary search function
+        while (start <= end) {
+            int mid = start + (end - start) / 2; // Mid point nikalte hain
+
+            // Agar mid point pe number mil gaya toh true return karte hain
+            if (arr[mid] == find) {
+                return true;
+            }
+
+            // Agar search number chota hai mid se toh left half mein search karte hain
+            if (find < arr[mid]) {
+                end = mid - 1;
+            } else { // Agar search number bada hai mid se toh right half mein search karte hain
+                start = mid + 1;
+            }
+        }
+
+        return false; // Agar number nahi mila toh false return karte hain
+    }
 }
