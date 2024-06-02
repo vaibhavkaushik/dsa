@@ -224,4 +224,39 @@ public class TwoPointers {
             end--;
         }
     }
+
+    //Leetcode 2161
+    public int[] pivotArray(int[] nums, int pivot) {
+        int n = nums.length;
+        int low = 0, mid = 0, high = n - 1;
+
+        // Ek auxiliary array banate hain jo help karega partitioning mein
+        int[] result = new int[n];
+
+        // Pehle pivot se chhote elements ko result array mein daalo
+        for (int i = 0; i < n; i++) {
+            if (nums[i] < pivot) {
+                result[low++] = nums[i];
+            }
+        }
+
+        // Fir pivot ke barabar elements ko result array mein daalo
+        for (int i = 0; i < n; i++) {
+            if (nums[i] == pivot) {
+                result[low++] = nums[i];
+            }
+        }
+
+        // Fir pivot se bade elements ko result array mein daalo
+        for (int i = 0; i < n; i++) {
+            if (nums[i] > pivot) {
+                result[low++] = nums[i];
+            }
+        }
+
+        // Result array ko wapas original array mein copy karo
+        System.arraycopy(result, 0, nums, 0, n);
+
+        return nums; // Partitioned array return karo
+    }
 }
