@@ -1,5 +1,8 @@
 package TwoPointers;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class TwoPointers {
 
     //Leetcode 345
@@ -158,5 +161,33 @@ public class TwoPointers {
         }
 
         return false; // Agar number nahi mila toh false return karte hain
+    }
+
+    //Leetcode 2963
+    public int numberOfGoodPartitions(int[] nums) {
+        int n = nums.length;
+        Map<Integer, Integer> lastIndex = new HashMap<>(); // number, last index
+
+        // Har number ka last index map mein store karte hain
+        for (int i = 0; i < n; ++i) {
+            lastIndex.put(nums[i], i);
+        }
+
+        int i = 0;
+        int j = Math.max(0, lastIndex.get(nums[0])); // Initialize j with the last index of the first element
+
+        int result = 1; // Initially, at least one partition exists
+        while (i < n) {
+            // Agar i j se aage badh jata hai, matlab ek valid partition mil gaya
+            if (i > j) {
+                result = (result * 2) % MOD; // Valid partition ke liye result ko update karo
+            }
+
+            // j ko update karo to track the maximum last index of the current window
+            j = Math.max(j, lastIndex.get(nums[i]));
+            i++;
+        }
+
+        return result;
     }
 }
