@@ -97,4 +97,28 @@ public class TwoPointers {
 
         return count;
     }
+
+    //Leetcoe 1750
+    public int minimumLength(String s) {
+        int left = 0; // Left pointer start se initialize karte hain
+        int right = s.length() - 1; // Right pointer end se initialize karte hain
+
+        // Jab tak left aur right pointer same character pe hain
+        while (left < right && s.charAt(left) == s.charAt(right)) {
+            char currentChar = s.charAt(left); // Current character ko store karte hain
+
+            // Left pointer ko aage badhane ka kaam
+            while (left <= right && s.charAt(left) == currentChar) {
+                left++;
+            }
+
+            // Right pointer ko peeche le aane ka kaam
+            while (left <= right && s.charAt(right) == currentChar) {
+                right--;
+            }
+        }
+
+        // Remaining string ki length return karte hain
+        return right - left + 1;
+    }
 }
