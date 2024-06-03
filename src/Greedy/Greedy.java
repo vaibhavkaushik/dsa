@@ -1,6 +1,8 @@
 package Greedy;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 public class Greedy {
 
@@ -162,5 +164,22 @@ public class Greedy {
         inorder(root.right, sortedAns); // Right subtree ko traverse karte hain
 
         return; // Function ko return karte hain
+    }
+
+    //Leetcode 2697
+    public String makeSmallestPalindrome(String s) {
+
+        int start = 0; // Starting index
+        int end = s.length() - 1; // Ending index
+        char[] arr = s.toCharArray(); // String ko character array mein convert karte hain
+
+        // Start aur end se characters ko check karte hain
+        while (start <= end) {
+            char c = (char) (Math.min((int) arr[start], (int) arr[end])); // Dono characters mein se chota character lete hain
+            arr[start++] = c; // Start index pe chota character daalte hain aur start ko increment karte hain
+            arr[end--] = c; // End index pe bhi chota character daalte hain aur end ko decrement karte hain
+        }
+
+        return new String(arr); // Character array ko wapas string mein convert karke return karte hain
     }
 }
