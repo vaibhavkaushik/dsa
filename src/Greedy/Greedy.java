@@ -267,4 +267,28 @@ public class Greedy {
         return sum; // Final sum return karte hain
     }
 
+    //Leetcode 942
+    public int[] diStringMatch(String s) {
+        int i = 0; // Increasing value start se
+        int d = s.length(); // Decreasing value end se
+        char[] arr = s.toCharArray(); // String ko character array mein convert karte hain
+        int[] ans = new int[d + 1]; // Result array jo final permutation store karega
+        int k = 0; // Result array ka index
+
+        // Character array ko traverse karte hain
+        for (char c : arr) {
+            if (c == 'I') {
+                ans[k++] = i++; // Agar 'I' hai to increasing value add karte hain
+            } else {
+                ans[k++] = d--; // Agar 'D' hai to decreasing value add karte hain
+            }
+        }
+
+        // Last element ko set karte hain
+        ans[k] = s.charAt(s.length() - 1) == 'I' ? i : d; // Last character check karke appropriate value set karte hain
+
+        return ans; // Final permutation array return karte hain
+    }
+
+
 }
