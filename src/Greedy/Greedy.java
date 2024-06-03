@@ -121,4 +121,46 @@ public class Greedy {
         // Final result return karte hain (max * k) + sum_upto_k_minus_one
         return max * k + sum_upto_k_minus_one; // Maximum value ko k times aur k-1 tak ke sum ko add karte hain
     }
+
+    //Leetcode 1382
+    public TreeNode balanceBST(TreeNode root) {
+        // Pehle existing BST ko sorted array mein convert karte hain, phir us array se naya balanced BST banate hain
+
+        List<Integer> sortedAns = new ArrayList<>(); // Sorted values ko store karne ke liye list
+        inorder(root, sortedAns); // Inorder traversal se sorted array banate hain
+
+        // Sorted array se balanced BST create karte hain
+        TreeNode rootAns = createBST(sortedAns, 0, sortedAns.size() - 1);
+
+        return rootAns; // Naya balanced BST return karte hain
+    }
+
+    public TreeNode createBST(List<Integer> sortedAns, int left, int right) {
+        if (left > right) {
+            return null; // Base case: agar left index right se bada hai to null return karte hain
+        }
+
+        // Current array ka mid element find karte hain
+        int mid = left + (right - left) / 2;
+
+        TreeNode curr = new TreeNode(sortedAns.get(mid)); // Mid element ko new TreeNode mein convert karte hain
+
+        // Left aur right subtree recursively create karte hain
+        curr.left = createBST(sortedAns, left, mid - 1);
+        curr.right = createBST(sortedAns, mid + 1, right);
+
+        return curr; // Current node return karte hain
+    }
+
+    public void inorder(TreeNode root, List<Integer> sortedAns) {
+        if (root == null) {
+            return; // Base case: agar root null hai to return karte hain
+        }
+
+        inorder(root.left, sortedAns); // Left subtree ko traverse karte hain
+        sortedAns.add(root.val); // Root node ke value ko list mein add karte hain
+        inorder(root.right, sortedAns); // Right subtree ko traverse karte hain
+
+        return; // Function ko return karte hain
+    }
 }
