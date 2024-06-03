@@ -182,4 +182,66 @@ public class Greedy {
 
         return new String(arr); // Character array ko wapas string mein convert karke return karte hain
     }
+
+    //Leetcode 861
+    public int matrixScore(int[][] grid) {
+        int m = grid.length; // Rows ka count
+        int n = grid[0].length; // Columns ka count
+
+        boolean[] row_requires_change = new boolean[m]; // Rows ko flip karna hai ya nahi
+        boolean[] col_requires_change = new boolean[n]; // Columns ko flip karna hai ya nahi
+
+        // Pehle column mein sab 1 hone chahiye
+        for (int i = 0; i < m; i++) {
+            if (grid[i][0] == 0) {
+                row_requires_change[i] = true; // Agar pehle column mein 0 hai to row ko flip karna padega
+            }
+        }
+
+        // Rows ko flip karte hain agar required hai
+        int row_num = 0;
+        for (int row[] : grid) {
+            if (row_requires_change[row_num]) {
+                for (int i = 0; i < row.length; i++) {
+                    row[i] = row[i] == 0 ? 1 : 0; // Row ko flip karte hain
+                }
+            }
+            row_num += 1;
+        }
+
+        // Columns ko check karte hain agar flip karna hai
+        for (int j = 1; j < n; j++) {
+            int one_count = 0;
+            for (int i = 0; i < m; i++) {
+                if (grid[i][j] == 1) {
+                    one_count++;
+                }
+            }
+            if (one_count < m - one_count) {
+                col_requires_change[j] = true; // Agar 1 ka count kam hai to column ko flip karna hai
+            }
+        }
+
+        // Columns ko flip karte hain agar required hai
+        for (int j = 1; j < n; j++) {
+            for (int i = 0; i < m; i++) {
+                if (col_requires_change[j]) {
+                    grid[i][j] = grid[i][j] == 0 ? 1 : 0; // Column ko flip karte hain
+                }
+            }
+        }
+
+        int ans = 0; // Final answer store karne ke liye variable
+        for (int i = 0; i < m; i++) {
+            int pow = n - 1;
+
+            for (int j = 0; j < n; j++) {
+                ans += (int) (grid[i][j] * Math.pow(2, pow)); // Binary se decimal convert karte hain
+                pow--;
+            }
+        }
+
+        return ans; // Final score return karte hain
+    }
+
 }
