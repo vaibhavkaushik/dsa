@@ -244,4 +244,27 @@ public class Greedy {
         return ans; // Final score return karte hain
     }
 
+
+    //Leetcode 561
+    public int arrayPairSum(int[] nums) {
+        Arrays.sort(nums); // Array ko sort karte hain ascending order mein
+        int pairs = 0; // Pair ka count track karne ke liye variable
+        int sum = 0; // Final sum store karne ke liye variable
+        int min = Integer.MAX_VALUE; // Current pair ka minimum value store karne ke liye variable
+
+        // Array ko traverse karte hain
+        for (int i = 0; i < nums.length; i++) {
+            min = Math.min(min, nums[i]); // Current element aur min mein se chota value choose karte hain
+            pairs++; // Pair ka count increment karte hain
+
+            if (pairs == 2) { // Jab pair complete ho jaye
+                pairs = 0; // Pair count reset karte hain
+                sum += min; // Current pair ka minimum value sum mein add karte hain
+                min = Integer.MAX_VALUE; // Min value ko reset karte hain
+            }
+        }
+
+        return sum; // Final sum return karte hain
+    }
+
 }

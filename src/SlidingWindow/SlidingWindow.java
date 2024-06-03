@@ -790,7 +790,6 @@ public class SlidingWindow {
             // Maximum length of the substring ko update karte hain
             maxLength = Math.max(maxLength, end - start + 1);
         }
-        new StringBuilder().replace()
         return maxLength;  // Maximum length of the substring within the budget return karte hain
     }
 
