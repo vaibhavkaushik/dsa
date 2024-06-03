@@ -66,4 +66,42 @@ public class Greedy {
 
         return ans; // Total coins ka sum return karte hain
     }
+
+    //Leetcode 2864
+    public String maximumOddBinaryNumber(String s) {
+
+        char[] arr = s.toCharArray(); // String ko character array mein convert karte hain
+        int one_count = 0; // '1' ka count karne ke liye variable
+        int zero_count = 0; // '0' ka count karne ke liye variable
+
+        // Har character ko traverse karke '1' aur '0' count karte hain
+        for (int i = 0; i < arr.length; i++) {
+            if (arr[i] == '1') {
+                one_count++; // '1' ka count badhate hain
+            } else {
+                zero_count++; // '0' ka count badhate hain
+            }
+        }
+
+        StringBuilder ans = new StringBuilder(); // Final answer store karne ke liye StringBuilder
+
+        // Pehle sab '1' ko add karte hain except ek '1' jo end mein rahega
+        while (one_count > 1) {
+            ans.append("1"); // '1' ko StringBuilder mein add karte hain
+            one_count--;
+        }
+
+        // Phir sab '0' ko add karte hain
+        while (zero_count != 0) {
+            ans.append("0"); // '0' ko StringBuilder mein add karte hain
+            zero_count--;
+        }
+
+        // Ek last '1' ko add karte hain taaki number odd ho
+        if (one_count == 1) {
+            ans.append("1");
+        }
+
+        return ans.toString(); // Final answer return karte hain
+    }
 }
