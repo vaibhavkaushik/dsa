@@ -1,5 +1,7 @@
 package Greedy;
 
+import java.util.Arrays;
+
 public class Greedy {
 
     //Leetcode 807
@@ -30,5 +32,23 @@ public class Greedy {
                 count += (Math.min(maxrow[i], maxcol[j]) - grid[i][j]);
 
         return count; // Total increase return karte hain
+    }
+
+    //Leetcode 2160
+    public int minimumSum(int num) {
+
+        int[] arr = new int[4]; // 4 digits store karne ke liye array
+        int k = 0; // Index ko track karne ke liye variable
+
+        // Number ke digits ko array mein store karte hain
+        while (num != 0) {
+            arr[k++] = num % 10; // Last digit ko array mein daalte hain
+            num /= 10; // Last digit ko remove karte hain
+        }
+
+        Arrays.sort(arr); // Array ko sort karte hain taaki digits ascending order mein ho jaayein
+
+        // Do smallest possible numbers banate hain aur unka sum calculate karte hain
+        return arr[0] * 10 + arr[2] + arr[1] * 10 + arr[3]; // Smallest numbers ko combine karke sum return karte hain
     }
 }
