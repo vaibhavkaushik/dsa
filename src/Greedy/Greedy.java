@@ -51,4 +51,19 @@ public class Greedy {
         // Do smallest possible numbers banate hain aur unka sum calculate karte hain
         return arr[0] * 10 + arr[2] + arr[1] * 10 + arr[3]; // Smallest numbers ko combine karke sum return karte hain
     }
+
+    //Leetcode 1561
+    public int maxCoins(int[] piles) {
+        Arrays.sort(piles); // Piles ko sort karte hain ascending order mein
+        int ans = 0; // Total coins ka sum store karne ke liye variable
+        int loop_times = piles.length / 3; // Loop kitni baar chalana hai, wo calculate karte hain
+
+        // Piles ko reverse order mein traverse karte hain, second largest elements ko
+        // select karte hain
+        for (int i = piles.length - 2; i > 0 && loop_times > 0; i = i - 2, loop_times--) {
+            ans += piles[i]; // Answer mein second largest element add karte hain
+        }
+
+        return ans; // Total coins ka sum return karte hain
+    }
 }
