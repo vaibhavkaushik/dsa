@@ -104,4 +104,21 @@ public class Greedy {
 
         return ans.toString(); // Final answer return karte hain
     }
+
+    //Leetcode 2656
+    public int maximizeSum(int[] nums, int k) {
+
+        int max = -1; // Array ka maximum value store karne ke liye variable
+
+        // Array mein maximum value find karte hain
+        for (int i = 0; i < nums.length; i++) {
+            max = Math.max(max, nums[i]); // Maximum value ko update karte hain
+        }
+
+        // Pehle k-1 tak ka sum calculate karte hain (Arithmetic series formula)
+        int sum_upto_k_minus_one = (k * (k - 1)) / 2; // (k * (k - 1)) / 2 formula se sum calculate karte hain
+
+        // Final result return karte hain (max * k) + sum_upto_k_minus_one
+        return max * k + sum_upto_k_minus_one; // Maximum value ko k times aur k-1 tak ke sum ko add karte hain
+    }
 }
