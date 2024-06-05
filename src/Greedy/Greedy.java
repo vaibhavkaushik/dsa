@@ -323,6 +323,27 @@ Yeh code bitwise operations ka use karke string ko traverse karta hai aur har ch
         return ans;
     }
 
+    
+    /*
+Matrix banane ke liye jo given rowSum aur colSum ko satisfy kare, hum greedy approach use karte hain. Pehle ek empty matrix initialize karte hain aur phir har cell ko fill karte hain. Har cell ke liye, hum uska value Math.min(rowSum[i], colSum[j]) lete hain, jo ensure karta hai ki hum kisi bhi row ya column ka sum exceed na karein. Yeh minimum value current cell mein assign karne ke baad, us value ko respective rowSum aur colSum se subtract karte hain, taaki updated sums ko next cells ke liye use kar sakein. Is tarah se, hum har cell ko fill karte hain aur ensure karte hain ki har row aur column ka sum given rowSum aur colSum arrays ke saath match ho. Yeh method guarantee karta hai ki constraints satisfy hote hain kyunki har step pe hum maximum possible value assign karte hain bina constraints violate kiye.
+    */
+    //Leetcode 1605
+    public int[][] restoreMatrix(int[] rowSum, int[] colSum) {
+        int numRows = rowSum.length; // Bhai, number of rows
+        int numCols = colSum.length; // Bhai, number of columns
+        int[][] result = new int[numRows][numCols]; // Bhai, result matrix initialize karte hain
+
+        for (int i = 0; i < numRows; i++) { // Bhai, row ke liye loop
+            for (int j = 0; j < numCols; j++) { // Bhai, column ke liye loop
+                int val = Math.min(rowSum[i], colSum[j]); // Bhai, current cell ka value decide karte hain
+                result[i][j] = val; // Bhai, result matrix mein value assign karte hain
+                rowSum[i] -= val; // Bhai, current rowSum update karte hain
+                colSum[j] -= val; // Bhai, current colSum update karte hain
+            }
+        }
+
+        return result; // Bhai, final matrix return karte hain
+    }
 
 
 }
