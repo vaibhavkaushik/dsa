@@ -305,4 +305,24 @@ public class Greedy {
     }
 
 
+    /*
+Yeh code bitwise operations ka use karke string ko traverse karta hai aur har character ko ek bitmask (flag) mein track karta hai. Har character ko integer value mein convert karke, 1 << val se uska bit set karte hain. flag & (1 << val) != 0 se check karte hain ki character pehle se partition mein hai ya nahi. Agar hai, toh flag reset karke partition count increment karte hain. Phir flag = flag | (1 << val) se current character ka bit set karte hain. Is tarah, bitwise operations efficiently track karte hain kaunse characters current partition mein hain aur jab repeat hota hai, toh naya partition shuru karte hain, jisse minimum partitions bina repeat characters ke milte hain.
+*/
+    //Leetcode 2405
+    public int partitionString(String s) {
+        int i = 0, ans = 1, flag = 0;
+        while(i < s.length()) {
+            int val = s.charAt(i) - 'a';
+            if ((flag & (1 << val)) != 0) {
+                flag = 0;
+                ans++;
+            }
+            flag = flag | (1 << val);
+            i++;
+        }
+        return ans;
+    }
+
+
+
 }
