@@ -345,5 +345,33 @@ Matrix banane ke liye jo given rowSum aur colSum ko satisfy kare, hum greedy app
         return result; // Bhai, final matrix return karte hain
     }
 
+    //Leetcode 1727
+    public int largestSubmatrix(int[][] matrix) {
+        int m = matrix.length;
+        int n = matrix[0].length;
+        int area = 0;
+
+        // Step 1: Har cell ke liye column-wise consecutive 1s ka count calculate karte hain
+        for (int i = 1; i < m; i++) {
+            for (int j = 0; j < n; j++) {
+                if (matrix[i][j] == 1) {
+                    matrix[i][j] += matrix[i - 1][j];
+                }
+            }
+        }
+
+        // Step 2: Har row ko descending order mein sort karte hain aur maximum area calculate karte hain
+        for (int i = m - 1; i >= 0; i--) {
+            Arrays.sort(matrix[i]);
+            int k = 1;
+            for (int j = n - 1; j >= 0; j--) {
+                area = Math.max(area, matrix[i][j] * k);
+                k++;
+            }
+        }
+
+        return area;
+    }
+
 
 }
