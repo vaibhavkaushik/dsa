@@ -374,6 +374,7 @@ Matrix banane ke liye jo given rowSum aur colSum ko satisfy kare, hum greedy app
     }
 
     //Leetcode 1833
+    //Try to see more optimal approach as well
     public int maxIceCream(int[] costs, int coins) {
 
 
@@ -389,6 +390,32 @@ Matrix banane ke liye jo given rowSum aur colSum ko satisfy kare, hum greedy app
         }
 
         return count;
+    }
+
+    //Leetcode 2294
+    /*
+    Is problem ko solve karne ka intution yeh hai ki pehle array ko sort karte hain taaki elements apne natural order mein aa jayein. Isse humein asani hoti hai contiguous segments identify karne mein jahan maximum difference smallest aur largest elements ke beech mein given limit
+    k ke andar ho. Sorted array ko traverse karke, hum ek greedy approach use karte hain partitions banane ke liye. Har partition ko pehle unpartitioned element se start karte hain aur elements add karte jate hain jab tak maximum allowed difference
+    k exceed nahi ho jata. Jab yeh difference exceed ho jata hai, hum naya partition start karte hain. Is tarah har partition required condition ko maintain karta hai aur minimum partitions banate hain.
+     */
+    public static int partitionArray(int[] nums, int k) {
+        // Step 1: Array ko sort karo
+        Arrays.sort(nums);
+
+        // Partition count
+        int partitions = 1;
+        // Current partition ka start element
+        int start = nums[0];
+
+        // Step 2: Greedy approach se partitions banao
+        for (int i = 1; i < nums.length; i++) {
+            if (nums[i] - start > k) {
+                partitions++;
+                start = nums[i];
+            }
+        }
+
+        return partitions;
     }
 
 
