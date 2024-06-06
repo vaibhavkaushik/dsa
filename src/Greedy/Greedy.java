@@ -418,5 +418,25 @@ Matrix banane ke liye jo given rowSum aur colSum ko satisfy kare, hum greedy app
         return partitions;
     }
 
+    //Leetcode 2486
+    public int appendCharacters(String s, String t) {
+        // sIndex aur tIndex pointers ko initialize karte hain
+        int sIndex = 0, tIndex = 0;
+        int sLength = s.length(), tLength = t.length();
+
+        // Jab tak sIndex aur tIndex end tak nahi pahunchen
+        while (sIndex < sLength && tIndex < tLength) {
+            // Agar s aur t ke characters match hote hain
+            if (s.charAt(sIndex) == t.charAt(tIndex)) {
+                // tIndex ko increment karo
+                tIndex++;
+            }
+            // sIndex ko hamesha increment karo
+            sIndex++;
+        }
+
+        // tLength - tIndex return karo jo remaining characters ko indicate karta hai
+        return tLength - tIndex;
+    }
 
 }
