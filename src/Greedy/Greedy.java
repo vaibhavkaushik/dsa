@@ -439,4 +439,26 @@ Matrix banane ke liye jo given rowSum aur colSum ko satisfy kare, hum greedy app
         return tLength - tIndex;
     }
 
+    //Leetcode 1529
+    public int minFlips(String target) {
+        // Flip count initialize karte hain
+        int flips = 0;
+
+        // Previous bit initialize karte hain
+        char previous = '0';
+
+        // String ko traverse karte hain
+        for (int i = 0; i < target.length(); i++) {
+            // Agar current character previous character se different hai
+            if (target.charAt(i) != previous) {
+                // Flip count increment karte hain
+                flips++;
+                // Previous character ko update karte hain
+                previous = target.charAt(i);
+            }
+        }
+
+        return flips;
+    }
+
 }
