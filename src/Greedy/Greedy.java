@@ -524,4 +524,22 @@ Is concept ko implement karne ke liye hum ek HashSet ka use karte hain. HashSet 
         return uniqueNonZeroElements.size();
     }
 
+    /*
+    Is solution ka main idea yeh hai ki array ko sort karke usme se continuously groups of 3 elements banaaye jaayein, jinka difference k se zyada na ho. Pehle array ko sort karna zaroori hai
+    taaki hum smallest to largest order mein elements ko check kar sakein. Sorted array mein, har group ke first aur
+    last element ka difference check karte hain. Agar yeh difference k se zyada hota hai, to return karte hain empty array kyunki aisa group banana possible nahi hai. Agar difference valid hai,
+    to us group ko result array mein add kar dete hain. Har baar 3 elements ko ek group bana ke move karte hain, aur yeh process tab tak chalta hai jab tak saare elements process nahi ho jaate. Finally, agar saare groups valid hote hain, to result array return karte hain.
+     */
+    //Leetcode 2966
+    public int[][] divideArray(int[] nums, int k) {
+        Arrays.sort(nums); // Array ko sort kar lo
+        int[][] ans = new int[nums.length / 3][3]; // Result array initialize karo
+        for (int i = 2; i < nums.length; i += 3) { // Array ko 3 elements ke groups mein process karo
+            if (nums[i] - nums[i - 2] > k) // Group ka difference check karo
+                return new int[0][]; // Agar difference valid nahi hai, to empty array return karo
+            ans[i / 3] = new int[] { nums[i - 2], nums[i - 1], nums[i] }; // Valid group ko result mein store karo
+        }
+        return ans; // Final result return karo
+    }
+
 }
