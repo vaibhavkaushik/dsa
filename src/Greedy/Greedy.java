@@ -2,6 +2,7 @@ package Greedy;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
 
 public class Greedy {
@@ -496,6 +497,31 @@ Matrix banane ke liye jo given rowSum aur colSum ko satisfy kare, hum greedy app
 
         // Result list return kar do
         return ans;
+    }
+
+
+    /*
+    Is problem ka main goal yeh hai ki ek given array ke saare elements ko zero banana hai by subtracting the same value from all non-zero elements har step mein. Matlab, har step mein hum kisi bhi ek unique value ko zero kar sakte hain, jo baaki non-zero elements se subtract ho jaye.
+
+Is cheez ko samajhne ke liye, hum yeh sochte hain ki kitne unique non-zero values hain array mein. Agar humare paas ek array hai jismein multiple values hain jo zero nahi hain, to har unique non-zero value ko kam se kam ek baar zero karna padega. Iska matlab, jitne unique non-zero elements honge, utne hi steps lagenge array ko zero banane mein.
+
+Is concept ko implement karne ke liye hum ek HashSet ka use karte hain. HashSet ek aisa data structure hai jo unique values ko store karta hai. To hum array ke saare elements ko iterate karke, jo bhi non-zero elements hain unhe HashSet mein daal denge. Phir, set ka size humein batayega ki kitne unique non-zero elements the, jo ki humare steps ke equal hoga.
+     */
+    //Leetcode 2357
+    public int minimumStepsToZero(int[] nums) {
+        // Unique non-zero elements ko track karne ke liye set banaya
+        HashSet<Integer> uniqueNonZeroElements = new HashSet<>();
+
+        // Array ke har element ko check karo
+        for (int num : nums) {
+            // Agar element zero nahi hai to usko set mein add karo
+            if (num != 0) {
+                uniqueNonZeroElements.add(num);
+            }
+        }
+
+        // Set ka size return karo jo ki unique non-zero elements ki count hai
+        return uniqueNonZeroElements.size();
     }
 
 }
