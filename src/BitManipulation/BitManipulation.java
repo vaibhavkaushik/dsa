@@ -38,4 +38,38 @@ public class BitManipulation {
 
         return flips; // Total flips return karo
     }
+
+    /*Is problem ka solution bitwise manipulation par based hai. Har element ka har bit position (0 se 31) tak
+    check karte hain aur 1s ka count karte hain. Agar kisi bit position par 1 ka count 3 se divisible nahi hai,
+    to iska matlab wo bit unique element ka part hai. Aise karne se har bit position ko individually analyze
+    karke hum unique element ko reconstruct kar sakte hain. Yeh approach efficient hai kyunki yeh linear
+    runtime complexity (O(n)) mein kaam karti hai aur constant space use karti hai. Har bit position ke
+    liye 3 se modulo operation use karke, hum easily identify kar sakte hain ki kaunsa bit unique element
+    mein set hona chahiye.
+    */
+    //Leetcode 137
+    public int singleNumber(int[] nums) {
+        int result = 0;
+
+        // Har bit position (0 to 31) ke liye process karo
+        for (int i = 0; i < 32; i++) {
+            int sum = 0;
+            int mask = 1 << i; // i-th bit position ke liye mask
+
+            // Array ke har element ke bits ko check karo
+            for (int num : nums) {
+                // Agar current bit set hai to sum ko increment karo
+                if ((num & mask) != 0) {
+                    sum++;
+                }
+            }
+
+            // Agar sum 3 se divisible nahi hai, to result mein i-th bit set karo
+            if (sum % 3 != 0) {
+                result |= mask;
+            }
+        }
+
+        return result; // Unique element return karo
+    }
 }
