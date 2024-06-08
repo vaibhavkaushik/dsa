@@ -461,4 +461,41 @@ Matrix banane ke liye jo given rowSum aur colSum ko satisfy kare, hum greedy app
         return flips;
     }
 
+    //Leetcode 1403
+    public List<Integer> minSubsequence(int[] nums) {
+        // Total sum ka variable banaya
+        int total = 0;
+
+        // Array ke saare elements ka total sum calculate kiya
+        for(int i = 0; i < nums.length; i++) {
+            total += nums[i];
+        }
+
+        // Array ko chhote se bade order mein sort kiya
+        Arrays.sort(nums);
+
+        // Subsequence ka sum store karne ke liye variable banaya
+        int sum = 0;
+
+        // Result subsequence store karne ke liye list banayi
+        ArrayList<Integer> ans = new ArrayList<>();
+
+        // Array ko ulte order mein iterate kiya (bade element se shuru karke)
+        for(int i = nums.length - 1; i >= 0; i--) {
+            // Current element ko result list mein add kiya
+            ans.add(nums[i]);
+
+            // Current element ko subsequence ke sum mein add kiya
+            sum += nums[i];
+
+            // Agar subsequence ka sum remaining elements ke sum se zyada hai, to result list return kar do
+            if(sum > total - sum) {
+                return ans;
+            }
+        }
+
+        // Result list return kar do
+        return ans;
+    }
+
 }
