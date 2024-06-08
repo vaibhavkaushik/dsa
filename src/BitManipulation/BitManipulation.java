@@ -72,4 +72,25 @@ public class BitManipulation {
 
         return result; // Unique element return karo
     }
+
+    //Leetcode 338
+    /*
+    Is problem ka solution bit manipulation par based hai. Har integer i ka binary representation mein 1's ka
+    count efficiently find karne ke liye, hum i & (i - 1) operation use karte hain. Yeh operation i se ek 1 bit
+     remove karta hai. Example ke liye, agar i = 5 (binary: 101), to 5 & (5 - 1) hoga 5 & 4 (binary: 100),
+     jo 4 ke barabar hoga. 5 ke 1's count ko 4 ke 1's count mein 1 add karke find kar sakte hain. Is approach
+     se har bit position ko individually check karne ki zaroorat nahi hoti, aur hum previous results ka reuse
+     karte hain, isse time complexity O(n) hoti hai aur space constant use hota hai.
+     */
+    public int[] countBits(int n) {
+        int[] ans = new int[n + 1]; // Result array initialize karo
+
+        // Har integer i (0 se n tak) ke liye 1's count calculate karo
+        for (int i = 1; i <= n; i++) {
+            // ans[i] ko ans[i & (i - 1)] + 1 se derive karo
+            ans[i] = ans[i & (i - 1)] + 1;
+        }
+
+        return ans; // Final result return karo
+    }
 }
