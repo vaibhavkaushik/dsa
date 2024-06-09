@@ -1,5 +1,7 @@
 package BitManipulation;
 
+import java.util.Arrays;
+
 public class BitManipulation {
     /*
     Is problem ka main idea yeh hai ki humein a OR b ka result c ke equal banana hai by flipping minimum number of bits.
@@ -92,5 +94,42 @@ public class BitManipulation {
         }
 
         return ans; // Final result return karo
+    }
+
+    /*
+     given array ke integers ko unke binary representation mein 1's bits ke count ke basis pe sort karna,
+     bina inbuilt functions ke. Yeh achieve karne ke liye hum Streams ka use karte hain, jisme hum pehle
+      array ko box karke Integer objects mein convert karte hain, phir custom comparator ka use karte
+       hue sort karte hain aur finally wapas int array mein convert kar dete hain. Custom comparator
+       pehle har integer ka binary representation mein 1's bits count karta hai, phir in counts ko compare
+        karta hai. Agar 1's bits ka count same hota hai, to original values ko compare karta hai.
+         Is process ke baad sorted array return hota hai.
+     */
+    //Leetcode 1356
+    // Function to count 1's bits in the binary representation of a number
+    private int countOnes(int n) {
+        int count = 0;
+        while (n != 0) {
+            count += n & 1; // Increment count if the least significant bit is 1
+            n >>= 1; // Right shift to process the next bit
+        }
+        return count;
+    }
+
+    public int[] sortByBits(int[] arr) {
+        // Custom comparator to sort by number of 1's bits and then by value
+        return Arrays.stream(arr)
+                .boxed()
+                .sorted((a, b) -> {
+                    int countA = countOnes(a);
+                    int countB = countOnes(b);
+                    if (countA == countB) {
+                        return Integer.compare(a, b);
+                    } else {
+                        return Integer.compare(countA, countB);
+                    }
+                })
+                .mapToInt(Integer::intValue)
+                .toArray();
     }
 }
