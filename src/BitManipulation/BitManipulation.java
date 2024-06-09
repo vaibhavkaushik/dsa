@@ -224,4 +224,26 @@ public class BitManipulation {
         int targetXor = currentXor ^ k;  // Target XOR calculate karna
         return countSetBits(targetXor);  // Target XOR me set bits ki sankhya
     }
+
+
+    ///Leetcode 2859
+    public int sumIndicesWithKSetBits(List<Integer> nums, int k) {
+        int sum = 0;
+        for(int i=0; i<nums.size(); i++){
+            if(getBitCount(i) == k){
+                sum += nums.get(i);
+            }
+        }
+        return sum;
+    }
+    int getBitCount(int number){
+        int bitCount = 0;
+        while (number > 0) {
+            if ((number & 1) == 1) {
+                bitCount++;
+            }
+            number = number >> 1;
+        }
+        return bitCount;
+    }
 }
