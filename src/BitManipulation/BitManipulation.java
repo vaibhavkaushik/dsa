@@ -202,4 +202,26 @@ public class BitManipulation {
         // return sum of xors from recursion
         return withElement + withoutElement;
     }
+
+    //Leetcode 2997
+    // Yeh method set bits ko count karta hai
+    public static int countSetBits(int x) {
+        int count = 0;
+        while (x > 0) {
+            x &= (x - 1);  // Yeh operation set bits ki sankhya ko 1 se kam kar deta hai
+            count++;
+        }
+        return count;
+    }
+
+    // Yeh method minimum operations ko calculate karta hai
+    public static int minOperations(int[] nums, int k) {
+        int currentXor = 0;
+        for (int num : nums) {
+            currentXor ^= num;  // Array ke sabhi elements ka XOR
+        }
+
+        int targetXor = currentXor ^ k;  // Target XOR calculate karna
+        return countSetBits(targetXor);  // Target XOR me set bits ki sankhya
+    }
 }
