@@ -132,4 +132,27 @@ public class BitManipulation {
                 .mapToInt(Integer::intValue)
                 .toArray();
     }
+
+    /*
+    given array pref se original array arr ko find karna jismein har element ka XOR operation pref
+    array ke corresponding index value ke equal ho. pref[i] cumulative XOR hai first i+1 elements
+    ka arr array mein. Yeh problem solve karne ke liye, hum yeh samajhte hain ki arr[i] ko pref[i]
+     aur pref[i-1] ka XOR karke easily find kar sakte hain kyunki XOR operation similar elements
+      ko cancel out kar deta hai. Pehla element arr[0] directly pref[0] ke barabar hoga. Uske baad
+      har element arr[i] ko calculate karte hain pref[i] aur pref[i-1] ka XOR karke. Is
+      tarike se hum original array arr ko efficiently reconstruct kar sakte hain.
+     */
+    //Leetcode 2433
+    public int[] findArray(int[] pref) {
+        int n = pref.length;
+        int[] arr = new int[n];
+        arr[0] = pref[0]; // arr[0] is directly pref[0]
+
+        // Calculate subsequent elements
+        for (int i = 1; i < n; i++) {
+            arr[i] = pref[i] ^ pref[i - 1];
+        }
+
+        return arr;
+    }
 }
