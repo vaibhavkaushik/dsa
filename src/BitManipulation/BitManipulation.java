@@ -248,6 +248,7 @@ public class BitManipulation {
     }
 
     //Leetcode 1442
+    //https://www.youtube.com/watch?v=TgkxnZ6oPYU
     public int countTriplets(int[] arr) {
         int n = arr.length;
         int[] prefixXor = new int[n + 1];
