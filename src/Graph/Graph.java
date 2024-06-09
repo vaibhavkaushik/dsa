@@ -1,3 +1,4 @@
+package Graph;
 import java.util.*;
 
 public class Graph {
@@ -213,6 +214,53 @@ public class Graph {
             }
         }
         return false;
+    }
+
+    //Leetcode 547
+    public int findCircleNum(int[][] isConnected) {
+        int n = isConnected.length;  // Cities ki sankhya
+        Map<Integer, List<Integer>> adj = new HashMap<>();  // Graph ka adjacency list representation
+
+        // isConnected matrix se adjacency list banate hain
+        for (int i = 1; i <= n; i++) {
+            for (int j = 1; j <= n; j++) {
+                if (isConnected[i - 1][j - 1] == 1) {  // Agar city i aur city j connected hain
+                    adj.putIfAbsent(i, new ArrayList<>());  // Agar city i list mein nahi hai to add karo
+                    if (i != j) {  // Self-loop add mat karo
+                        adj.get(i).add(j);  // City j ko city i ke adjacency list mein add karo
+                    }
+                }
+            }
+        }
+
+        boolean[] visited = new boolean[n + 1];  // Visited cities ko track karne ke liye
+        int count = 0;  // Provinces ki ginti
+
+        // Har city ke liye BFS karo taaki connected components (provinces) mil sakein
+        for (int node : adj.keySet()) {
+            if (!visited[node]) {  // Agar city visit nahi hui hai
+                BFS(adj, visited, node);  // Is province ke sabhi cities ko explore karo
+                count += 1;  // Province count increment karo
+            }
+        }
+
+        return count;  // Provinces ki sankhya return karo
+    }
+
+    void BFS(Map<Integer, List<Integer>> adj, boolean[] visited, int u) {
+        Queue<Integer> q = new LinkedList<>();  // BFS ke liye queue
+        q.offer(u);  // Shuru karo given city se
+        visited[u] = true;  // Mark as visited
+
+        while (!q.isEmpty()) {
+            int current_node = q.poll();  // Current node ko queue se nikalo
+            for (int neighbour : adj.get(current_node)) {  // Sab neighbours check karo
+                if (!visited[neighbour]) {  // Agar neighbour visit nahi hua hai
+                    q.offer(neighbour);  // Queue mein add karo
+                    visited[neighbour] = true;  // Mark as visited
+                }
+            }
+        }
     }
 
     public static void main(String[] args) {
