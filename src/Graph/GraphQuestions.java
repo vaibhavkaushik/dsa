@@ -158,5 +158,45 @@ public class GraphQuestions {
         return parent[x];
     }
 
+    // Method to find the minimum cost to connect all points using Prim's Algorithm
+    //Leetcode 1584
+    public int minCostConnectPointsPrims(int[][] points) {
+
+        // Priority Queue for selecting the minimum edge
+        PriorityQueue<int[]> pq = new PriorityQueue<>(Comparator.comparingInt(a -> a[1]));
+        boolean[] visited = new boolean[points.length];
+        int totalCost = 0;
+        int edgesUsed = 0;
+
+        // Start with the first point
+        pq.offer(new int[]{0, 0}); // {node, cost}
+
+        while (edgesUsed < points.length) {
+            int[] current = pq.poll();
+            int currentNode = current[0];
+            int currentCost = current[1];
+
+            // If the node is already visited, skip it
+            if (visited[currentNode]) {
+                continue;
+            }
+
+            // Mark the node as visited
+            visited[currentNode] = true;
+            totalCost += currentCost;
+            edgesUsed++;
+
+            // Add all adjacent nodes to the priority queue
+            for (int i = 0; i < points.length; i++) {
+                if (!visited[i]) {
+                    int dist = Math.abs(points[currentNode][0] - points[i][0]) + Math.abs(points[currentNode][1] - points[i][1]);
+                    pq.offer(new int[]{i, dist});
+                }
+            }
+        }
+
+        return totalCost;
+    }
+
 
 }
