@@ -80,4 +80,31 @@ public class UnionFindCycleDetection {
             System.out.println("Graph doesn't contain cycle");
         }
     }
+
+    //Leetcode 997
+    // Method to find the town judge
+    public int findJudge(int n, int[][] trust) {
+        if (n == 1) return 1; // Agar sirf ek hi insaan hai, wohi judge hoga
+
+        // Trusts aur trustedBy arrays initialize karte hain
+        int[] trusts = new int[n + 1];
+        int[] trustedBy = new int[n + 1];
+
+        // Trust array ko process karte hain
+        for (int[] t : trust) {
+            trusts[t[0]]++; // t[0] kisi ko trust karta hai
+            trustedBy[t[1]]++; // t[1] ko koi trust karta hai
+        }
+
+        // Town judge ko dhoondte hain
+        for (int i = 1; i <= n; i++) {
+            // Agar i kisi ko trust nahi karta aur sab log use trust karte hain to woh judge hai
+            if (trusts[i] == 0 && trustedBy[i] == n - 1) {
+                return i;
+            }
+        }
+
+        // Agar judge nahi milta, return -1
+        return -1;
+    }
 }
