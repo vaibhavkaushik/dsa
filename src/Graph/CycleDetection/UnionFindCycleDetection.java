@@ -132,4 +132,34 @@ public class UnionFindCycleDetection {
 
         return result;
     }
+
+    //Leetcode 841
+    // Method to check if we can visit all rooms using DFS
+    public boolean canVisitAllRooms(List<List<Integer>> rooms) {
+        // Visited array initialize karte hain
+        boolean[] visited = new boolean[rooms.size()];
+        // DFS call karte hain room 0 se
+        dfs(0, rooms, visited);
+
+        // Sabhi rooms ko check karte hain agar sab visit hue hain ya nahi
+        for (boolean roomVisited : visited) {
+            if (!roomVisited) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    // DFS method jo rooms ko visit karta hai
+    private void dfs(int room, List<List<Integer>> rooms, boolean[] visited) {
+        visited[room] = true; // Current room ko visit mark karte hain
+
+        // Sabhi keys (rooms) ko check karte hain jo current room mein hain
+        for (int key : rooms.get(room)) {
+            if (!visited[key]) {
+                dfs(key, rooms, visited); // DFS call karte hain next room ke liye
+            }
+        }
+    }
 }
