@@ -107,4 +107,29 @@ public class UnionFindCycleDetection {
         // Agar judge nahi milta, return -1
         return -1;
     }
+
+    //Leetcode 1557
+    // Method to find the minimum number of vertices to reach all nodes
+    public List<Integer> findSmallestSetOfVertices(int n, List<List<Integer>> edges) {
+
+        // Indegree array initialize karte hain
+        int[] indegree = new int[n];
+
+        // Edges ko process karte hain
+        for (List<Integer> edge : edges) {
+            indegree[edge.get(1)]++; // Destination node ka indegree increment karte hain
+        }
+
+        // Result list initialize karte hain
+        List<Integer> result = new ArrayList<>();
+
+        // Jitne bhi nodes ka indegree 0 hai unhe result mein add karte hain
+        for (int i = 0; i < n; i++) {
+            if (indegree[i] == 0) {
+                result.add(i);
+            }
+        }
+
+        return result;
+    }
 }
