@@ -1,9 +1,6 @@
 package Graph;
 
-import java.util.ArrayList;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
+import java.util.*;
 
 public class GraphQuestions {
 
@@ -105,6 +102,60 @@ public class GraphQuestions {
 
         // Agar path nahi milta to return false
         return false;
+    }
+
+    // Method to find the minimum cost to connect all points
+    //Leetcode 1584
+    public int minCostConnectPoints(int[][] points) {
+
+        // List to store all edges {u, v, weight}
+        List<int[]> edges = new ArrayList<>();
+
+        // Calculate the distance between all pairs of points and store as edges
+        for (int i = 0; i < points.length; i++) {
+            for (int j = i + 1; j < points.length; j++) {
+                int dist = Math.abs(points[i][0] - points[j][0]) + Math.abs(points[i][1] - points[j][1]);
+                edges.add(new int[]{i, j, dist});
+            }
+        }
+
+        // Sort the edges based on their weight (distance)
+        Collections.sort(edges, Comparator.comparingInt(val -> val[2]));
+
+        // Initialize Union-Find structure
+        int[] parent = new int[points.length];
+        for (int i = 0; i < points.length; i++) {
+            parent[i] = i; // Initially, every node is its own parent
+        }
+
+        int totalCost = 0; // Variable to store the total cost of connecting all points
+
+        // Iterate through the sorted edges
+        for (int[] edge : edges) {
+
+            int u = edge[0];
+            int v = edge[1];
+            int weight = edge[2];
+
+            int xParent = findParent(u, parent);
+            int yParent = findParent(v, parent);
+
+            // If u and v are in different components, connect them
+            if (xParent != yParent) {
+                parent[xParent] = yParent; // Union operation
+                totalCost += weight; // Add the weight to the total cost
+            }
+        }
+
+        return totalCost; // Return the total cost
+    }
+
+    // Find the root parent of x with path compression
+    int findParent(int x, int[] parent) {
+        if (parent[x] != x) {
+            parent[x] = findParent(parent[x], parent);
+        }
+        return parent[x];
     }
 
 
