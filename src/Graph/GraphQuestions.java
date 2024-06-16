@@ -261,5 +261,82 @@ public class GraphQuestions {
         }
     }
 
+    //Leetcode 1615
+    public int maximalNetworkRank(int n, int[][] roads) {
+        // Adjacency list banate hain
+        Map<Integer, List<Integer>> adj = new HashMap<>();
+
+        // Roads ko adjacency list mein add karte hain
+        for (int[] road : roads) {
+            adj.putIfAbsent(road[0], new ArrayList<>());
+            adj.putIfAbsent(road[1], new ArrayList<>());
+
+            adj.get(road[0]).add(road[1]);
+            adj.get(road[1]).add(road[0]);
+        }
+
+        // List to store vertices with their corresponding list sizes (degrees)
+        List<int[]> vertices = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            vertices.add(new int[]{i, adj.getOrDefault(i, new ArrayList<>()).size()});
+        }
+
+        // Sort the vertices by list size (degree) in reverse order
+        Collections.sort(vertices, Comparator.comparingInt((int[] val) -> val[1]).reversed());
+
+        // Maximal network rank ko calculate karte hain
+        int maxRank = 0;
+        for (int i = 0; i < vertices.size(); i++) {
+            for (int j = i + 1; j < vertices.size(); j++) {
+                int[] vertexA = vertices.get(i);
+                int[] vertexB = vertices.get(j);
+                int rank = vertexA[1] + vertexB[1];
+
+                // Agar vertexA aur vertexB direct connection share karte hain to rank se 1 subtract karte hain
+                if (adj.get(vertexA[0])!=null && adj.get(vertexA[0]).contains(vertexB[0])) {
+                    rank--;
+                }
+
+                // Update maxRank if the current rank is greater
+                maxRank = Math.max(maxRank, rank);
+            }
+        }
+
+        return maxRank;
+    }
+
+    //Leetcode 1615
+    public int maximalNetworkRankOptimized(int n, int[][] roads) {
+        // Degree array initialize karte hain
+        int[] degree = new int[n];
+
+        // Adjacency matrix initialize karte hain to keep track of direct connections
+        boolean[][] directConnection = new boolean[n][n];
+
+        // Degree array aur adjacency matrix fill karte hain
+        for (int[] road : roads) {
+            int a = road[0];
+            int b = road[1];
+            degree[a]++;
+            degree[b]++;
+            directConnection[a][b] = true;
+            directConnection[b][a] = true;
+        }
+
+        // Maximal network rank ko calculate karte hain
+        int maxRank = 0;
+        for (int i = 0; i < n; i++) {
+            for (int j = i + 1; j < n; j++) {
+                int currentRank = degree[i] + degree[j];
+                if (directConnection[i][j]) {
+                    currentRank--; // Agar direct connection hai to rank se 1 subtract karte hain
+                }
+                maxRank = Math.max(maxRank, currentRank); // Max rank ko update karte hain
+            }
+        }
+
+        return maxRank; // Maximal network rank return karte hain
+    }
+
 
 }
