@@ -414,5 +414,146 @@ public class GraphQuestions {
         }
     }
 
+    //Leetcode 802
+    public List<Integer> eventualSafeNodes(int[][] graph) {
+
+
+        boolean[] visited = new boolean[graph.length];
+        boolean[] isInRecursion = new boolean[graph.length];
+
+        for(int i=0; i<graph.length; i++){
+            if(!visited[i]){
+                DFSCycle(visited, isInRecursion, graph, i);
+            }
+        }
+
+        List<Integer> safeNodes = new ArrayList<>();
+        for (int i = 0; i < graph.length; i++) {
+            if (!isInRecursion[i]) {
+                safeNodes.add(i);
+            }
+        }
+
+        return safeNodes;
+    }
+
+    boolean DFSCycle(boolean[] visited, boolean[] isInRecursion, int[][] graph, int src){
+
+        visited[src]=true;
+        isInRecursion[src]=true;
+
+        for(int neighbour : graph[src]){
+            if(!visited[neighbour] && DFSCycle(visited,isInRecursion,graph,neighbour)){
+                return true;
+            }else if(isInRecursion[neighbour]){
+                return true;
+            }
+        }
+
+        isInRecursion[src]=false;
+        return false;
+    }
+
+    //Leetcode 2285
+    public long maximumImportance(int n, int[][] roads) {
+        List<List<Integer>> adjList = new ArrayList<>(n);
+
+        // Initialize adjacency list
+        for (int i = 0; i < n; i++) {
+            adjList.add(new ArrayList<>());
+        }
+
+        // Fill the adjacency list with the roads information
+        for (int[] road : roads) {
+            adjList.get(road[0]).add(road[1]);
+            adjList.get(road[1]).add(road[0]);
+        }
+
+        // Create a list of nodes with their degrees
+        List<int[]> nodes = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            nodes.add(new int[]{i, adjList.get(i).size()});
+        }
+
+        // Sort nodes by their degrees in descending order
+        nodes.sort(Comparator.comparingInt((int[] a) -> a[1]).reversed());
+        //nodes.sort((a, b) -> Integer.compare(b[1], a[1]));
+        //nodes.sort(Comparator.comparingInt(a -> a[1]).reversed());
+        //nodes.sort((a, b) -> b[1] - a[1]); //Little bit problematic in case of integer overflow
+
+        int[] values = new int[n]; // Har node ko assigned value ko store karne ke liye array
+        int value = n; // Initial value sabse badi value se start karte hain
+
+        // Highest degree wale nodes ko highest values assign karte hain
+        for (int[] node : nodes) {
+            values[node[0]] = value--;
+        }
+
+        long totalImportance = 0; // Total importance calculate karne ke liye variable
+
+        // Sab roads ka total importance calculate karte hain
+        for (int[] road : roads) {
+            totalImportance += values[road[0]] + values[road[1]];
+        }
+
+        return totalImportance; // Total importance ko return karte hain
+    }
+
+    //Leetcode 399
+    // Main method to calculate the results for queries
+    public double[] calcEquation(List<List<String>> equations, double[] values, List<List<String>> queries) {
+        // Graph ko build karte hain equations aur values se
+        Map<String, Map<String, Double>> graph = new HashMap<>();
+
+        // Har equation ko graph mein add karte hain
+        for (int i = 0; i < equations.size(); i++) {
+            String a = equations.get(i).get(0); // Equation ka numerator
+            String b = equations.get(i).get(1); // Equation ka denominator
+            graph.putIfAbsent(a, new HashMap<>()); // Agar node 'a' graph mein nahi hai, to usko add karte hain
+            graph.putIfAbsent(b, new HashMap<>()); // Agar node 'b' graph mein nahi hai, to usko add karte hain
+            graph.get(a).put(b, values[i]); // 'a' se 'b' tak ka edge with ratio 'values[i]'
+            graph.get(b).put(a, 1.0 / values[i]); // 'b' se 'a' tak ka edge with reciprocal ratio
+        }
+
+        double[] results = new double[queries.size()]; // Results array initialize karte hain
+
+        // Har query ko process karte hain
+        for (int i = 0; i < queries.size(); i++) {
+            String numerator = queries.get(i).get(0); // Query ka numerator
+            String denominator = queries.get(i).get(1); // Query ka denominator
+            if (!graph.containsKey(numerator) || !graph.containsKey(denominator)) { // Agar graph mein nodes nahi hain
+                results[i] = -1.0; // Result -1.0 set karte hain
+            } else if (numerator.equals(denominator)) { // Agar numerator aur denominator same hain
+                results[i] = 1.0; // Result 1.0 set karte hain
+            } else {
+                Set<String> visited = new HashSet<>(); // Visited set initialize karte hain taaki cycle na bane
+                results[i] = dfs(graph, numerator, denominator, 1.0, visited); // DFS call karte hain result calculate karne ke liye
+            }
+        }
+
+        return results; // Sab results return karte hain
+    }
+
+    // DFS traversal to find the ratio between two nodes
+    private double dfs(Map<String, Map<String, Double>> graph, String current, String target, double value, Set<String> visited) {
+        if (current.equals(target)) { // Agar current node target ke barabar hai
+            return value; // Current value return karte hain
+        }
+
+        visited.add(current); // Current node ko visited set mein add karte hain
+
+        Map<String, Double> neighbors = graph.get(current); // Current node ke neighbors ko get karte hain
+        for (String neighbor : neighbors.keySet()) { // Har neighbor ko visit karte hain
+            if (!visited.contains(neighbor)) { // Agar neighbor visited nahi hai
+                double result = dfs(graph, neighbor, target, value * neighbors.get(neighbor), visited); // DFS call karte hain
+                if (result != -1.0) { // Agar result valid hai
+                    return result; // Valid result return karte hain
+                }
+            }
+        }
+
+        return -1.0; // Agar target node nahi mili, to -1.0 return karte hain
+    }
+
 
 }
