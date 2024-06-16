@@ -198,5 +198,68 @@ public class GraphQuestions {
         return totalCost;
     }
 
+    //Leetcode 2685
+    // Method to count complete components in the graph
+    public int countCompleteComponents(int n, int[][] edges) {
+
+        // Adjacency list banate hain
+        Map<Integer, List<Integer>> adj = new HashMap<>();
+
+        // Edges ko adjacency list mein add karte hain
+        for (int[] edge : edges) {
+            adj.putIfAbsent(edge[0], new ArrayList<>());
+            adj.putIfAbsent(edge[1], new ArrayList<>());
+
+            adj.get(edge[0]).add(edge[1]);
+            adj.get(edge[1]).add(edge[0]);
+        }
+
+        // Visited array aur accounted array initialize karte hain
+        boolean[] visited = new boolean[n];
+        boolean[] accounted = new boolean[n];
+
+        // Initial count mein un nodes ko count karte hain jo kisi bhi edge ka part nahi hain
+        int count = n - adj.size();
+
+        // Har node ko check karte hain agar wo visited nahi hai
+        for (int node : adj.keySet()) {
+            List<Integer> component = new ArrayList<>();
+            if (!visited[node]) {
+                // DFS call karte hain component ko find karne ke liye
+                DFS(node, adj, visited, component);
+
+                int expected_degree = component.size() - 1;
+                int found = 0;
+
+                // Component ke har node ka degree check karte hain
+                for (int component_node : component) {
+                    if (!accounted[component_node] && adj.get(component_node).size() == expected_degree) {
+                        found++;
+                    }
+                    accounted[component_node] = true;
+                }
+
+                // Agar sab nodes ka degree expected degree ke barabar hai to count increment karte hain
+                if (found == component.size()) {
+                    count++;
+                }
+            }
+        }
+
+        return count; // Final count return karte hain
+    }
+
+    // DFS method jo component ko visit karta hai
+    void DFS(int source, Map<Integer, List<Integer>> adj, boolean[] visited, List<Integer> component) {
+        visited[source] = true;
+        component.add(source);
+
+        for (int neighbour : adj.get(source)) {
+            if (!visited[neighbour]) {
+                DFS(neighbour, adj, visited, component);
+            }
+        }
+    }
+
 
 }
