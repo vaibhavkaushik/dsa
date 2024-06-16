@@ -338,5 +338,81 @@ public class GraphQuestions {
         return maxRank; // Maximal network rank return karte hain
     }
 
+    //Leetcode 1466
+    public int minReorder(int n, int[][] connections) {
+
+        Map<Integer,List<Integer>> adj = new HashMap<>();
+        Map<Integer,List<Integer>> directed = new HashMap<>();
+
+        for(int[] edge : connections){
+            adj.putIfAbsent(edge[0], new ArrayList<>());
+            adj.putIfAbsent(edge[1], new ArrayList<>());
+            directed.putIfAbsent(edge[0], new ArrayList<>());
+            adj.get(edge[0]).add(edge[1]);
+            adj.get(edge[1]).add(edge[0]);
+            directed.get(edge[0]).add(edge[1]);
+        }
+
+        boolean[] visited = new boolean[n];
+        int[] count = new int[]{0};
+        DFS(0,visited,adj,directed,count);
+
+        return count[0];
+    }
+
+    void DFS(int src, boolean[] visited, Map<Integer,List<Integer>> adj, Map<Integer,List<Integer>> directed, int[] count){
+
+        visited[src] = true;
+
+        for(int neighbour :  adj.get(src)){
+            if(!visited[neighbour]){
+                visited[neighbour] = true;
+                if(directed.getOrDefault(src, new ArrayList<>()).contains(neighbour)){
+                    count[0]++;
+                }
+                DFS(neighbour,visited,adj,directed,count);
+            }
+        }
+    }
+
+    //Leetcode 684
+    public int[] findRedundantConnection(int[][] edges) {
+        int[] parent = new int[edges.length+1];
+
+        for(int i=0; i<parent.length; i++) {
+            parent[i] = i;
+        }
+
+        for(int[] edge : edges) {
+            if(find(edge[0],parent) == find(edge[1],parent)) {
+                return edge;
+            }
+
+            union(edge[0], edge[1],parent);
+        }
+
+        return new int[]{-1,-1};
+    }
+
+
+    // Find Operation
+    private int find(int node, int[] parent) {
+        while(parent[node] != node) {
+            node = parent[node];
+        }
+
+        return node;
+    }
+
+    //Find Union Operation
+    private void union(int x, int y, int[] parent) {
+        int xRoot = find(x,parent);
+        int yRoot = find(y,parent);
+
+        if(xRoot != yRoot) {
+            parent[yRoot] = xRoot;
+        }
+    }
+
 
 }
