@@ -616,5 +616,34 @@ public class GraphQuestions {
         return res;//returning the vertex with min no of city
     }
 
+    //Leetcode 947
+    // DFS function to visit all connected stones
+    private void dfs(int[][] stones, int index, boolean[] visited, int n) {
+        visited[index] = true;
+
+        for (int i = 0; i < n; i++) {
+            if (!visited[i] &&
+                    (stones[i][0] == stones[index][0] || stones[i][1] == stones[index][1])) {
+                dfs(stones, i, visited, n);
+            }
+        }
+    }
+
+    // Function to remove stones
+    public int removeStones(int[][] stones) {
+        int n = stones.length;
+        boolean[] visited = new boolean[n];
+
+        int count = 0;
+        for (int i = 0; i < n; i++) {
+            if (!visited[i]) {
+                dfs(stones, i, visited, n);
+                count++;
+            }
+        }
+
+        return n - count;
+    }
+
 
 }
