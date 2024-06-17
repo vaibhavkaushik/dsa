@@ -645,5 +645,49 @@ public class GraphQuestions {
         return n - count;
     }
 
+    //Leetcode 2368
+    // DFS function to visit all connected nodes except restricted ones
+    private void dfs(List<List<Integer>> graph, boolean[] visited, boolean[] restricted, int node) {
+        visited[node] = true;
+
+        for (int neighbor : graph.get(node)) {
+            if (!visited[neighbor] && !restricted[neighbor]) {
+                dfs(graph, visited, restricted, neighbor);
+            }
+        }
+    }
+
+    public int reachableNodes(int n, int[][] edges, int[] restricted) {
+        List<List<Integer>> graph = new ArrayList<>();
+        for (int i = 0; i < n; i++) {
+            graph.add(new ArrayList<>());
+        }
+
+        for (int[] edge : edges) {
+            graph.get(edge[0]).add(edge[1]);
+            graph.get(edge[1]).add(edge[0]);
+        }
+
+        boolean[] visited = new boolean[n];
+        boolean[] restrictedNodes = new boolean[n];
+
+        for (int node : restricted) {
+            restrictedNodes[node] = true;
+        }
+
+        // Start DFS from node 0
+        dfs(graph, visited, restrictedNodes, 0);
+
+        // Count visited nodes
+        int count = 0;
+        for (boolean visit : visited) {
+            if (visit) {
+                count++;
+            }
+        }
+
+        return count;
+    }
+
 
 }
