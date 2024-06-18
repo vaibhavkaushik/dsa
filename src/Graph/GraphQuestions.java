@@ -769,4 +769,50 @@ public class GraphQuestions {
         return dfs(node, map);
     }
 
+    //Leetcode 2492
+    // Helper function to perform DFS
+    private void dfs(Map<Integer, List<int[]>> adj, int u, boolean[] visited, int[] result) {
+        visited[u] = true;
+
+        // Traverse all neighbors
+        for (int[] neighbor : adj.get(u)) {
+            int v = neighbor[0];
+            int c = neighbor[1];
+
+            // Update the minimum score
+            result[0] = Math.min(result[0], c);
+
+            // If the neighbor is not visited, continue DFS
+            if (!visited[v]) {
+                dfs(adj, v, visited, result);
+            }
+        }
+    }
+
+    public int minScore(int n, int[][] roads) {
+        // Create adjacency list
+        Map<Integer, List<int[]>> adj = new HashMap<>();
+
+        for (int[] road : roads) {
+            int u = road[0];
+            int v = road[1];
+            int c = road[2];
+
+            // Add the road to the adjacency list using putIfAbsent
+            adj.putIfAbsent(u, new ArrayList<>());
+            adj.putIfAbsent(v, new ArrayList<>());
+            adj.get(u).add(new int[]{v, c});
+            adj.get(v).add(new int[]{u, c});
+        }
+
+        // Initialize visited array
+        boolean[] visited = new boolean[n + 1];
+        int[] result = new int[]{Integer.MAX_VALUE};
+
+        // Start DFS from node 1
+        dfs(adj, 1, visited, result);
+
+        return result[0];
+    }
+
 }
