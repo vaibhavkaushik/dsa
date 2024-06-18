@@ -689,5 +689,40 @@ public class GraphQuestions {
         return count;
     }
 
+    //Leetcode 2924
+    public int findChampion(int n, int[][] edges) {
+        List<List<Integer>> graph = new ArrayList<>();
+        int[] indegree = new int[n];
+
+        // Initialize adjacency list
+        for (int i = 0; i < n; i++) {
+            graph.add(new ArrayList<>());
+        }
+
+        // Fill adjacency list and calculate indegree of each node
+        for (int[] edge : edges) {
+            int u = edge[0];
+            int v = edge[1];
+            graph.get(u).add(v);
+            indegree[v]++;
+        }
+
+        // Find nodes with indegree 0
+        int champion = -1;
+        for (int i = 0; i < n; i++) {
+            if (indegree[i] == 0) {
+                if (champion == -1) {
+                    champion = i;
+                } else {
+                    // More than one node with indegree 0 means no unique champion
+                    return -1;
+                }
+            }
+        }
+
+        // Return the unique champion if there is one, otherwise return -1
+        return champion;
+    }
+
 
 }
