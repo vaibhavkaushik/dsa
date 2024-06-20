@@ -873,4 +873,54 @@ public class GraphQuestions {
         return result;
     }
 
+    //Leetcode 1514
+    public double maxProbability(int n, int[][] edges, double[] succProb, int start, int end) {
+        // Create adjacency list
+        Map<Integer, List<int[]>> adj = new HashMap<>();
+        double[] result = new double[n];
+
+        // Initialize adjacency list
+        for (int i = 0; i < n; i++) {
+            adj.put(i, new ArrayList<>());
+        }
+
+        // Fill the adjacency list
+        for (int i = 0; i < edges.length; i++) {
+            int u = edges[i][0];
+            int v = edges[i][1];
+            double prob = succProb[i];
+            adj.get(u).add(new int[]{v, i});
+            adj.get(v).add(new int[]{u, i});
+        }
+
+        // Priority queue to keep track of the maximum probability path
+        PriorityQueue<double[]> pq = new PriorityQueue<>((a, b) -> Double.compare(b[1], a[1]));
+
+        // Initialize the start node
+        result[start] = 1;
+        pq.add(new double[]{start, 1.0});
+
+        // Process the priority queue
+        while (!pq.isEmpty()) {
+            double[] current = pq.poll();
+            int currentNode = (int) current[0];
+            double currentProb = current[1];
+
+            // Traverse all neighbors
+            for (int[] neighbor : adj.get(currentNode)) {
+                int nextNode = neighbor[0];
+                double edgeProb = succProb[neighbor[1]];
+
+                // Update the maximum probability
+                if (result[nextNode] < currentProb * edgeProb) {
+                    result[nextNode] = currentProb * edgeProb;
+                    pq.add(new double[]{nextNode, result[nextNode]});
+                }
+            }
+        }
+
+        // Return the maximum probability to reach the end node
+        return result[end];
+    }
+
 }
