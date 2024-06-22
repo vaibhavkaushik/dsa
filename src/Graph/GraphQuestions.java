@@ -923,4 +923,56 @@ public class GraphQuestions {
         return result[end];
     }
 
+    //Leetcode 743
+    public int networkDelayTime(int[][] times, int n, int k) {
+        // Create adjacency list
+        Map<Integer, List<int[]>> adj = new HashMap<>();
+        for (int i = 1; i <= n; i++) {
+            adj.put(i, new ArrayList<>());
+        }
+
+        for (int[] time : times) {
+            int u = time[0];
+            int v = time[1];
+            int w = time[2];
+            adj.get(u).add(new int[]{v, w});
+        }
+
+        // Priority queue to keep track of the minimum travel time
+        PriorityQueue<int[]> pq = new PriorityQueue<>(Comparator.comparingInt(a -> a[1]));
+
+        // Initialize the start node
+        pq.add(new int[]{k, 0});
+        int[] dist = new int[n + 1];
+        Arrays.fill(dist, Integer.MAX_VALUE);
+        dist[k] = 0;
+
+        // Process the priority queue
+        while (!pq.isEmpty()) {
+            int[] current = pq.poll();
+            int currentNode = current[0];
+            int currentTime = current[1];
+
+            for (int[] neighbor : adj.get(currentNode)) {
+                int nextNode = neighbor[0];
+                int travelTime = neighbor[1];
+
+                if (currentTime + travelTime < dist[nextNode]) {
+                    dist[nextNode] = currentTime + travelTime;
+                    pq.add(new int[]{nextNode, dist[nextNode]});
+                }
+            }
+        }
+
+        int maxTime = 0;
+        for (int i = 1; i <= n; i++) {
+            if (dist[i] == Integer.MAX_VALUE) {
+                return -1;
+            }
+            maxTime = Math.max(maxTime, dist[i]);
+        }
+
+        return maxTime;
+    }
+
 }
