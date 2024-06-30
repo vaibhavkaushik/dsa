@@ -37,4 +37,30 @@ public class DP {
 
         return dp[n];
     }
+
+    //Leetcode 70
+    public int climbStairs(int n) {
+
+        int[] dp =  new int[n+1];
+        Arrays.fill(dp,-1);
+        return climbStairsHelper(n,dp);
+    }
+
+    public int climbStairsHelper(int n, int[] dp) {
+
+        if(n == 0){
+            return 1;
+        }
+
+        if(dp[n]!=-1){
+            return dp[n];
+        }
+
+        int oneStep = (n-1) < 0 ? 0 : climbStairsHelper(n-1,dp);
+        int twoStep = (n-2) < 0 ? 0 : climbStairsHelper(n-2,dp);
+
+        dp[n] = oneStep + twoStep;
+
+        return dp[n];
+    }
 }
