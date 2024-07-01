@@ -1,5 +1,6 @@
 package TopQuestions;
 
+//Same as 1038
 public class Leetcode538 {
     class Solution {
         public TreeNode bstToGst(TreeNode root) {
