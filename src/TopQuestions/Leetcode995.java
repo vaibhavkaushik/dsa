@@ -1,6 +1,6 @@
 package TopQuestions;
 
-public class Leetcode3191 {
+public class Leetcode995 {
 class Solution {
     public int minKBitFlips(int[] nums, int k) {
         int count = 0;
