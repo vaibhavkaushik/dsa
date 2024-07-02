@@ -1,3 +1,6 @@
+package TopQuestions;
+
+public class Leetcode3191 {
 class Solution {
     public int minKBitFlips(int[] nums, int k) {
         int count = 0;
@@ -20,4 +23,5 @@ class Solution {
         
         return count;
     }
+}
 }
